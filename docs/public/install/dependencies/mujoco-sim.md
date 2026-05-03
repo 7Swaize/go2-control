@@ -10,6 +10,23 @@ git clone https://github.com/7Swaize/unitree_mujoco.git
 cd unitree_mujoco
 ```
 
+
+## Install Mujoco
+
+The cloned repository depends on MuJoCo but does not include the library itself.  
+You will need to install MuJoCo separately. Use release version **3.3.6**.
+
+Navigate [here](https://github.com/google-deepmind/mujoco/releases/tag/3.3.6) and download the files for your system architecture.
+Extract it to the `~/.mujoco` directory.
+
+Create a symlink to the Mujoco source.
+
+```bash
+cd unitree_mujoco/simulate/
+ln -s ~/.mujoco/mujoco-3.3.6 mujoco
+```
+
+
 ## Shared Iceoryx2 Configuration Installation
 
 This installation must be done before installing the actual simulator.
