@@ -11,7 +11,7 @@ from sensor_msgs.msg import PointCloud2, PointField
 from sensor_msgs_py import point_cloud2
 from go2_interfaces.msg import LidarDecoded
 
-from .ros_bridge import ROSBridge
+from .lidar_bridge import LidarBridge
 from .lidar_message_utils import (
     POINTFIELD_TO_INTERNAL_CTYPE,
     create_lidar_decoded_message
@@ -48,7 +48,7 @@ class LidarDecoderNode(Node):
         )
 
         self._pc_layout: Optional[PointCloudLayout] = None
-        self._bridge = ROSBridge()
+        self._bridge = LidarBridge()
 
         self.setup_subscriptions()
         self.setup_publishers()

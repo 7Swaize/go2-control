@@ -8,7 +8,7 @@ from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy
 from go2_interfaces.msg import LidarDecoded
 from std_msgs.msg import Header
 
-from .ros_bridge import ROSBridge
+from .lidar_bridge import LidarBridge
 from .lidar_message_utils import (
     decode_array_from_message,
     create_lidar_decoded_message
@@ -40,7 +40,7 @@ class LidarFilterNode(Node):
             depth=5
         )
 
-        self._bridge = ROSBridge()
+        self._bridge = LidarBridge()
         self.setup_subscriptions()
 
     
