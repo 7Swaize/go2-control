@@ -1,9 +1,11 @@
+import os
+import signal
 import threading
 from typing import Callable, List, Dict
 
-from ..modules.input import InputSignal
 from .module import DogModule
 from .registry import ModuleRegistry, ModuleType
+from ..modules.input import InputSignal
 from ..modules.audio import AudioModule
 from ..modules.input import InputModule
 from ..modules.movement import MovementModule
@@ -68,6 +70,8 @@ class Go2Controller:
         self._shutdown_lock = threading.Lock()
         self._cleanup_callbacks: List[Callable[[], None]] = []
 
+        self._install_signal_handlers()
+
         self._hardware: HardwareInterface = (
             NativeHardware() if hardware_type == HardwareType.NATIVE else VirtualHardware()
         )
@@ -78,6 +82,18 @@ class Go2Controller:
         self._initialize_input_bindings()
 
         print(f"[Controller] Initialized in {'NATIVE' if hardware_type == HardwareType.NATIVE else 'SIMULATION'} mode\n")
+
+
+    # Automatic shutdown on exception incase its not done by users
+    def _install_signal_handlers(self) -> None:
+        def handler(signum, frame):
+            self.safe_shutdown()
+
+            signal.signal(signum, signal.SIG_DFL) # Hands control back to default handler
+            os.kill(os.getpid(), signum)
+
+        signal.signal(signal.SIGINT, handler)
+        signal.signal(signal.SIGTERM, handler)
 
 
     def _initialize_input_bindings(self) -> None:
@@ -289,8 +305,9 @@ class Go2Controller:
         self.movement.stop()
         
         with self._shutdown_lock:
-            if not self._shutdown_event.is_set():
-                self._shutdown_event.set()
+            if self._shutdown_event.is_set():
+                return
+            self._shutdown_event.set()
 
             for module_type, module in self._modules.items():
                 try:
