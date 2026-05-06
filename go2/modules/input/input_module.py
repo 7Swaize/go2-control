@@ -6,7 +6,7 @@ from .controller_state import ControllerState
 from .input_signal import InputSignal
 
 from ...core.module import DogModule
-from ...communication.dds.dds import DDS_TOPICS
+from ...communication.dds import DDSTopics
 
 class InputModule(DogModule):
     """
@@ -39,7 +39,7 @@ class InputModule(DogModule):
         self._input_parser = UnitreeRemoteControllerInputParser()
         self._callback_manager = InputSignalCallbackManager()
 
-        self._lowstate_subscriber = ChannelSubscriber(DDS_TOPICS['LOW_STATE'], LowState_)
+        self._lowstate_subscriber = ChannelSubscriber(DDSTopics.LOW_STATE, LowState_)
         self._lowstate_subscriber.Init(self._process_input, 10)
 
     def register_callback(
