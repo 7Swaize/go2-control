@@ -22,7 +22,8 @@ extensions = [
 # Mock imports for modules that may not be available
 autodoc_mock_imports = [
     "pyrealsense2",
-    "unitree_sdk2py"
+    "unitree_sdk2py",
+    "iceoryx2"
 ]
 
 # Autosummary settings
