@@ -6,7 +6,7 @@ import sys
 sys.path.insert(0, os.path.abspath('..'))
 
 
-project = 'Unitree-Go2-Control'
+project = 'go2-control'
 copyright = '2026, 7Swaize'
 author = '7Swaize'
 release = '0.1.0'

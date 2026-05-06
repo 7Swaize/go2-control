@@ -106,7 +106,7 @@ sudo apt install python3-colcon-common-extensions python3-catkin-pkg python3-lar
 Install this dependency for our ROS2 nodes. 
 
 ```bash
-cd Unitree-Go2-Control/c_extensions
+cd go2-control/c_extensions
 pip install .
 ```
 
@@ -119,7 +119,7 @@ Build our ROS2 workspace.
 ```bash
 source /opt/ros/humble/setup.bash
 
-cd Unitree-Go2-Control/ros2_ws
+cd go2-control/ros2_ws
 colcon build
 
 source install/setup.bash
