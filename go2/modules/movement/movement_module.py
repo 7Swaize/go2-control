@@ -103,7 +103,7 @@ class MovementModule(DogModule):
 
         Notes
         -----
-        - Can be called at any time to halt translation and rotation. Can be used to clear internal movement command buffer.
+        - Can be called at any time to halt translation and rotation. Can be used to clear internal velocity command buffer.
         """
         self.hardware._stop_move()
 
