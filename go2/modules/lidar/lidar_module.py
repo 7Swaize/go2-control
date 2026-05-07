@@ -81,8 +81,8 @@ class LIDARModule(DogModule):
         ----------
         callback : Callable[[int, np.ndarray], None]
             A function to be called with:
-                - timestamp (int): The source timestamp in nanoseconds.
-                - points (np.ndarray): A float64 array of shape ``(N, 3)`` 
+                - **timestamp** (int): The source timestamp in nanoseconds.
+                - **points** (np.ndarray): A float64 array of shape ``(N, 3)`` 
                   for [x, y, z] or ``(N, 4)`` if intensity is supported 
                   [x, y, z, intensity].
         """
@@ -100,8 +100,8 @@ class LIDARModule(DogModule):
         ----------
         callback : Callable[[int, np.ndarray], None]
             A function to be called with:
-                - timestamp (int): The source timestamp in nanoseconds.
-                - points (np.ndarray): A float64 array of shape ``(N, 3)`` 
+                - **timestamp** (int): The source timestamp in nanoseconds.
+                - **points** (np.ndarray): A float64 array of shape ``(N, 3)`` 
                   or ``(N, 4)`` containing the points that passed the 
                   outlier filter.
         """
@@ -119,10 +119,10 @@ class LIDARModule(DogModule):
         ----------
         callback : Callable[[int, np.ndarray, np.ndarray], None]
             A function to be called with:
-                - timestamp (int): The common timestamp in nanoseconds.
-                - decoded_points (np.ndarray): The raw float64 array of shape 
+                - **timestamp** (int): The common timestamp in nanoseconds.
+                - **decoded_points** (np.ndarray): The raw float64 array of shape 
                 ``(N, 3)`` or ``(N, 4)``.
-                - filtered_points (np.ndarray): The SOR-filtered float64 array of 
+                - **filtered_points** (np.ndarray): The SOR-filtered float64 array of 
                 shape ``(N, 3)`` or ``(N, 4)``.
         """
         self._dispatcher._register_synced(callback)
