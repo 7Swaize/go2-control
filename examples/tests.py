@@ -21,7 +21,6 @@ class Tests:
         }))
         
         self.controller.video.start_stream_server()
-        self.controller.video.get_stream_server_local_ip()
         print(f"WebRTC streaming at: http://{self.controller.video.get_stream_server_local_ip()}:{self.controller.video.get_stream_server_port()}")
         
 

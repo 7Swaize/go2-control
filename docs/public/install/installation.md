@@ -8,11 +8,11 @@ git clone https://github.com/7Swaize/go2-control.git
 
 You should install all dependencies first. It recommended to install dependencies in the following order.
 
-1. [Unitree SDK](https://github.com/7Swaize/go2-control/blob/main/docs/public/install/dependencies/unitree-sdk.md)
-2. [Librealsense SDK](https://github.com/7Swaize/go2-control/blob/main/docs/public/install/dependencies/librealsense-sdk.md)
-3. [Iceoryx2](https://github.com/7Swaize/go2-control/blob/main/docs/public/install/dependencies/iceoryx2.md)
-4. [Mujoco Simulator](https://github.com/7Swaize/go2-control/blob/main/docs/public/install/dependencies/mujoco-sim.md)
-5. [ROS2 Workspace](https://github.com/7Swaize/go2-control/blob/main/docs/public/install/dependencies/ros2-ws.md)
+1. [Unitree SDK](dependencies/unitree-sdk.md)
+2. [Librealsense SDK](dependencies/librealsense-sdk.md)
+3. [Iceoryx2](dependencies/iceoryx2.md)
+4. [Mujoco Simulator](dependencies/mujoco-sim.md)
+5. [ROS2 Workspace](dependencies/ros2-ws.md)
 
 
 # Main SDK Installation
