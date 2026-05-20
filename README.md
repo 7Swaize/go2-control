@@ -20,3 +20,8 @@ API documentation can be found [here](https://go2-control.readthedocs.io/en/late
 [FAQ](docs/public/FAQ.md)
 
 [Directory Structure](docs/public/repo_structure.md)
+
+
+## GSMST Reference Information
+
+Reference information regarding device and environment can be found [here](refs)
