@@ -1,0 +1,4 @@
+If you get an issue about being uable to mount the Schepens_A drive, with the drive containing 
+folders in the 'exfat' format, run the following to mount the drive:
+
+1. sudo mount.exfat-fuse /dev/sda1 /media/gsmst/Schepens_A

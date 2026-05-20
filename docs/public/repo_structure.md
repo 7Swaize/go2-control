@@ -35,6 +35,9 @@
 │   │       ├── sources
 │   │       └── streaming
 │   └── states
+├── refs
+│   ├── condarefs
+│   └── ubunturefs
 ├── requirements
 ├── ros2_ws
 │   └── src
@@ -72,6 +75,9 @@
 `go2/hardware/` - Wrappers for accessing the underlying robot (Native Hardware) or simulator (Virtual Hardware) communications. \
 `go2/modules/` - Implementation code for each module (robot functionality) supported by the SDK. \
 `go2/states/` - Code for supporting a state-machine architecture on the robot. 
+
+`refs/condarefs/` - Captured packages for school conda environment. \
+`refs/ubunturefs/` - Information about school Ubuntu device.
 
 `requirements/` - Python dependency information needed for package installation and documentation builds.
 
