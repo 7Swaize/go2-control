@@ -42,6 +42,7 @@ Install all following dependencies with instructions listed below first. It reco
 In this step, we will clone and build the go2-control wrapper code.  This will use PIP to build/install the custom python wrapper library.
 
 ```bash
+cd ~/go2-workspace
 git clone https://github.com/7Swaize/go2-control.git
 
 cd go2-control/go2
