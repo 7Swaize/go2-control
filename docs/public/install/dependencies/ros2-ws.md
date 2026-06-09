@@ -5,7 +5,7 @@ Installation directions adapted from: [ROS2 Humble Documentation](https://docs.r
 These are just the commands to install ROS2 Humble. For more guided or in depth directions, see the official ROS2 Humble documentation linked above.
 
 
-### Set Locale
+## Set Locale
 
 Make sure you have a locale which supports UTF-8.
 
@@ -21,7 +21,7 @@ locale  # verify settings
 ```
 
 
-### Setup Sources
+## Setup Sources
 
 Ensure that the Ubuntu Universe repository is enabled.
 
@@ -38,7 +38,7 @@ Part of the output should look similar to:
      release v=22.04,o=Ubuntu,a=jammy-security,n=jammy,l=Ubuntu,c=universe,b=arm64
 
 ```
-
+**In case of error**
 If you don't see lines similar to above indicating success, install the repository to your system with the following steps:
 
 ```bash
@@ -46,6 +46,8 @@ sudo apt install software-properties-common
 sudo add-apt-repository universe
 ```
 
+
+## Install Actual ROS packages 
 Install the ros2-apt-source package to your system (after Ubunutu Universe is enabled).
 
 ```bash
@@ -56,7 +58,7 @@ sudo dpkg -i /tmp/ros2-apt-source.deb
 ```
 
 
-### Install ROS2 Packages
+## Install ROS2 Packages
 
 Ensure system is up to date.
 
