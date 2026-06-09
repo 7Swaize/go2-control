@@ -25,6 +25,8 @@ Through the Linux GUI or command line:
 3) Extract the download mujoco file it to the `~/.mujoco` directory.
 4) Remove the oringal zip file since it is no longer needed
 
+Below is an example for the X86 architecture.
+
 ```bash
 cd ~/mujoco
 cp ~/Downloads/mujo* .
