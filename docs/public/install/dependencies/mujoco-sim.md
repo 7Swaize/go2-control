@@ -48,11 +48,19 @@ This installation must be done before installing the actual simulator.
 
 Set `CMAKE_PREFIX_PATH` to the installed **iceoryx2-cxx** location.
 
-NOTE: If you followed the default installation layout, the path will typically be: `<containing_folder>/iceoryx2/target/ff/cc/install`
+**IMPORTANT NOTE:** You **MUST** replase the section in the command below *<containing_folcer>* to the location in which you cloned the **iceoryx2** library.
 
+**Generic Instrucions**
 ```bash
 export CMAKE_PREFIX_PATH=<containing_folder>/iceoryx2/target/ff/cc/install
 ```
+**Instructions matching our setup**
+Follow our instructions for setting the iceoryx2 library up, you will use the following command with the folder we used to clone the iceoryx2 library.
+
+```bash
+export CMAKE_PREFIX_PATH=~/go2-workspace/iceoryx2/target/ff/cc/install
+```
+
 
 Install via CMake.
 
