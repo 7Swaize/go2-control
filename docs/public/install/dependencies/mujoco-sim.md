@@ -48,9 +48,7 @@ This installation must be done before installing the actual simulator.
 
 Set `CMAKE_PREFIX_PATH` to the installed **iceoryx2-cxx** location.
 
-If you followed the default installation layout, the path will typically be: `<containing_folder>/iceoryx2/target/ff/cc/install`
-
-To set the environment variable, run the following command in your terminal:
+NOTE: If you followed the default installation layout, the path will typically be: `<containing_folder>/iceoryx2/target/ff/cc/install`
 
 ```bash
 export CMAKE_PREFIX_PATH=<containing_folder>/iceoryx2/target/ff/cc/install
