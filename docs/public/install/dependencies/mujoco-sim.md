@@ -80,14 +80,7 @@ pip install .
 
 ## Mujoco Simulator Installation
 
-Install.
-
-```bash
-cd ~/go2-workspace/unitree_mujoco/simulate
-pip install .
-```
-
-(Optional) Install with verbose logging.
+Install with verbose logging.
 
 ```bash
 cd ~/go2-workspace/unitree_mujoco/simulate
