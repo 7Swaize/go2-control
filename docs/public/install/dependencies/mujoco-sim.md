@@ -23,14 +23,22 @@ Through the Linux GUI or command line:
 1) Create the dirirctory ~/.mujoco
 2) Change to ~/.mujoco
 3) Extract the download mujoco file it to the `~/.mujoco` directory.
+4) Remove the oringal zip file since it is no longer needed
 
-Create a symlink to the Mujoco source.
+```bash
+cd ~/mujoco
+cp ~/Downloads/mujo* .
+tar -xvzf mujoco-3.3.6-linux-x86_64.tar.gz 
+
+rm mujoco-3.3.6-linux-x86_64.tar.gz 
+```
+
+**Create a symlink to the Mujoco source.**
 
 ```bash
 cd unitree_mujoco/simulate/
 ln -s ~/.mujoco/mujoco-3.3.6 mujoco
 ```
-
 
 ## Shared Iceoryx2 Configuration Installation
 
