@@ -10,6 +10,7 @@ Installation directions adapted from: [iceoryx2-cxx README](https://github.com/e
 We will be using Iceoryx2 version 0.8.1.
 
 ```bash
+cd ~/go2-workspace
 git clone https://github.com/eclipse-iceoryx/iceoryx2.git
 cd iceoryx2
 git checkout v0.8.1
