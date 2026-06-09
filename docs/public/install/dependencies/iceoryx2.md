@@ -63,6 +63,7 @@ cmake --install target/ff/cxx/build --prefix target/ff/cc/install
 
 
 ## Install Instructions - Python
+**NOTE: Use the exact version for iceoryx2 as specified below:**
 
 ```bash
 pip install iceoryx2==0.8.1 
