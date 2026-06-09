@@ -14,6 +14,17 @@ cd go2-workspace
 
 # Install platform manual dependencies
 
+## Anaconda Workspace Setup
+
+1. Donwload and Install [Anaconda](https://www.anaconda.com/download)
+2. Create workspace with Python v3.10
+3. Activate the workspace
+   
+```bash
+conda create --name dogenv python=3.10
+conda activate dogenv
+```
+
 ## Layer 3 and 4: Dependency Installation
 
 Install all following dependencies with instructions listed below first. It recommended to install dependencies in the following order.
