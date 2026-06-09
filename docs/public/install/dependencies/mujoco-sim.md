@@ -83,14 +83,14 @@ pip install .
 Install.
 
 ```bash
-cd simulate
+cd ~/go2-workspace/unitree_mujoco/simulate
 pip install .
 ```
 
 (Optional) Install with verbose logging.
 
 ```bash
-cd simulate
+cd ~/go2-workspace/unitree_mujoco/simulate
 pip install . -v --config-settings=logging.level=INFO
 ```
 
