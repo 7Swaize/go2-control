@@ -87,6 +87,7 @@ cd ~/go2-workspace/unitree_mujoco/simulate
 pip install . -v --config-settings=logging.level=INFO
 ```
 
+# Test Simulator will run 
 Run the following command in the terminal to test the installation. It should launch the simulator.
 ```bash
 go2sim
