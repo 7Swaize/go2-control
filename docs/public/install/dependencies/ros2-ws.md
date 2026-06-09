@@ -39,7 +39,7 @@ Part of the output should look similar to:
 
 ```
 
-If you don't seen this, install the repository to your system.
+If you don't see lines similar to above indicating success, install the repository to your system with the following steps:
 
 ```bash
 sudo apt install software-properties-common
