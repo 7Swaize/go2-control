@@ -65,7 +65,7 @@ export CMAKE_PREFIX_PATH=~/go2-workspace/iceoryx2/target/ff/cc/install
 Install via CMake.
 
 ```bash
-cd iceoryx_interfaces
+cd ~/go2-workspace/unitree_mujoco/iceoryx_interfaces
 cmake -S . -B build
 cmake --build build
 sudo cmake --install build
