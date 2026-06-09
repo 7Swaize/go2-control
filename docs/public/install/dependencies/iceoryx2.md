@@ -1,6 +1,8 @@
 
 # Iceoryx2 Installation
 
+Iceoryx2 is a decentralized inter-process communication (IPC) library designed to enable ultra-fast, "zero-copy" data exchange between applications and processes. Developed by the Eclipse Foundation and ekxide, it is specifically built for data-intensive, real-time systems like robotics and autonomous driving.
+
 Installation directions adapted from: [iceoryx2-cxx README](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/iceoryx2-cxx/README.md)
 
 ## Clone Repository
