@@ -1,5 +1,12 @@
 # ROS2 Humble - Installation
 
+**NOTE: ROS2 Humble installation requires Ubuntu 22.02**
+
+If you do not, you will recieve the following error:
+```bash
+E: Unable to locate package ros-humble-desktop
+```
+
 Installation directions adapted from: [ROS2 Humble Documentation](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debs.html).
 
 These are just the commands to install ROS2 Humble. For more guided or in depth directions, see the official ROS2 Humble documentation linked above.
