@@ -5,6 +5,7 @@ Installation directions adapted from: [Unitree SDK2 Python README](https://githu
 ## Clone the Repository
 
 ```bash
+cd ~/go2-workspace
 git clone https://github.com/unitreerobotics/unitree_sdk2_python.git
 cd unitree_sdk2_python
 pip3 install -e .
@@ -82,6 +83,7 @@ sudo apt-get install -y cmake g++ build-essential libyaml-cpp-dev libeigen3-dev 
 Clone the repository.
 
 ```bash
+cd ~/go2-workspace
 git clone https://github.com/unitreerobotics/unitree_sdk2.git
 cd unitree_sdk2
 ```
