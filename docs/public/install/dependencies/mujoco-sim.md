@@ -18,7 +18,11 @@ The cloned repository depends on MuJoCo but does not include the library itself.
 You will need to install MuJoCo separately. Use release version **3.3.6**.
 
 Navigate [here](https://github.com/google-deepmind/mujoco/releases/tag/3.3.6) and download the files for your system architecture.
-Extract it to the `~/.mujoco` directory.
+
+Through the Linux GUI or command line:
+1) Create the dirirctory ~/.mujoco
+2) Change to ~/.mujoco
+3) Extract the download mujoco file it to the `~/.mujoco` directory.
 
 Create a symlink to the Mujoco source.
 
