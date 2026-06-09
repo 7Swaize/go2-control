@@ -45,6 +45,6 @@ In this step, we will clone and build the go2-control wrapper code.  This will u
 cd ~/go2-workspace
 git clone https://github.com/7Swaize/go2-control.git
 
-cd go2-control/go2
+cd go2-control
 pip install .
 ```
