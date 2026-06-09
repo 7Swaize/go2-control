@@ -2,6 +2,9 @@
 
 A Python SDK for controlling the Unitree Go2 robot and accessing its functionality via attachable modules.
 
+Supports setup of the Mujoco simulator.
+
+For Ben Schepens.
 
 ## Installation
 
