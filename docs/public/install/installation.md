@@ -8,8 +8,8 @@ Note: The order of installation is important. It is not in the order of the laye
 Create a folder named `go2-workspace` in your home directory. We will install all applicable dependencies in here.
 
 ```bash
-mkdir go2-workspace
-cd go2-workspace
+mkdir ~/go2-workspace
+cd ~/go2-workspace
 ```
 
 # Install platform manual dependencies
