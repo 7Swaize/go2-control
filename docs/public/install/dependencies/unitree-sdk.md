@@ -73,8 +73,8 @@ Before building or running the SDK, ensure the following dependencies are instal
 You can install the required packages on Ubuntu 20.04 with:
 
 ```bash
-apt-get update
-apt-get install -y cmake g++ build-essential libyaml-cpp-dev libeigen3-dev libboost-all-dev libspdlog-dev libfmt-dev
+sudo apt-get update
+sudo apt-get install -y cmake g++ build-essential libyaml-cpp-dev libeigen3-dev libboost-all-dev libspdlog-dev libfmt-dev
 ```
 
 ## Installation
