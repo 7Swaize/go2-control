@@ -32,7 +32,7 @@ Install all following dependencies with instructions listed below first. It reco
 1. [Layer 3 - Unitree SDK](dependencies/unitree-sdk.md)
 2. [Layer 3 - Librealsense SDK](dependencies/librealsense-sdk.md)
 3. [Layer 3 - Iceoryx2](dependencies/iceoryx2.md)
-4. [Layer 3 - ROS2 Workspace](dependencies/ros2-ws.md)
+4. [Layer 3 - ROS2 Workspace](dependencies/ros2-ws.md)  (BUG - ISSUES WITH UBUNTU VERSION)
    
 5. [Layer 4 - Mujoco Simulator](dependencies/mujoco-sim.md)
 
