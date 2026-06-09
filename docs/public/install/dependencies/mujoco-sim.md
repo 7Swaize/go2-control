@@ -6,6 +6,7 @@ This installation consists of two steps: first, installing the shared Iceoryx2 c
 ## Clone the Repository
 
 ```bash
+cd ~/go2-workspace
 git clone https://github.com/7Swaize/unitree_mujoco.git
 cd unitree_mujoco
 ```
