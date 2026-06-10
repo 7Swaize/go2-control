@@ -1,6 +1,6 @@
 # Setup of go2-control system environment
 
-<< layers image >>
+<img width="1920" height="1080" alt="layers" src="https://github.com/user-attachments/assets/ca55d189-61ad-4161-a492-cc874f74ff88" />
 
 Note: The order of installation is important. It is not in the order of the layers themselves.
 
