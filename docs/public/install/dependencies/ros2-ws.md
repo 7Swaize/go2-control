@@ -106,7 +106,7 @@ Install colcon. This is needed to run the `colcon` CLI command to actually build
 
 ```bash
 # You can choose to install to a venv, but be careful with interpreter paths when working with ROS2 
-sudo apt install python3-colcon-common-extensions python3-catkin-pkg python3-lark-parser python3-empy
+sudo apt install python3-colcon-common-extensions python3-catkin-pkg python3-lark python3-empy
 ```
 
 
