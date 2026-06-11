@@ -63,21 +63,6 @@ Reinstall the Python Unitree SDK2 via pip install as outlined before. Your insta
 
 Installation directions adapted from: [Unitree SDK2 README](https://github.com/unitreerobotics/unitree_sdk2/blob/main/README.md)
 
-## Environment Setup
-
-Before building or running the SDK, ensure the following dependencies are installed:
-
-- CMake (version 3.10 or higher)
-- GCC (version 9.4.0)
-- Make
-
-You can install the required packages on Ubuntu 20.04 with:
-
-```bash
-sudo apt-get update
-sudo apt-get install -y cmake g++ build-essential libyaml-cpp-dev libeigen3-dev libboost-all-dev libspdlog-dev libfmt-dev
-```
-
 ## Installation
 
 Clone the repository.
