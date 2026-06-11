@@ -63,14 +63,19 @@ If you followed the setup instructions for the iceoryx2 library, run the followi
 export CMAKE_PREFIX_PATH=~/go2-workspace/iceoryx2/target/ff/cc/install
 ```
 
-
-Install via CMake.
+Install C++ bindings via CMake.
 
 ```bash
 cd ~/go2-workspace/unitree_mujoco/iceoryx_interfaces
 cmake -S . -B build
 cmake --build build
 sudo cmake --install build
+```
+
+Install Python bindings via pip.
+
+```bash
+pip install .
 ```
 
 
