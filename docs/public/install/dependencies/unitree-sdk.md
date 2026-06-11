@@ -35,10 +35,10 @@ These instructions install CycloneDDS in the home directory. However, you can cl
 Clone the CycloneDDS repository. The Unitree SDK requires **CycloneDDS version 0.10.2**.
 
 ```bash
-cd ~
+cd ~/go2-workspace
 git clone https://github.com/eclipse-cyclonedds/cyclonedds -b releases/0.10.x 
 mkdir -p ~/cyclonedds/build ~/cyclonedds/install
-cd ~/cyclonedds/build
+cd cyclonedds/build
 ```
 
 Install.
@@ -51,8 +51,9 @@ cmake --build . --target install
 Export paths.
 
 ```bash
-export CYCLONEDDS_HOME=$HOME/cyclonedds/install
-export CMAKE_PREFIX_PATH=$CYCLONEDDS_HOME
+cd ~/go2-workspace
+export CYCLONEDDS_HOME="$(pwd)/cyclonedds/install"
+export CMAKE_PREFIX_PATH="$CYCLONEDDS_HOME"
 ```
 
 Reinstall the Python Unitree SDK2 via pip install as outlined before. Your installation should succeed.
