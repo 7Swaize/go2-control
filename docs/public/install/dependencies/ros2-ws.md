@@ -102,13 +102,33 @@ sudo apt update
 sudo apt upgrade
 ```
 
-Install colcon. This is needed to run the `colcon` CLI command to actually build our ROS2 workspace.
+Install Python packages for the ROS2 build.
 
 ```bash
-# You can choose to install to a venv, but be careful with interpreter paths when working with ROS2 
-sudo apt install python3-colcon-common-extensions python3-catkin-pkg python3-lark python3-empy
+pip install -U \
+    colcon-common-extensions \
+    catkin_pkg \
+    empy==3.3.4 \
+    lark-parser
 ```
 
+Install colcon and related packages. This is needed to run the `colcon` CLI command to actually build our ROS2 workspace.
+
+```bash
+sudo apt install -y \
+    build-essential \
+    python3-rosdep \
+    python3-vcstool \
+    python3-colcon-common-extensions \
+    python3-pip \
+```
+
+Initialize `rosdep`.
+
+```bash
+sudo rosdep init
+rosdep update
+```
 
 
 # C-Extensions - Installation
@@ -121,16 +141,28 @@ pip install .
 ```
 
 
-
 # ROS2 Workspace - Installation
+
+Enter the ROS2 workspace directory.
+
+```bash
+cd ~/go2-workspace/go2-control/ros2_ws
+```
+
+Install package dependencies via `rosdep`.
+
+```bash
+source /opt/ros/humble/setup.bash
+rosdep install \
+    --from-paths src \
+    --ignore-src \
+    -r -y
+```
 
 Build our ROS2 workspace.
 
 ```bash
 source /opt/ros/humble/setup.bash
-
-cd ~/go2-workspace/go2-control/ros2_ws
 colcon build
-
 source install/setup.bash
 ```
