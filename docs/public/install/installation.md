@@ -27,7 +27,7 @@ conda activate dogenv
 
 ## Install Build Dependencies
 
-Before building or running the SDK, ensure the following dependencies are installed:
+Before proceeding with installing other dependencies, ensure the following dependencies are installed:
 
 - CMake (version 3.22 or higher)
 - GCC (version 9.4.0)
