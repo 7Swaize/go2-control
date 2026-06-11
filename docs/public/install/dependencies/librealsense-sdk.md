@@ -6,7 +6,7 @@ Installation directions adapted from: [Librealsense Documentation](https://githu
 
 ## Setup
 
-Install python dependencies.
+Install Python dependencies.
 
 ```bash
 conda activate <env_name>
@@ -93,7 +93,7 @@ Unplug the camera, then run the build script:
 bash libuvc_installation.sh
 ```
  
-Once the build completes, reboot, plug in the camera, and run the folloing command to test the installation. The realsense viewer window should open.
+Once the build completes, reboot, plug in the camera, and run the following command to test the installation. The RealSense viewer window should open.
 
 ```bash
 realsense-viewer
