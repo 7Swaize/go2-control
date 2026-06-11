@@ -136,7 +136,7 @@ rosdep update
 Install this dependency for our ROS2 nodes. 
 
 ```bash
-cd ~/go2-workspace/go2-control/c_extensions
+cd $GO2_WS/go2-control/c_extensions
 pip install .
 ```
 
@@ -146,7 +146,7 @@ pip install .
 Enter the ROS2 workspace directory.
 
 ```bash
-cd ~/go2-workspace/go2-control/ros2_ws
+cd $GO2_WS/go2-control/ros2_ws
 ```
 
 Install package dependencies via `rosdep`.
