@@ -55,6 +55,15 @@ Typically, we can do this by executing the following command.
 . "$HOME/.cargo/env"
 ```
 
+## Layer 2: Clone the 'go2-control' Repository
+
+In this step, we will clone and build the go2-control wrapper code. However, we will build the wrapper last after installing all dependencies.
+
+```bash
+cd ~/go2-workspace
+git clone https://github.com/7Swaize/go2-control.git
+```
+
 ## Layer 3 and 4: Dependency Installation
 
 Install all the following dependencies with instructions listed below first. It is recommended to install dependencies in the following order.
@@ -67,14 +76,11 @@ Install all the following dependencies with instructions listed below first. It 
 6. [Layer 4 - Mujoco Simulator](dependencies/mujoco-sim.md)
 
 
-## Layer 2: Clone the 'go2-control' Repository
+## Layer 2: Install the 'go2-control' Repository
 
-In this step, we will clone and build the go2-control wrapper code.  This will use PIP to build/install the custom python wrapper library.
+We will  use PIP to build/install the Python wrapper library.
 
 ```bash
-cd ~/go2-workspace
-git clone https://github.com/7Swaize/go2-control.git
-
-cd go2-control
+cd ~/go2_workspace/go2-control
 pip install .
 ```
