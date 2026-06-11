@@ -9,7 +9,6 @@ Installation directions adapted from: [Librealsense Documentation](https://githu
 Install Python dependencies.
 
 ```bash
-conda activate <env_name>
 conda install conda-forge::python-devtools
 ```
 
