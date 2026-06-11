@@ -20,15 +20,15 @@ You will need to install MuJoCo separately. Use release version **3.3.6**.
 Navigate [here](https://github.com/google-deepmind/mujoco/releases/tag/3.3.6) and download the files for your system architecture.
 
 Through the Linux GUI or command line:
-1) Create the dirirctory ~/.mujoco
-2) Change to ~/.mujoco
-3) Extract the download mujoco file it to the `~/.mujoco` directory.
-4) Remove the oringal zip file since it is no longer needed
+1) Create the directory `~/.mujoco`
+2) Change to `~/.mujoco`
+3) Extract the download mujoco file to the `~/.mujoco` directory.
+4) Remove the original zip file since it is no longer needed
 
 Below is an example for the X86 architecture.
 
 ```bash
-cd ~/mujoco
+cd ~/.mujoco
 cp ~/Downloads/mujo* .
 tar -xvzf mujoco-3.3.6-linux-x86_64.tar.gz 
 
