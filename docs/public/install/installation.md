@@ -39,6 +39,7 @@ You can install the required packages on Ubuntu 20.04 with:
 sudo apt-get update
 sudo snap install cmake --classic
 sudo apt-get install -y g++ build-essential libyaml-cpp-dev libeigen3-dev libboost-all-dev libspdlog-dev libfmt-dev clang libclang-dev
+hash -r
 ```
 
 ## Layer 3 and 4: Dependency Installation
