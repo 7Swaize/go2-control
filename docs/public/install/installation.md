@@ -16,13 +16,29 @@ cd ~/go2-workspace
 
 ## Anaconda Workspace Setup
 
-1. Donwload and Install [Anaconda](https://www.anaconda.com/download)
+1. Download and Install [Anaconda](https://www.anaconda.com/download)
 2. Create workspace with Python v3.10
 3. Activate the workspace
    
 ```bash
 conda create --name dogenv python=3.10
 conda activate dogenv
+```
+
+## Install Build Dependencies
+
+Before building or running the SDK, ensure the following dependencies are installed:
+
+- CMake (version 3.22 or higher)
+- GCC (version 9.4.0)
+- Make
+
+You can install the required packages on Ubuntu 20.04 with:
+
+```bash
+sudo apt-get update
+sudo snap install cmake --classic
+sudo apt-get install -y g++ build-essential libyaml-cpp-dev libeigen3-dev libboost-all-dev libspdlog-dev libfmt-dev
 ```
 
 ## Layer 3 and 4: Dependency Installation
