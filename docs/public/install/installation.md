@@ -33,7 +33,6 @@ Install all following dependencies with instructions listed below first. It reco
 2. [Layer 3 - Librealsense SDK](dependencies/librealsense-sdk.md)
 3. [Layer 3 - Iceoryx2](dependencies/iceoryx2.md)
 4. [Layer 3 - ROS2 Workspace](dependencies/ros2-ws.md)  (BUG - ISSUES WITH UBUNTU VERSION)
-5. TODO - c_extensions and ros2_ws
    
 6. [Layer 4 - Mujoco Simulator](dependencies/mujoco-sim.md)
 
