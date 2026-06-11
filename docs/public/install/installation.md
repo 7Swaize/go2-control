@@ -33,7 +33,7 @@ Before proceeding with installing other dependencies, ensure the following depen
 - GCC (version 9.4.0)
 - Make
 
-You can install the required packages on Ubuntu 20.04 with:
+You can install the required packages on Ubuntu 20.04 via the following instructions.
 
 ```bash
 sudo apt-get update
