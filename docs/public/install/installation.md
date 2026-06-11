@@ -32,13 +32,27 @@ Before proceeding with installing other dependencies, ensure the following depen
 - CMake (version 3.22 or higher)
 - GCC (version 9.4.0)
 - Make
+- Cargo (version 1.85 or greater)
 
-You can install the required packages on Ubuntu 20.04 via the following instructions.
+You can install the required packages on Ubuntu 22.04 via the following instructions.
 
 ```bash
 sudo apt-get update
 sudo apt-get install -y cmake g++ build-essential libyaml-cpp-dev libeigen3-dev libboost-all-dev libspdlog-dev libfmt-dev clang libclang-dev
 hash -r
+```
+
+Install Cargo.
+
+```bash
+curl https://sh.rustup.rs -sSf | sh
+```
+
+Configure your current shell to use the `cargo` command. This is prompted to you at the end of the installation.
+Typically, we can do this by executing the following command.
+
+```bash
+. "$HOME/.cargo/env"
 ```
 
 ## Layer 3 and 4: Dependency Installation
