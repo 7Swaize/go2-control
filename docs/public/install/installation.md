@@ -58,7 +58,7 @@ Typically, we can do this by executing the following command.
 
 ## Layer 2: Clone the 'go2-control' Repository
 
-In this step, we will clone and build the go2-control wrapper code. However, we will build the wrapper last after installing all dependencies.
+In this step, we will clone the go2-control wrapper code. However, we will build the wrapper last after installing all dependencies.
 
 ```bash
 cd $GO2_WS
