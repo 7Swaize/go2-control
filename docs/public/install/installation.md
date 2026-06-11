@@ -8,8 +8,9 @@ Note: The order of installation is important. It is not in the order of the laye
 Create a folder named `go2-workspace` in your home directory. We will install all applicable dependencies in here.
 
 ```bash
-mkdir ~/go2-workspace
-cd ~/go2-workspace
+export GO2_WS=~/go2-workspace
+mkdir -p $GO2_WS
+cd $GO2_WS
 ```
 
 # Install platform manual dependencies
@@ -60,7 +61,7 @@ Typically, we can do this by executing the following command.
 In this step, we will clone and build the go2-control wrapper code. However, we will build the wrapper last after installing all dependencies.
 
 ```bash
-cd ~/go2-workspace
+cd $GO2_WS
 git clone https://github.com/7Swaize/go2-control.git
 ```
 
@@ -71,7 +72,7 @@ Install all the following dependencies with instructions listed below first. It 
 1. [Layer 3 - Unitree SDK](dependencies/unitree-sdk.md)
 2. [Layer 3 - Librealsense SDK](dependencies/librealsense-sdk.md)
 3. [Layer 3 - Iceoryx2](dependencies/iceoryx2.md)
-4. [Layer 3 - ROS2 Workspace](dependencies/ros2-ws.md)  (BUG - ISSUES WITH UBUNTU VERSION)
+4. [Layer 3 - ROS2 Workspace](dependencies/ros2-ws.md)
    
 6. [Layer 4 - Mujoco Simulator](dependencies/mujoco-sim.md)
 
@@ -81,6 +82,6 @@ Install all the following dependencies with instructions listed below first. It 
 We will  use PIP to build/install the Python wrapper library.
 
 ```bash
-cd ~/go2_workspace/go2-control
+cd $GO2_WS/go2-control
 pip install .
 ```
