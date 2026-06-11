@@ -30,8 +30,8 @@ conda activate dogenv
 
 Before proceeding with installing other dependencies, ensure the following dependencies are installed:
 
-- CMake (version 3.22 or higher)
-- GCC (version 9.4.0)
+- CMake (version 3.22 or greater)
+- GCC (version 11.4 or greater)
 - Make
 - Cargo (version 1.85 or greater)
 
