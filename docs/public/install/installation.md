@@ -5,7 +5,7 @@
 Note: The order of installation is important. It is not in the order of the layers themselves.
 
 # Create project folder
-Create a folder named `go2-workspace` in your home directory. We will install all applicable dependencies in here.
+Create a folder where we will install all applicable dependencies. Below, we used `~/go2-workspace`.
 
 ```bash
 export GO2_WS=~/go2-workspace
