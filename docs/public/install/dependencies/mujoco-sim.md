@@ -73,12 +73,6 @@ cmake --build build
 sudo cmake --install build
 ```
 
-Install via pip.
-
-```bash
-pip install .
-```
-
 
 ## Mujoco Simulator Installation
 
