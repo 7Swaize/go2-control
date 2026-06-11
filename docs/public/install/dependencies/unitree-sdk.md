@@ -36,8 +36,8 @@ Clone the CycloneDDS repository. The Unitree SDK requires **CycloneDDS version 0
 
 ```bash
 cd ~/go2-workspace
-git clone https://github.com/eclipse-cyclonedds/cyclonedds -b releases/0.10.x 
-mkdir -p ~/cyclonedds/build ~/cyclonedds/install
+git clone https://github.com/eclipse-cyclonedds/cyclonedds -b releases/0.10.x
+mkdir -p cyclonedds/build cyclonedds/install
 cd cyclonedds/build
 ```
 
