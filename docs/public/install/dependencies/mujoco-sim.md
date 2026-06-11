@@ -11,7 +11,7 @@ sudo apt install libglfw3-dev mesa-utils
 ## Clone the Repository
 
 ```bash
-cd ~/go2-workspace
+cd $GO2_WS
 git clone https://github.com/7Swaize/unitree_mujoco.git
 cd unitree_mujoco
 ```
@@ -42,7 +42,7 @@ rm mujoco-3.3.6-linux-x86_64.tar.gz
 **Create a symlink to the Mujoco source.**
 
 ```bash
-cd ~/go2-workspace/unitree_mujoco/simulate/
+cd $GO2_WS/unitree_mujoco/simulate/
 ln -s ~/.mujoco/mujoco-3.3.6 mujoco
 ```
 
@@ -64,13 +64,13 @@ export CMAKE_PREFIX_PATH=<containing_folder>/iceoryx2/target/ff/cc/install
 If you followed the setup instructions for the iceoryx2 library, run the following command using the directory where you cloned the iceoryx2 repository.
 
 ```bash
-export CMAKE_PREFIX_PATH=~/go2-workspace/iceoryx2/target/ff/cc/install
+export CMAKE_PREFIX_PATH=$GO2_WS/iceoryx2/target/ff/cc/install
 ```
 
 Install C++ bindings via CMake.
 
 ```bash
-cd ~/go2-workspace/unitree_mujoco/iceoryx_interfaces
+cd $GO2_WS/unitree_mujoco/iceoryx_interfaces
 cmake -S . -B build
 cmake --build build
 sudo cmake --install build
@@ -88,7 +88,7 @@ pip install .
 Install with verbose logging.
 
 ```bash
-cd ~/go2-workspace/unitree_mujoco/simulate
+cd $GO2_WS/unitree_mujoco/simulate
 pip install . -v --config-settings=logging.level=INFO
 ```
 
