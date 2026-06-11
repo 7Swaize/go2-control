@@ -2,6 +2,11 @@
 
 This installation consists of two steps: first, installing the shared Iceoryx2 configuration files, and second, installing the actual simulator.
 
+**IMPORTANT: If you are on a virtual machine, install the following packages to allow for VM -> GPU interop.**
+
+```bash
+sudo apt install libglfw3-dev mesa-utils
+```
 
 ## Clone the Repository
 
@@ -10,7 +15,6 @@ cd ~/go2-workspace
 git clone https://github.com/7Swaize/unitree_mujoco.git
 cd unitree_mujoco
 ```
-
 
 ## Install Mujoco
 
