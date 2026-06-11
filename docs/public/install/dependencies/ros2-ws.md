@@ -1,6 +1,6 @@
 # ROS2 Humble - Installation
 
-**NOTE: ROS2 Humble installation requires Ubuntu 22.02**
+**NOTE: ROS2 Humble installation requires Ubuntu 22.04**
 
 If you do not, you will recieve the following error:
 ```bash
