@@ -18,9 +18,7 @@ git checkout v0.8.1
 
 ## Build Instructions - C++
 
-Assuming you are at the repository root.
-
-First, build the C bindings generated from Rust:
+Assuming you are at the repository root. Build the C bindings generated from Rust.
 
 ```bash
 cargo build --release --package iceoryx2-ffi-c
