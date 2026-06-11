@@ -39,7 +39,7 @@ tar -xvzf mujoco-3.3.6-linux-x86_64.tar.gz
 rm mujoco-3.3.6-linux-x86_64.tar.gz 
 ```
 
-**Create a symlink to the Mujoco source.**
+Create a symlink to the Mujoco source.
 
 ```bash
 cd $GO2_WS/unitree_mujoco/simulate/
