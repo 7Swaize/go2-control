@@ -116,7 +116,7 @@ def _register_all_default_modules():
         VideoModule,
         "Video Capture",
         _requires_native_hardware=False,
-        _requires_advanced_execution=True
+        _requires_advanced_execution=False
     ))
     
     ModuleRegistry._register(ModuleDescriptor(
