@@ -153,7 +153,8 @@ class Go2Controller:
         if descriptor._requires_advanced_execution and self._execution_mode != ExecutionMode.ADVANCED:
             raise ValueError(
                 f"[Controller] Module type '{module_type.name}' requires advanced execution mode. "
-                "You may need to install ROS2 Humble and/or RealSense SDK 2.0 libraries."
+                "You may need to install ROS2 Humble and/or RealSense SDK 2.0 libraries. \n"
+                "For more information see here: https://go2-control.readthedocs.io/en/latest/api/core.html#go2.core.registry.ExecutionMode"
             )
         
         module: DogModule = descriptor._create_instance(**kwargs)
