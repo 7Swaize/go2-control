@@ -72,9 +72,8 @@ Install all the following dependencies with instructions listed below first. It 
 1. [Layer 3 - Unitree SDK](dependencies/unitree-sdk.md)
 2. [Layer 3 - Librealsense SDK](dependencies/librealsense-sdk.md)
 3. [Layer 3 - Iceoryx2](dependencies/iceoryx2.md)
-4. [Layer 3 - ROS2 Workspace](dependencies/ros2-ws.md)
-   
-6. [Layer 4 - Mujoco Simulator](dependencies/mujoco-sim.md)
+4. [Layer 4 - Mujoco Simulator](dependencies/mujoco-sim.md)
+5. [Layer 3 - ROS2 Workspace](dependencies/ros2-ws.md)
 
 
 ## Layer 2: Install the 'go2-control' Repository
