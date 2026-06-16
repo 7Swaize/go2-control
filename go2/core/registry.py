@@ -14,6 +14,18 @@ from ..hardware.hardware_type import HardwareType
 
 T = TypeVar('T', bound=DogModule)
 
+class ExecutionMode(Enum):
+    """
+    Enumeration passed upon creation of a :class:`~core.controller.Go2Controller` instance.
+    Dicates the available modules based on system instaleld packages.
+
+    Installation for all dependencies can be found here: https://github.com/7Swaize/go2-control/blob/main/docs/public/install/installation.md
+    """
+    BASIC = auto() #: Restricts access to the :class:`~core.registry.ModuleType.LIDAR` module and depth camera access in the :class:`~core.registry.ModuleType.VIDEO' module.
+    ADVANCED = auto() #: Allows access to **ALL** modules.
+
+
+
 class ModuleType(Enum):
     """
     Enumeration of all supported default module categories.
@@ -42,6 +54,7 @@ class ModuleDescriptor(Generic[T]):
     _module_class: Type[T]  #: Concrete implementation class
     _display_name: str  #: Human-readable name
     _requires_native_hardware: bool = False  #: Whether this module requires native hardware support
+    _requires_advanced_execution: bool = False #: Whether this module requires an advanced execution mode
     
     def _create_instance(self, *args, **kwargs) -> T:
         """Instantiate the module."""
@@ -102,42 +115,48 @@ def _register_all_default_modules():
         ModuleType.VIDEO,
         VideoModule,
         "Video Capture",
-        _requires_native_hardware=False
+        _requires_native_hardware=False,
+        _requires_advanced_execution=True
     ))
     
     ModuleRegistry._register(ModuleDescriptor(
         ModuleType.MOVEMENT,
         MovementModule,
         "Movement Control",
-        _requires_native_hardware=False
+        _requires_native_hardware=False,
+        _requires_advanced_execution=False
     ))
     
     ModuleRegistry._register(ModuleDescriptor(
         ModuleType.OCR,
         OCRModule,
         "Optical Character Recognition",
-        _requires_native_hardware=False
+        _requires_native_hardware=False,
+        _requires_advanced_execution=False,
     ))
     
     ModuleRegistry._register(ModuleDescriptor(
         ModuleType.AUDIO,
         AudioModule,
         "Text-to-Speech",
-        _requires_native_hardware=False
+        _requires_native_hardware=False,
+        _requires_advanced_execution=False
     ))
     
     ModuleRegistry._register(ModuleDescriptor(
         ModuleType.INPUT,
         InputModule,
         "Controller Input",
-        _requires_native_hardware=True  
+        _requires_native_hardware=True,
+        _requires_advanced_execution=False
     ))
 
     ModuleRegistry._register(ModuleDescriptor(
         ModuleType.LIDAR,
         LIDARModule,
         "LIDAR Capture",
-        _requires_native_hardware=False
+        _requires_native_hardware=False,
+        _requires_advanced_execution=True
     ))
 
 

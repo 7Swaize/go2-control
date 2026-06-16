@@ -24,6 +24,12 @@ Hardware Support Types
 Module Management
 =================
 
+.. autoclass:: go2.core.registry.ExecutionMode
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
 .. autoclass:: go2.core.registry.ModuleType
    :members:
    :undoc-members:

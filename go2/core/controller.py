@@ -4,7 +4,7 @@ import threading
 from typing import Callable, List, Dict
 
 from .module import DogModule
-from .registry import ModuleRegistry, ModuleType
+from .registry import ModuleRegistry, ModuleType, ExecutionMode
 from ..modules.input import InputSignal
 from ..modules.audio import AudioModule
 from ..modules.input import InputModule
@@ -49,7 +49,7 @@ class Go2Controller:
     ModuleRegistry
     """
 
-    def __init__(self, hardware_type: HardwareType) -> None:
+    def __init__(self, hardware_type: HardwareType, execution_mode: ExecutionMode=ExecutionMode.BASIC) -> None:
         """
         Create a new controller instance.
 
@@ -65,7 +65,10 @@ class Go2Controller:
             If hardware backend initialization fails.
         """
         self._hardware_type = hardware_type
+        self._execution_mode = execution_mode
 
+        self._emit_execution_mode_info(execution_mode)
+        
         self._shutdown_event = threading.Event()
         self._shutdown_lock = threading.Lock()
         self._cleanup_callbacks: List[Callable[[], None]] = []
@@ -76,6 +79,7 @@ class Go2Controller:
             NativeHardware() if hardware_type == HardwareType.NATIVE else VirtualHardware()
         )
         self._hardware._initialize()
+        
 
         self._modules: Dict[ModuleType, DogModule] = {}
         self._register_default_modules()
@@ -83,6 +87,12 @@ class Go2Controller:
 
         print(f"[Controller] Initialized in {'NATIVE' if hardware_type == HardwareType.NATIVE else 'SIMULATION'} mode\n")
 
+    
+    def _emit_execution_mode_info(self, exec_mode: ExecutionMode):
+        print(f"[Controller] Executing in {'BASIC' if exec_mode == ExecutionMode.BASIC else 'ADVANCED'} execution mode.")
+        if exec_mode == ExecutionMode.BASIC:
+            print("[Controller] LIDAR and Depth Camera functionalities not available in 'BASIC' execution")
+            print("For more information see: ")
 
     # Automatic shutdown on exception incase its not done by users
     def _install_signal_handlers(self) -> None:
@@ -137,8 +147,14 @@ class Go2Controller:
         if descriptor is None:
             raise ValueError(f"[Controller] Module type '{module_type.name}' is not registered")
         
-        if descriptor._requires_native_hardware and self._hardware_type == HardwareType.VIRTUAL:
+        if descriptor._requires_native_hardware and self._hardware_type != HardwareType.NATIVE:
             raise ValueError(f"[Controller] Module type '{module_type.name}' requires native hardware support")
+
+        if descriptor._requires_advanced_execution and self._execution_mode != ExecutionMode.ADVANCED:
+            raise ValueError(
+                f"[Controller] Module type '{module_type.name}' requires advanced execution mode. "
+                "You may need to install ROS2 Humble and/or RealSense SDK 2.0 libraries."
+            )
         
         module: DogModule = descriptor._create_instance(**kwargs)
         self._modules[module_type] = module

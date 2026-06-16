@@ -1,6 +1,7 @@
 import os
 import sys
 import signal
+import shutil
 import subprocess
 import numpy as np
 from typing import Callable
@@ -139,7 +140,8 @@ class LIDARModule(DogModule):
             except subprocess.TimeoutExpired:
                 self._ros_proc.terminate()
                 self._ros_proc.wait(timeout=5)
-
+        if shutil.which("ros2") is None:
+            return
         if self._iox_receiver:
             self._iox_receiver._shutdown()
             self._iox_receiver.join(timeout=2)

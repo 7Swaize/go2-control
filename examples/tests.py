@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 
 from go2sim import TerrainGenerator, GeometryType
-from go2.core import Go2Controller, ModuleType, HardwareType
+from go2.core import Go2Controller, ModuleType, HardwareType, ExecutionMode
 from go2.modules.video import CameraSourceFactory
 
 
