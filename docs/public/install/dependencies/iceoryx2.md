@@ -1,7 +1,7 @@
 
 # Iceoryx2 Installation
 
-Iceoryx2 is a decentralized inter-process communication (IPC) library designed to enable ultra-fast, "zero-copy" data exchange between applications and processes. Developed by the Eclipse Foundation and ekxide, it is specifically built for data-intensive, real-time systems like robotics and autonomous driving.
+Iceoryx2 is a decentralized inter-process communication (IPC) library designed to enable ultra-fast, "zero-copy" data exchange between applications and processes.
 
 Installation directions adapted from: [iceoryx2-cxx README](https://github.com/eclipse-iceoryx/iceoryx2/blob/main/iceoryx2-cxx/README.md)
 
@@ -10,7 +10,7 @@ Installation directions adapted from: [iceoryx2-cxx README](https://github.com/e
 We will be using Iceoryx2 version 0.8.1.  We will be working detached from the live repository.
 
 ```bash
-cd ~/go2-workspace
+cd $GO2_WS
 git clone https://github.com/eclipse-iceoryx/iceoryx2.git
 cd iceoryx2
 git checkout v0.8.1
@@ -18,9 +18,7 @@ git checkout v0.8.1
 
 ## Build Instructions - C++
 
-Assuming you are at the repository root.
-
-First, build the C bindings generated from Rust:
+Assuming you are at the repository root. Build the C bindings generated from Rust.
 
 ```bash
 cargo build --release --package iceoryx2-ffi-c

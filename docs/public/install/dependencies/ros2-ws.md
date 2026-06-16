@@ -1,8 +1,8 @@
 # ROS2 Humble - Installation
 
-**NOTE: ROS2 Humble installation requires Ubuntu 22.02**
+**NOTE: ROS2 Humble installation requires Ubuntu 22.04**
 
-If you do not, you will recieve the following error:
+If you do not, you will receive the following error:
 ```bash
 E: Unable to locate package ros-humble-desktop
 ```
@@ -10,7 +10,6 @@ E: Unable to locate package ros-humble-desktop
 Installation directions adapted from: [ROS2 Humble Documentation](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debs.html).
 
 These are just the commands to install ROS2 Humble. For more guided or in depth directions, see the official ROS2 Humble documentation linked above.
-
 
 ## Set Locale
 
@@ -25,6 +24,15 @@ sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 export LANG=en_US.UTF-8
 
 locale  # verify settings
+```
+
+## Install Universe Repository to System
+
+Execute. 
+
+```bash
+sudo apt install software-properties-common
+sudo add-apt-repository universe
 ```
 
 
@@ -44,13 +52,6 @@ Part of the output should look similar to:
  500 http://ports.ubuntu.com/ubuntu-ports jammy-security/universe arm64 Packages
      release v=22.04,o=Ubuntu,a=jammy-security,n=jammy,l=Ubuntu,c=universe,b=arm64
 
-```
-**In case of error**
-If you don't see lines similar to above indicating success, install the repository to your system with the following steps:
-
-```bash
-sudo apt install software-properties-common
-sudo add-apt-repository universe
 ```
 
 
@@ -101,13 +102,33 @@ sudo apt update
 sudo apt upgrade
 ```
 
-Install colcon. This is needed to run the `colcon` CLI command to actually build our ROS2 workspace.
+Install Python packages for the ROS2 build.
 
 ```bash
-# You can choose to install to a venv, but be careful with interpreter paths when working with ROS2 
-sudo apt install python3-colcon-common-extensions python3-catkin-pkg python3-lark-parser python3-empy
+pip install -U \
+    colcon-common-extensions \
+    catkin_pkg \
+    empy==3.3.4 \
+    lark-parser
 ```
 
+Install colcon and related packages. This is needed to run the `colcon` CLI command to actually build our ROS2 workspace.
+
+```bash
+sudo apt install -y \
+    build-essential \
+    python3-rosdep \
+    python3-vcstool \
+    python3-colcon-common-extensions \
+    python3-pip \
+```
+
+Initialize `rosdep`.
+
+```bash
+sudo rosdep init
+rosdep update
+```
 
 
 # C-Extensions - Installation
@@ -115,21 +136,33 @@ sudo apt install python3-colcon-common-extensions python3-catkin-pkg python3-lar
 Install this dependency for our ROS2 nodes. 
 
 ```bash
-cd go2-control/c_extensions
+cd $GO2_WS/go2-control/c_extensions
 pip install .
 ```
 
 
-
 # ROS2 Workspace - Installation
+
+Enter the ROS2 workspace directory.
+
+```bash
+cd $GO2_WS/go2-control/ros2_ws
+```
+
+Install package dependencies via `rosdep`.
+
+```bash
+source /opt/ros/humble/setup.bash
+rosdep install \
+    --from-paths src \
+    --ignore-src \
+    -r -y
+```
 
 Build our ROS2 workspace.
 
 ```bash
 source /opt/ros/humble/setup.bash
-
-cd go2-control/ros2_ws
 colcon build
-
 source install/setup.bash
 ```

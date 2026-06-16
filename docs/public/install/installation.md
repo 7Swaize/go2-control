@@ -1,22 +1,23 @@
 # Setup of go2-control system environment
 
-<< layers image >>
+<img width="800" height="450" alt="layers" src="https://github.com/user-attachments/assets/ca55d189-61ad-4161-a492-cc874f74ff88" />
 
 Note: The order of installation is important. It is not in the order of the layers themselves.
 
 # Create project folder
-Create a folder named `go2-workspace` in your home directory. We will install all applicable dependencies in here.
+Create a workspace directory where we will install all applicable dependencies. Below, we used `~/go2-workspace`.
 
 ```bash
-mkdir ~/go2-workspace
-cd ~/go2-workspace
+export GO2_WS=~/go2-workspace
+mkdir -p $GO2_WS
+cd $GO2_WS
 ```
 
 # Install platform manual dependencies
 
 ## Anaconda Workspace Setup
 
-1. Donwload and Install [Anaconda](https://www.anaconda.com/download)
+1. Download and Install [Anaconda](https://www.anaconda.com/download)
 2. Create workspace with Python v3.10
 3. Activate the workspace
    
@@ -25,26 +26,62 @@ conda create --name dogenv python=3.10
 conda activate dogenv
 ```
 
+## Install Build Dependencies
+
+Before proceeding with installing other dependencies, ensure the following dependencies are installed:
+
+- CMake (version 3.22 or greater)
+- GCC (version 11.4 or greater)
+- Make
+- Cargo (version 1.85 or greater)
+
+You can install the required packages on Ubuntu 22.04 via the following instructions.
+
+```bash
+sudo apt-get update
+sudo apt-get install -y cmake g++ build-essential libyaml-cpp-dev libeigen3-dev libboost-all-dev libspdlog-dev libfmt-dev clang libclang-dev
+hash -r
+```
+
+Install Cargo.
+
+```bash
+curl https://sh.rustup.rs -sSf | sh
+```
+
+Configure your current shell to use the `cargo` command. This is prompted to you at the end of the installation.
+Typically, we can do this by executing the following command.
+
+```bash
+. "$HOME/.cargo/env"
+```
+
+## Layer 2: Clone the 'go2-control' Repository
+
+In this step, we will clone the go2-control wrapper code. However, we will build the wrapper last after installing all dependencies.
+
+```bash
+cd $GO2_WS
+git clone https://github.com/7Swaize/go2-control.git
+```
+
 ## Layer 3 and 4: Dependency Installation
 
-Install all following dependencies with instructions listed below first. It recommended to install dependencies in the following order.
+Install all the following dependencies with instructions listed below first. It is recommended to install dependencies in the following order.
 
 1. [Layer 3 - Unitree SDK](dependencies/unitree-sdk.md)
 2. [Layer 3 - Librealsense SDK](dependencies/librealsense-sdk.md)
 3. [Layer 3 - Iceoryx2](dependencies/iceoryx2.md)
-4. [Layer 3 - ROS2 Workspace](dependencies/ros2-ws.md)  (BUG - ISSUES WITH UBUNTU VERSION)
+4. [Layer 3 - ROS2 Workspace](dependencies/ros2-ws.md)
    
-5. [Layer 4 - Mujoco Simulator](dependencies/mujoco-sim.md)
+6. [Layer 4 - Mujoco Simulator](dependencies/mujoco-sim.md)
 
 
-## Layer 2: Clone the 'go2-control' Repository
+## Layer 2: Install the 'go2-control' Repository
 
-In this step, we will clone and build the go2-control wrapper code.  This will use PIP to build/install the custom python wrapper library.
+We will  use PIP to build/install the Python wrapper library.
 
 ```bash
-cd ~/go2-workspace
-git clone https://github.com/7Swaize/go2-control.git
-
-cd go2-control/go2
+cd $GO2_WS/go2-control
 pip install .
 ```

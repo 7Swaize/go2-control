@@ -5,7 +5,7 @@ Installation directions adapted from: [Unitree SDK2 Python README](https://githu
 ## Clone the Repository
 
 ```bash
-cd ~/go2-workspace
+cd $GO2_WS
 git clone https://github.com/unitreerobotics/unitree_sdk2_python.git
 cd unitree_sdk2_python
 pip3 install -e .
@@ -35,10 +35,10 @@ These instructions install CycloneDDS in the home directory. However, you can cl
 Clone the CycloneDDS repository. The Unitree SDK requires **CycloneDDS version 0.10.2**.
 
 ```bash
-cd ~
-git clone https://github.com/eclipse-cyclonedds/cyclonedds -b releases/0.10.x 
-mkdir -p ~/cyclonedds/build ~/cyclonedds/install
-cd ~/cyclonedds/build
+cd $GO2_WS
+git clone https://github.com/eclipse-cyclonedds/cyclonedds -b releases/0.10.x
+mkdir -p cyclonedds/build cyclonedds/install
+cd cyclonedds/build
 ```
 
 Install.
@@ -51,8 +51,8 @@ cmake --build . --target install
 Export paths.
 
 ```bash
-export CYCLONEDDS_HOME=$HOME/cyclonedds/install
-export CMAKE_PREFIX_PATH=$CYCLONEDDS_HOME
+export CYCLONEDDS_HOME="$GO2_WS/cyclonedds/install"
+export CMAKE_PREFIX_PATH="$CYCLONEDDS_HOME"
 ```
 
 Reinstall the Python Unitree SDK2 via pip install as outlined before. Your installation should succeed.
@@ -63,27 +63,12 @@ Reinstall the Python Unitree SDK2 via pip install as outlined before. Your insta
 
 Installation directions adapted from: [Unitree SDK2 README](https://github.com/unitreerobotics/unitree_sdk2/blob/main/README.md)
 
-## Environment Setup
-
-Before building or running the SDK, ensure the following dependencies are installed:
-
-- CMake (version 3.10 or higher)
-- GCC (version 9.4.0)
-- Make
-
-You can install the required packages on Ubuntu 20.04 with:
-
-```bash
-sudo apt-get update
-sudo apt-get install -y cmake g++ build-essential libyaml-cpp-dev libeigen3-dev libboost-all-dev libspdlog-dev libfmt-dev
-```
-
 ## Installation
 
 Clone the repository.
 
 ```bash
-cd ~/go2-workspace
+cd $GO2_WS
 git clone https://github.com/unitreerobotics/unitree_sdk2.git
 cd unitree_sdk2
 ```

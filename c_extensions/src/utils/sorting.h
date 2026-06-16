@@ -7,7 +7,6 @@
 #include <omp.h>
 #include <string.h>
 #include <Python.h>
-#include <arm_neon.h>
 
 #define RADIX 256
 #define PASSES 8
