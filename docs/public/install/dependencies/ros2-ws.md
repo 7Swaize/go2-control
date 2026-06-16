@@ -149,7 +149,7 @@ Enter the ROS2 workspace directory.
 cd $GO2_WS/go2-control/ros2_ws
 ```
 
-Install package dependencies via `rosdep`.
+Install package dependencies via `rosdep`. It might fail to detect packages within your virtual environment. That is fine.
 
 ```bash
 source /opt/ros/humble/setup.bash
