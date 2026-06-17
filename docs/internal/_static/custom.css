@@ -39,17 +39,23 @@ table {
     font-weight: 600;
 }
 
-/* Subtle page width constraint */
-.content {
-    max-width: 1050px;
+
+
+/* For Conestack */
+/* Wider overall page */
+.container-xxl,
+#cs-layout {
+    max-width: 1800px !important;
 }
 
-/* Increase the max-width of the main content wrapper */
-.wy-nav-content {
-    max-width: 1200px !important;
-}
-
-/* Override the inner container to let text fill the newly widened space */
-.document .section {
+/* Let content expand */
+.cs-main,
+.cs-content {
     max-width: none !important;
+    width: 100% !important;
+}
+
+/* Optional: remove right-hand TOC */
+.cs-local-toc {
+    display: none !important;
 }
