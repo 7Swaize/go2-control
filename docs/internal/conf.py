@@ -25,6 +25,7 @@ autodoc_mock_imports = [
     "unitree_sdk2py",
     "iceoryx2",
     "iceoryx_interfaces"
+    "fast_pointcloud"
 ]
 
 # Autosummary settings
