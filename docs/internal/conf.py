@@ -47,7 +47,9 @@ html_last_updated_fmt = "%Y-%m-%d"
 html_theme_options = {
     "light_logo": "logo-light.png", 
     "dark_logo": "logo-dark.png",
-    "navigation_with_keys": True,    
+    "navigation_with_keys": True,
+    "sidebar_width": "250px",
+    "body_max_width": "100%",
 }
 
 # -- Custom CSS tweaks -------------------------------------------------------

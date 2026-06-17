@@ -39,59 +39,86 @@ table {
     font-weight: 600;
 }
 
-/* Full width layout - remove all constraints */
-.content {
-    max-width: none;
-    width: 100%;
+/* Furo theme - maximize content width */
+:root {
+    --content-width: 100% !important;
 }
 
-/* Maximize Read the Docs content area */
-.wy-nav-content {
-    max-width: none;
-    width: 100%;
-    padding: 0;
+/* Remove width constraints from main containers */
+.page-content {
+    max-width: none !important;
+    width: 100% !important;
 }
 
-.wy-nav-content-wrap {
-    margin-left: 0;
+.container {
+    max-width: none !important;
+    width: 100% !important;
 }
 
-/* Full width document */
-div.document {
-    width: 100%;
-    margin: 0;
-    padding: 0;
-}
-
-/* Modern semantic markup */
-main {
-    max-width: none;
-    width: 100%;
-    margin: 0;
-}
-
-/* Full width Sphinx content */
-.rst-content {
-    margin: 0;
-    max-width: none;
-    width: 100%;
-    padding: 30px 40px;
-}
-
-/* Hide or minimize right sidebar if present */
-.wy-side-scroll,
-.wy-nav-side {
-    width: auto;
-}
-
-/* Make article area full width */
+/* Main article content */
 article {
-    max-width: none;
-    width: 100%;
+    max-width: none !important;
+    width: 100% !important;
+    padding-left: 3rem !important;
+    padding-right: 3rem !important;
 }
 
-/* Ensure no max-width on main containers */
-.container,
-.main {
-    max-width: none;
+/* Content wrapper */
+.content {
+    max-width: none !important;
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+/* Main element */
+main {
+    max-width: none !important;
+    width: 100% !important;
+}
+
+/* RST content */
+.rst-content {
+    max-width: none !important;
+    width: 100% !important;
+}
+
+/* Improve overall readability */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    line-height: 1.65;
+    font-size: 15px;
+}
+
+/* Make headings pop more */
+h1, h2, h3 {
+    letter-spacing: 0.3px;
+}
+
+/* Better code blocks */
+.highlight pre {
+    border-radius: 8px;
+    padding: 0.9em;
+    font-size: 0.9em;
+}
+
+/* Inline code */
+code.literal {
+    background-color: rgba(0, 0, 0, 0.06);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* Tables should never overflow badly */
+table {
+    width: 100%;
+    overflow-x: auto;
+    display: block;
+}
+
+/* API signatures cleaner */
+.sig-name {
+    font-weight: 600;
 }
