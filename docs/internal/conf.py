@@ -24,7 +24,7 @@ autodoc_mock_imports = [
     "pyrealsense2",
     "unitree_sdk2py",
     "iceoryx2",
-    "iceoryx_interfaces"
+    "iceoryx_interfaces",
     "fast_pointcloud"
 ]
 
