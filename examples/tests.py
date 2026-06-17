@@ -98,7 +98,6 @@ class Tests:
 
         tg.reset_to_base()
 
-        # Slope
         tg.add_geometry(position=[2.0, 2.0, 0.5], euler=[0.0, 30, 0.0], size=[3, 1.5, 0.1], geo_type=GeometryType.BOX)
 
         tg.add_stairs(init_pos=[1.0, 4.0, 0.0], yaw=0.0)
