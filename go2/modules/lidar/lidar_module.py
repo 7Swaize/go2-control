@@ -84,8 +84,7 @@ class LIDARModule(DogModule):
             A function to be called with:
                 - **timestamp** (int): The source timestamp in nanoseconds.
                 - **points** (np.ndarray): A ``float64`` array of shape ``(N, 3)`` 
-                  for [x, y, z] or ``(N, 4)`` if intensity is supported 
-                  [x, y, z, intensity].
+                  for [x, y, z] or ``(N, 4)`` if intensity is supported [x, y, z, intensity].
         """
         self._dispatcher._register_decoded(callback)
 
@@ -121,9 +120,9 @@ class LIDARModule(DogModule):
             A function to be called with:
                 - **timestamp** (int): The common timestamp in nanoseconds.
                 - **decoded_points** (np.ndarray): The raw ``float64`` array of shape 
-                ``(N, 3)`` or ``(N, 4)``.
+                  ``(N, 3)`` or ``(N, 4)``.
                 - **filtered_points** (np.ndarray): The SOR-filtered ``float64`` array of 
-                shape ``(N, 3)`` or ``(N, 4)``.
+                  shape ``(N, 3)`` or ``(N, 4)``.
         """
         self._dispatcher._register_synced(callback)
 

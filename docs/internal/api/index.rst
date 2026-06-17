@@ -53,7 +53,7 @@ For building behavior using a state machine pattern.
 
 
 Simulator Scene Configuration
-----------------------------
+-----------------------------
 
 For adding elements to the Mujoco Simulator scene.
 
