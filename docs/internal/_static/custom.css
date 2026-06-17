@@ -41,9 +41,30 @@ table {
 
 /* Subtle page width constraint */
 .content {
-    max-width: 1050px;
+    max-width: 1400px;
 }
 
+/* Increase width for Read the Docs theme */
 .wy-nav-content {
-  max-width: none !important;
+    max-width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+/* Adjust document width for standard Sphinx */
+div.document {
+    width: 100%;
+    margin-right: 0;
+}
+
+/* Modern semantic markup */
+main {
+    max-width: 100%;
+    margin-right: 0;
+}
+
+/* Reduce margins on main body content */
+.rst-content {
+    margin-right: 0;
+    max-width: 100%;
 }
