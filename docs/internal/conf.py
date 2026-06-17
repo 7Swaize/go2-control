@@ -57,3 +57,8 @@ html_css_files = [
 # Make copy button ignore Python REPL prompts (>>> and ...)
 copybutton_prompt_text = r'>>> |\.\.\. '
 copybutton_prompt_is_regexp = True
+
+
+# -- Sphinx Extension API Setup ----------------------------------------------
+def setup(app):
+    app.add_css_file('custom.css')

@@ -40,7 +40,6 @@ table {
 }
 
 
-
 /* For Conestack */
 /* Wider overall page */
 .container-xxl,
@@ -53,9 +52,4 @@ table {
 .cs-content {
     max-width: none !important;
     width: 100% !important;
-}
-
-/* Optional: remove right-hand TOC */
-.cs-local-toc {
-    display: none !important;
 }
