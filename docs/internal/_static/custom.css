@@ -39,32 +39,59 @@ table {
     font-weight: 600;
 }
 
-/* Subtle page width constraint */
+/* Full width layout - remove all constraints */
 .content {
-    max-width: 1400px;
+    max-width: none;
+    width: 100%;
 }
 
-/* Increase width for Read the Docs theme */
+/* Maximize Read the Docs content area */
 .wy-nav-content {
-    max-width: 100%;
-    padding-left: 20px;
-    padding-right: 20px;
+    max-width: none;
+    width: 100%;
+    padding: 0;
 }
 
-/* Adjust document width for standard Sphinx */
+.wy-nav-content-wrap {
+    margin-left: 0;
+}
+
+/* Full width document */
 div.document {
     width: 100%;
-    margin-right: 0;
+    margin: 0;
+    padding: 0;
 }
 
 /* Modern semantic markup */
 main {
-    max-width: 100%;
-    margin-right: 0;
+    max-width: none;
+    width: 100%;
+    margin: 0;
 }
 
-/* Reduce margins on main body content */
+/* Full width Sphinx content */
 .rst-content {
-    margin-right: 0;
-    max-width: 100%;
+    margin: 0;
+    max-width: none;
+    width: 100%;
+    padding: 30px 40px;
+}
+
+/* Hide or minimize right sidebar if present */
+.wy-side-scroll,
+.wy-nav-side {
+    width: auto;
+}
+
+/* Make article area full width */
+article {
+    max-width: none;
+    width: 100%;
+}
+
+/* Ensure no max-width on main containers */
+.container,
+.main {
+    max-width: none;
 }
