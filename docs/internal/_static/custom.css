@@ -43,3 +43,13 @@ table {
 .content {
     max-width: 1050px;
 }
+
+/* Increase the max-width of the main content wrapper */
+.wy-nav-content {
+    max-width: 1200px !important;
+}
+
+/* Override the inner container to let text fill the newly widened space */
+.document .section {
+    max-width: none !important;
+}
