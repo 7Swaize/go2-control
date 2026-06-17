@@ -1,4 +1,4 @@
-# Librealsense SDK - RSUSB Build
+# Librealsense SDK - RSUSB Build - Jetson Orin Nano
  
 The Jetson Orin Nano is unique, so the source files must be manually built. This process takes approximately 30 minutes. CUDA GPU acceleration is optional — the RSUSB build is simpler and safer.
 
@@ -102,3 +102,38 @@ To enable Python support, install the Python bindings in your conda environment:
 ```bash
 pip install pyrealsense2
 ```
+
+
+# Librealsense SDK - Virtual Machine
+
+Runtime access to a Realsense Depth Camera in a VM is not supported. As documented,
+
+> Due to the USB 3.0 translation layer between native hardware and virtual machine,
+> the librealsense team does not support installation in a VM. If you choose to try it, we
+> recommend using VMware Workstation Player, and not Oracle VirtualBox for proper
+> emulation of the USB3 controller.
+
+Therefore, two options exist:
+1. Install just the Pyrealsense2 (C++ to Python) bindings.
+2. Proceed with installation on VMware Workstation Player.
+
+
+## Install just Pyrealsense2 Bindings
+
+This installs the Python bindings for the Intel RealSense SDK, allowing Python code to interface with the RealSense runtime libraries.
+However, installing `pyrealsense2` alone does **NOT** guarantee that a D435i camera can be accessed. Camera detection and access depend on the underlying hardware drivers, USB configurations, and the Realsense runtime.
+
+We only install the package, so that any code that imports `pyrealsense2` can do so without exception.
+
+Run the following.
+
+```bash
+pip install pyrealsense2
+```
+
+
+## Proceed with Installation on VMware Workstation Player
+
+This has not been tested. As a user, you are responsible for all installations and troubleshooting performed as part of this setup.
+
+More detailed information can be found [here](https://gitlab.uwaterloo.ca/awerner/librealsense/-/blob/v2.16.1/doc/installation.md).
