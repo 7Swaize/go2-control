@@ -114,7 +114,7 @@ Runtime access to a Realsense Depth Camera in a VM is not supported. As document
 > emulation of the USB3 controller.
 
 Therefore, two options exist:
-1. Install just the Pyrealsense2 (C++ to Python) bindings.
+1. Install just the `pyrealsense2` (C++ to Python) bindings.
 2. Proceed with installation on VMware Workstation Player.
 
 
