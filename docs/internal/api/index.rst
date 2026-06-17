@@ -1,5 +1,5 @@
 Public API Documentation
-=========================
+========================
 
 This section contains the public API documentation for users working with the Unitree Go2 robot.
 
@@ -42,7 +42,7 @@ These modules must be **explicitly added** using :meth:`Go2Controller.add_module
 
 
 State Machine & Architecture
------------------------------
+----------------------------
 
 For building behavior using a state machine pattern.
 
