@@ -17,11 +17,11 @@ T = TypeVar('T', bound=DogModule)
 class ExecutionMode(Enum):
     """
     Enumeration passed upon creation of a :class:`~core.controller.Go2Controller` instance.
-    Dicates the available modules based on system instaleld packages.
+    Dicates the available modules based on system installed packages.
 
     Installation for all dependencies can be found here: https://github.com/7Swaize/go2-control/blob/main/docs/public/install/installation.md
     """
-    BASIC = auto() #: Restricts access to the :class:`~core.registry.ModuleType.LIDAR` module and depth camera access in the :class:`~core.registry.ModuleType.VIDEO' module.
+    BASIC = auto() #: Restricts access to the :class:`~core.registry.ModuleType.LIDAR` module.
     ADVANCED = auto() #: Allows access to **ALL** modules.
 
 

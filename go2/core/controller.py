@@ -16,6 +16,9 @@ from ..hardware.hardware_type import HardwareType
 from ..hardware.hardware_interface import HardwareInterface
 from ..hardware.native.native_hardware import NativeHardware
 from ..hardware.virtual.virtual_hardware import VirtualHardware
+from ..logging import get_logger
+
+logger = get_logger(__name__)
 
 
 # TTS: https://medium.com/@vndee.huynh/build-your-own-voice-assistant-and-run-it-locally-whisper-ollama-bark-c80e6f815cba
@@ -85,14 +88,14 @@ class Go2Controller:
         self._register_default_modules()
         self._initialize_input_bindings()
 
-        print(f"[Controller] Initialized in {'NATIVE' if hardware_type == HardwareType.NATIVE else 'SIMULATION'} mode\n")
+        logger.info(f"[Controller] Initialized in {'NATIVE' if hardware_type == HardwareType.NATIVE else 'SIMULATION'} mode\n")
 
     
     def _emit_execution_mode_info(self, exec_mode: ExecutionMode):
-        print(f"[Controller] Executing in {'BASIC' if exec_mode == ExecutionMode.BASIC else 'ADVANCED'} execution mode.")
+        logger.info(f"[Controller] Executing in {'BASIC' if exec_mode == ExecutionMode.BASIC else 'ADVANCED'} execution mode.")
         if exec_mode == ExecutionMode.BASIC:
-            print("[Controller] LIDAR and Depth Camera functionalities not available in 'BASIC' execution")
-            print("For more information see: ")
+            logger.warning("[Controller] LIDAR functionalities not available in 'BASIC' execution")
+
 
     # Automatic shutdown on exception incase its not done by users
     def _install_signal_handlers(self) -> None:
@@ -153,8 +156,8 @@ class Go2Controller:
         if descriptor._requires_advanced_execution and self._execution_mode != ExecutionMode.ADVANCED:
             raise ValueError(
                 f"[Controller] Module type '{module_type.name}' requires advanced execution mode. "
-                "You may need to install ROS2 Humble and/or RealSense SDK 2.0 libraries. \n"
-                "For more information see here: https://go2-control.readthedocs.io/en/latest/api/core.html#go2.core.registry.ExecutionMode"
+                "You may need to install ROS2 Humble libraries.\n"
+                "[Controller] For more information see here: https://go2-control.readthedocs.io/en/latest/api/core.html#go2.core.registry.ExecutionMode"
             )
         
         module: DogModule = descriptor._create_instance(**kwargs)
@@ -326,7 +329,7 @@ class Go2Controller:
         -----
         - This method is **idempotent** and may be safely called multiple times.
         """
-        print("\n[Controller] Starting safe shutdown...")
+        logger.info("\n[Controller] Starting safe shutdown...")
 
         with self._shutdown_lock:
             if self._shutdown_event.is_set():
@@ -336,21 +339,21 @@ class Go2Controller:
             for module_type, module in self._modules.items():
                 try:
                     module._shutdown()
-                except Exception as e:
-                    print(f"[Controller] Failed to shutdown {module_type.name}: {e}")
+                except Exception:
+                    logger.exception(f"[Controller] Failed to shutdown {module_type.name}")
             
             for callback in self._cleanup_callbacks:
                 try:
                     callback()
-                except Exception as e:
-                    print(f"[Controller] Cleanup callback failed: {e}")
+                except Exception:
+                    logger.exception("[Controller] Cleanup callback failed")
             
             try:
                 self._hardware._shutdown()
-            except Exception as e:
-                print(f"[Controller] Hardware shutdown failed: {e}")
+            except Exception:
+                logger.exception("[Controller] Hardware shutdown failed")
             
-            print("[Controller] Shutdown complete")
+            logger.info("[Controller] Shutdown complete")
 
 
     def is_shutdown_requested(self) -> bool:

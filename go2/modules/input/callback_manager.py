@@ -4,6 +4,9 @@ from typing import Callable, Dict, List, Optional
 
 from .controller_state import ControllerState
 from .input_signal import InputSignal
+from ...logging import get_logger
+
+logger = get_logger(__name__)
 
 
 _ANALOG_SIGNALS = {
@@ -125,8 +128,8 @@ class InputSignalCallbackManager:
         """Invoke a callback safely with error handling."""
         try:
             cb.callback(state)
-        except Exception as e:
-            print(f"[CallbackManager] Callback {cb.name} failed: {e}")
+        except Exception:
+            logger.exception(f"[CallbackManager] Callback {cb.name} failed")
 
 
     def _should_trigger(self, signal: InputSignal, cb: Callback, current_state: ControllerState) -> bool:

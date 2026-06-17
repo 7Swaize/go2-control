@@ -8,7 +8,10 @@ from aiohttp import web
 from .stream_config import StreamConfig
 from .stream_track import OpenCVStreamTrack
 from .serve import HTML_CONTENT
-    
+from ....logging import get_logger
+
+logger = get_logger(__name__)
+
 
 # TURN for public conn? https://www.100ms.live/blog/webrtc-python-react#interactive-connectivity-establishment---ice
 class WebRTCStreamer:
@@ -78,7 +81,7 @@ class WebRTCStreamer:
 
         @pc.on("connectionstatechange")
         async def _on_state():
-            print(f"[WebRTC] {pc.connectionState}")
+            logger.info(f"[WebRTC] {pc.connectionState}")
             if pc.connectionState in ("failed", "closed", "disconnected"):
                 await pc.close()
                 self._pcs.discard(pc)
