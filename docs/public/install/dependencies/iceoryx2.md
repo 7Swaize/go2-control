@@ -13,7 +13,7 @@ We will be using Iceoryx2 version 0.8.1.  We will be working detached from the l
 cd $GO2_WS
 git clone https://github.com/eclipse-iceoryx/iceoryx2.git
 cd iceoryx2
-git checkout v0.8.1
+git checkout v0.9.0
 ```
 
 ## Build Instructions - C++
@@ -64,5 +64,5 @@ cmake --install target/ff/cxx/build --prefix target/ff/cc/install
 **NOTE: Use the exact version for iceoryx2 as specified below:**
 
 ```bash
-pip install iceoryx2==0.8.1 
+pip install iceoryx2==0.9.0
 ```
