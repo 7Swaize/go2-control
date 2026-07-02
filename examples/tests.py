@@ -81,15 +81,10 @@ class Tests:
 
 
     def test_movement(self):
-        time.sleep(3)
         self.controller.movement.stand_up()
-        time.sleep(5)
         self.controller.movement.move(1)
-        time.sleep(3)
         self.controller.movement.stop()
-        time.sleep(2)
         self.controller.movement.rotate(4)
-        time.sleep(5)
         self.controller.movement.stand_down()
 
 

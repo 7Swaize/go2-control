@@ -1,12 +1,13 @@
 import iceoryx2 as iox2
 from typing import Tuple
 from typing_extensions import override
-from iceoryx_interfaces.mappings import SportCommand
+from iceoryx_interfaces.mappings import SportCommand, CommandStatus
 from iceoryx_interfaces.qos import SportQoS
 from iceoryx_interfaces.sport_cmds import (
     SportCommandHeader_,
     NoArgsData_,
-    FloatArgsData_
+    FloatArgsData_,
+    CommandResponse_
 )
 
 from ..hardware_interface import HardwareInterface
@@ -34,74 +35,94 @@ class VirtualHardware(HardwareInterface):
                         .create(iox2.ServiceType.Ipc)
         
         self._noargs_service = self._node.service_builder(iox2.ServiceName.new(SportQoS.TOPIC_SIM_NOARGS_CMD)) \
-                                    .publish_subscribe(NoArgsData_) \
-                                    .user_header(SportCommandHeader_) \
+                                    .request_response(NoArgsData_, CommandResponse_) \
+                                    .request_header(SportCommandHeader_) \
                                     .open_or_create()
         
         self._floatargs_service = self._node.service_builder(iox2.ServiceName.new(SportQoS.TOPIC_SIM_FLOATARGS_CMD)) \
-                                    .publish_subscribe(FloatArgsData_) \
-                                    .user_header(SportCommandHeader_) \
+                                    .request_response(FloatArgsData_, CommandResponse_) \
+                                    .request_header(SportCommandHeader_) \
                                     .open_or_create()
         
-        self._noargs_pub = self._noargs_service.publisher_builder().create()
-        self._floatargs_pub = self._floatargs_service.publisher_builder().create()
+        self._noargs_client = self._noargs_service.client_builder().create()
+        self._floatargs_client = self._floatargs_service.client_builder().create()
+        self._cycle_time = iox2.Duration.from_millis(50)
         self._initialized = True
+
+
+    def _wait_for_response(self, pending_response) -> CommandStatus:
+        while True:
+            self._node.wait(self._cycle_time)
+            response = pending_response.receive()
+
+            if response is not None:
+                return CommandStatus(response.payload().contents.status)
 
     @override
     def _move(self, vx: float, vy: float) -> None:
-        sample = self._floatargs_pub.loan_uninit()
-        
+        sample = self._floatargs_client.loan_uninit()
         sample.user_header().contents.command = SportCommand.MOVE
+        sample.user_header().contents.track = True
         sample = sample.write_payload(
             FloatArgsData_(arg1=vx, arg2=vy)
         )
+        pending_response = sample.send()
 
-        sample.send()
+        self._wait_for_response(pending_response)
+        return
 
     @override
     def _rotate(self, vrot: float):
-        sample = self._floatargs_pub.loan_uninit()
-
+        sample = self._floatargs_client.loan_uninit()
         sample.user_header().contents.command = SportCommand.ROTATE
+        sample.user_header().contents.track = True
         sample = sample.write_payload(
             FloatArgsData_(arg1=vrot, arg2=0)
         )
+        pending_response = sample.send()
 
-        sample.send()
+        self._wait_for_response(pending_response)
+        return
     
     @override
     def _stand_up(self) -> None:
-        sample = self._noargs_pub.loan_uninit()
-
+        sample = self._noargs_client.loan_uninit()
         sample.user_header().contents.command = SportCommand.STAND_UP
+        sample.user_header().contents.track = True
         sample = sample.write_payload(
             NoArgsData_(null=0)
         )
+        pending_response = sample.send()
 
-        sample.send()
+        self._wait_for_response(pending_response)
+        return
     
     @override
     def _stand_down(self) -> None:
-        sample = self._noargs_pub.loan_uninit()
-
+        sample = self._noargs_client.loan_uninit()
         sample.user_header().contents.command = SportCommand.STAND_DOWN
+        sample.user_header().contents.track = True
         sample = sample.write_payload(
             NoArgsData_(null=0)
         )
+        pending_response = sample.send()
 
-        sample.send()
+        self._wait_for_response(pending_response)
+        return
    
     
     @override
     def _stop_move(self) -> None:
-        sample = self._noargs_pub.loan_uninit()
-
+        sample = self._noargs_client.loan_uninit()
         sample.user_header().contents.command = SportCommand.STOP
+        sample.user_header().contents.track = True
         sample = sample.write_payload(
             NoArgsData_(null=0)
         )
+        pending_response = sample.send()
 
-        sample.send()
+        self._wait_for_response(pending_response)
+        return
    
 
     @override
