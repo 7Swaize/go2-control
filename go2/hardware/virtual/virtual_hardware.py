@@ -50,7 +50,7 @@ class VirtualHardware(HardwareInterface):
         self._initialized = True
 
 
-    def _wait_for_response(self, pending_response) -> CommandStatus:
+    def _wait_for_response(self, pending_response: iox2.PendingResponse) -> CommandStatus:
         while True:
             self._node.wait(self._cycle_time)
             response = pending_response.receive()
