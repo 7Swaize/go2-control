@@ -26,7 +26,7 @@ This folder contains examples for working with this Python SDK.
 
 ## Documentation
 
-API documentation can be found [here](https://go2-control.readthedocs.io/en/latest/).
+[API Documentation](https://go2-control.readthedocs.io/en/latest/)
 
 [FAQ](docs/public/FAQ.md)
 
