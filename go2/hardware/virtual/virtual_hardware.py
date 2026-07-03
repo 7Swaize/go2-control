@@ -52,6 +52,9 @@ class VirtualHardware(HardwareInterface):
 
     def _wait_for_response(self, pending_response: iox2.PendingResponse) -> CommandStatus:
         while True:
+            if not pending_response.is_connected:
+                return CommandStatus.CANCELLED
+
             self._node.wait(self._cycle_time)
             response = pending_response.receive()
 
