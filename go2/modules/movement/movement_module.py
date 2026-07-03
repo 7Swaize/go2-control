@@ -113,7 +113,7 @@ class MovementModule(DogModule):
 
         Important
         ---------
-        This command is not supported on virtual hardware and will raise NotImplementedError in virtual mode.
+        This command is not supported when :attr:`~go2.hardware.hardware_type.HardwareType.VIRTUAL` is selected and will raise NotImplementedError.
         """
         self.hardware._damp()
 
@@ -123,7 +123,7 @@ class MovementModule(DogModule):
 
         Important
         ---------
-        This command is not supported on virtual hardware and will raise NotImplementedError in virtual mode.
+        This command is not supported when :attr:`~go2.hardware.hardware_type.HardwareType.VIRTUAL` is selected and will raise NotImplementedError.
         """
         self.hardware._balance_stand()
 
@@ -133,7 +133,7 @@ class MovementModule(DogModule):
 
         Important
         ---------
-        This command is not supported on virtual hardware and will raise NotImplementedError in virtual mode.
+        This command is not supported when :attr:`~go2.hardware.hardware_type.HardwareType.VIRTUAL` is selected and will raise NotImplementedError.
         """
         self.hardware._recovery_stand()
 
@@ -143,7 +143,7 @@ class MovementModule(DogModule):
 
         Important
         ---------
-        This command is not supported on virtual hardware and will raise NotImplementedError in virtual mode.
+        This command is not supported when :attr:`~go2.hardware.hardware_type.HardwareType.VIRTUAL` is selected and will raise NotImplementedError.
         """
         self.hardware._euler(roll, pitch, yaw)
 
@@ -153,7 +153,7 @@ class MovementModule(DogModule):
 
         Important
         ---------
-        This command is not supported on virtual hardware and will raise NotImplementedError in virtual mode.
+        This command is not supported when :attr:`~go2.hardware.hardware_type.HardwareType.VIRTUAL` is selected and will raise NotImplementedError.
         """
         self.hardware._sit()
 
@@ -163,7 +163,7 @@ class MovementModule(DogModule):
 
         Important
         ---------
-        This command is not supported on virtual hardware and will raise NotImplementedError in virtual mode.
+        This command is not supported when :attr:`~go2.hardware.hardware_type.HardwareType.VIRTUAL` is selected and will raise NotImplementedError.
         """
         self.hardware._rise_sit()
 
@@ -173,7 +173,7 @@ class MovementModule(DogModule):
 
         Important
         ---------
-        This command is not supported on virtual hardware and will raise NotImplementedError in virtual mode.
+        This command is not supported when :attr:`~go2.hardware.hardware_type.HardwareType.VIRTUAL` is selected and will raise NotImplementedError.
         """
         self.hardware._speed_level(level)
 
@@ -183,7 +183,7 @@ class MovementModule(DogModule):
 
         Important
         ---------
-        This command is not supported on virtual hardware and will raise NotImplementedError in virtual mode.
+        This command is not supported when :attr:`~go2.hardware.hardware_type.HardwareType.VIRTUAL` is selected and will raise NotImplementedError.
         """
         self.hardware._hello()
 
@@ -193,7 +193,7 @@ class MovementModule(DogModule):
 
         Important
         ---------
-        This command is not supported on virtual hardware and will raise NotImplementedError in virtual mode.
+        This command is not supported when :attr:`~go2.hardware.hardware_type.HardwareType.VIRTUAL` is selected and will raise NotImplementedError.
         """
         self.hardware._stretch()
 
@@ -203,7 +203,7 @@ class MovementModule(DogModule):
 
         Important
         ---------
-        This command is not supported on virtual hardware and will raise NotImplementedError in virtual mode.
+        This command is not supported when :attr:`~go2.hardware.hardware_type.HardwareType.VIRTUAL` is selected and will raise NotImplementedError.
         """
         self.hardware._content()
 
@@ -213,7 +213,7 @@ class MovementModule(DogModule):
 
         Important
         ---------
-        This command is not supported on virtual hardware and will raise NotImplementedError in virtual mode.
+        This command is not supported when :attr:`~go2.hardware.hardware_type.HardwareType.VIRTUAL` is selected and will raise NotImplementedError.
         """
         self.hardware._dance1()
 
@@ -223,7 +223,7 @@ class MovementModule(DogModule):
 
         Important
         ---------
-        This command is not supported on virtual hardware and will raise NotImplementedError in virtual mode.
+        This command is not supported when :attr:`~go2.hardware.hardware_type.HardwareType.VIRTUAL` is selected and will raise NotImplementedError.
         """
         self.hardware._dance2()
 
@@ -233,7 +233,7 @@ class MovementModule(DogModule):
 
         Important
         ---------
-        This command is not supported on virtual hardware and will raise NotImplementedError in virtual mode.
+        This command is not supported when :attr:`~go2.hardware.hardware_type.HardwareType.VIRTUAL` is selected and will raise NotImplementedError.
         """
         self.hardware._switch_joystick(on)
 
@@ -243,7 +243,7 @@ class MovementModule(DogModule):
 
         Important
         ---------
-        This command is not supported on virtual hardware and will raise NotImplementedError in virtual mode.
+        This command is not supported when :attr:`~go2.hardware.hardware_type.HardwareType.VIRTUAL` is selected and will raise NotImplementedError.
         """
         self.hardware._pose(flag)
 
@@ -253,7 +253,7 @@ class MovementModule(DogModule):
 
         Important
         ---------
-        This command is not supported on virtual hardware and will raise NotImplementedError in virtual mode.
+        This command is not supported when :attr:`~go2.hardware.hardware_type.HardwareType.VIRTUAL` is selected and will raise NotImplementedError.
         """
         self.hardware._scrape()
 
@@ -263,7 +263,7 @@ class MovementModule(DogModule):
 
         Important
         ---------
-        This command is not supported on virtual hardware and will raise NotImplementedError in virtual mode.
+        This command is not supported when :attr:`~go2.hardware.hardware_type.HardwareType.VIRTUAL` is selected and will raise NotImplementedError.
         """
         self.hardware._front_flip()
 
@@ -273,7 +273,7 @@ class MovementModule(DogModule):
 
         Important
         ---------
-        This command is not supported on virtual hardware and will raise NotImplementedError in virtual mode.
+        This command is not supported when :attr:`~go2.hardware.hardware_type.HardwareType.VIRTUAL` is selected and will raise NotImplementedError.
         """
         self.hardware._front_jump()
 
@@ -283,7 +283,7 @@ class MovementModule(DogModule):
 
         Important
         ---------
-        This command is not supported on virtual hardware and will raise NotImplementedError in virtual mode.
+        This command is not supported when :attr:`~go2.hardware.hardware_type.HardwareType.VIRTUAL` is selected and will raise NotImplementedError.
         """
         self.hardware._front_pounce()
 
@@ -293,7 +293,7 @@ class MovementModule(DogModule):
 
         Important
         ---------
-        This command is not supported on virtual hardware and will raise NotImplementedError in virtual mode.
+        This command is not supported when :attr:`~go2.hardware.hardware_type.HardwareType.VIRTUAL` is selected and will raise NotImplementedError.
         """
         self.hardware._heart()
 
@@ -303,7 +303,7 @@ class MovementModule(DogModule):
 
         Important
         ---------
-        This command is not supported on virtual hardware and will raise NotImplementedError in virtual mode.
+        This command is not supported when :attr:`~go2.hardware.hardware_type.HardwareType.VIRTUAL` is selected and will raise NotImplementedError.
         """
         self.hardware._left_flip()
 
@@ -313,7 +313,7 @@ class MovementModule(DogModule):
 
         Important
         ---------
-        This command is not supported on virtual hardware and will raise NotImplementedError in virtual mode.
+        This command is not supported when :attr:`~go2.hardware.hardware_type.HardwareType.VIRTUAL` is selected and will raise NotImplementedError.
         """
         self.hardware._back_flip()
 
@@ -323,7 +323,7 @@ class MovementModule(DogModule):
 
         Important
         ---------
-        This command is not supported on virtual hardware and will raise NotImplementedError in virtual mode.
+        This command is not supported when :attr:`~go2.hardware.hardware_type.HardwareType.VIRTUAL` is selected and will raise NotImplementedError.
         """
         self.hardware._free_walk()
 
@@ -333,7 +333,7 @@ class MovementModule(DogModule):
 
         Important
         ---------
-        This command is not supported on virtual hardware and will raise NotImplementedError in virtual mode.
+        This command is not supported when :attr:`~go2.hardware.hardware_type.HardwareType.VIRTUAL` is selected and will raise NotImplementedError.
         """
         self.hardware._free_bound(flag)
 
@@ -343,7 +343,7 @@ class MovementModule(DogModule):
 
         Important
         ---------
-        This command is not supported on virtual hardware and will raise NotImplementedError in virtual mode.
+        This command is not supported when :attr:`~go2.hardware.hardware_type.HardwareType.VIRTUAL` is selected and will raise NotImplementedError.
         """
         self.hardware._free_jump(flag)
 
@@ -353,7 +353,7 @@ class MovementModule(DogModule):
 
         Important
         ---------
-        This command is not supported on virtual hardware and will raise NotImplementedError in virtual mode.
+        This command is not supported when :attr:`~go2.hardware.hardware_type.HardwareType.VIRTUAL` is selected and will raise NotImplementedError.
         """
         self.hardware._free_avoid(flag)
 
@@ -363,7 +363,7 @@ class MovementModule(DogModule):
 
         Important
         ---------
-        This command is not supported on virtual hardware and will raise NotImplementedError in virtual mode.
+        This command is not supported when :attr:`~go2.hardware.hardware_type.HardwareType.VIRTUAL` is selected and will raise NotImplementedError.
         """
         self.hardware._walk_upright(flag)
 
@@ -373,7 +373,7 @@ class MovementModule(DogModule):
 
         Important
         ---------
-        This command is not supported on virtual hardware and will raise NotImplementedError in virtual mode.
+        This command is not supported when :attr:`~go2.hardware.hardware_type.HardwareType.VIRTUAL` is selected and will raise NotImplementedError.
         """
         self.hardware._cross_step(flag)
 
@@ -383,7 +383,7 @@ class MovementModule(DogModule):
 
         Important
         ---------
-        This command is not supported on virtual hardware and will raise NotImplementedError in virtual mode.
+        This command is not supported when :attr:`~go2.hardware.hardware_type.HardwareType.VIRTUAL` is selected and will raise NotImplementedError.
         """
         self.hardware._static_walk()
 
@@ -393,7 +393,7 @@ class MovementModule(DogModule):
 
         Important
         ---------
-        This command is not supported on virtual hardware and will raise NotImplementedError in virtual mode.
+        This command is not supported when :attr:`~go2.hardware.hardware_type.HardwareType.VIRTUAL` is selected and will raise NotImplementedError.
         """
         self.hardware._trot_run()
 
@@ -403,7 +403,7 @@ class MovementModule(DogModule):
 
         Important
         ---------
-        This command is not supported on virtual hardware and will raise NotImplementedError in virtual mode.
+        This command is not supported when :attr:`~go2.hardware.hardware_type.HardwareType.VIRTUAL` is selected and will raise NotImplementedError.
         """
         self.hardware._hand_stand(flag)
 
@@ -413,7 +413,7 @@ class MovementModule(DogModule):
 
         Important
         ---------
-        This command is not supported on virtual hardware and will raise NotImplementedError in virtual mode.
+        This command is not supported when :attr:`~go2.hardware.hardware_type.HardwareType.VIRTUAL` is selected and will raise NotImplementedError.
         """
         self.hardware._classic_walk(flag)
 
@@ -423,7 +423,7 @@ class MovementModule(DogModule):
 
         Important
         ---------
-        This command is not supported on virtual hardware and will raise NotImplementedError in virtual mode.
+        This command is not supported when :attr:`~go2.hardware.hardware_type.HardwareType.VIRTUAL` is selected and will raise NotImplementedError.
         """
         self.hardware._auto_recovery_set(enabled)
 
@@ -433,7 +433,7 @@ class MovementModule(DogModule):
 
         Important
         ---------
-        This command is not supported on virtual hardware and will raise NotImplementedError in virtual mode.
+        This command is not supported when :attr:`~go2.hardware.hardware_type.HardwareType.VIRTUAL` is selected and will raise NotImplementedError.
         """
         return self.hardware._auto_recovery_get()
 
@@ -443,7 +443,7 @@ class MovementModule(DogModule):
 
         Important
         ---------
-        This command is not supported on virtual hardware and will raise NotImplementedError in virtual mode.
+        This command is not supported when :attr:`~go2.hardware.hardware_type.HardwareType.VIRTUAL` is selected and will raise NotImplementedError.
         """
         self.hardware._switch_avoid_mode()
 
