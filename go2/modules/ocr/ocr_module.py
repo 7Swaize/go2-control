@@ -1,8 +1,10 @@
 import cv2
 import numpy as np
 import pytesseract
+from collections import Counter
 from typing_extensions import override
 
+from .ocr_config import OCRConfig
 from ...core.module import DogModule
 
 
@@ -23,40 +25,101 @@ class OCRModule(DogModule):
 
         self._initialized = True
 
-    # followed this exactly: https://medium.com/@EnginDenizTangut/from-image-to-voice-building-an-ocr-tts-app-with-python-opencv-tesseract-5f5db8ea3b7b
-    def extract_text_from_image(self, image: np.ndarray) -> tuple[str, np.ndarray]:
-        """Extract text from an image"""
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        image = cv2.medianBlur(image, 3) # kernal to remove noise
+    # See ref: https://medium.com/@EnginDenizTangut/from-image-to-voice-building-an-ocr-tts-app-with-python-opencv-tesseract-5f5db8ea3b7b
+    def extract_text_from_image(self, image: np.ndarray, config: OCRConfig = OCRConfig()) -> tuple[list[str], np.ndarray]:
+        """
+        Run OCR on a single image and return the detected text along with an annotated copy.
+
+        Parameters
+        ----------
+        image : np.ndarray
+            Input BGR image to extract text from.
+        config : OCRConfig, optional
+            OCR configuration controlling preprocessing, confidence threshold, and Tesseract CLI options.
+
+        Returns
+        -------
+        tuple[list[str], np.ndarray]
+            The list of confidently detected words and the annotated image with bounding boxes drawn around them.
+        """
+        words, annotated = self._filter_and_highlight(self._preprocess(image), config)
+        return words, annotated
+    
+
+    def extract_text_from_images_temporal_voting(self, images: np.ndarray[np.ndarray], config: OCRConfig = OCRConfig()) -> tuple[list[str], np.ndarray[np.ndarray]]:
+        """
+        Run OCR across multiple images of the same scene and keep only words detected
+        in at least ``config.temporal_voting_threshold`` of them, reducing false positives
+        from single-frame noise.
+
+        Parameters
+        ----------
+        images : np.ndarray[np.ndarray]
+            Array of input BGR images to extract text from.
+        config : OCRConfig, optional
+            OCR configuration controlling preprocessing, confidence threshold, temporal voting threshold, and Tesseract CLI options.
+
+        Returns
+        -------
+        tuple[list[str], np.ndarray[np.ndarray]]
+            The list of words that met the temporal voting threshold and the array of annotated images corresponding to each input image.
+
+        Raises
+        ------
+        ValueError
+            If the number of provided images is less than ``config.temporal_voting_threshold``.
+        """
+        if len(images) < config.temporal_voting_threshold:
+            raise ValueError(
+                f"The number of provided images ({len(images)}) is less than the required "
+                f"temporal voting threshold ({config.temporal_voting_threshold})."
+            )
+        
+        annotated_images = np.empty(len(images), dtype=object)
+        detected_words = []
+
+        for idx, image in enumerate(images):
+            words, annotated = self._filter_and_highlight(self._preprocess(image), config)
+            detected_words.extend(words)
+            annotated_images[idx] = annotated
+
+        word_counts = Counter(detected_words)
+        final_words = [word for word, count in word_counts.items() if count >= config.temporal_voting_threshold]
+        return final_words, annotated_images
+    
+
+    def _preprocess(self, image: np.ndarray) -> np.ndarray:
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        gray = cv2.resize(gray, None, fx=1.5, fy=1.5, interpolation=cv2.INTER_CUBIC)
+        gray = cv2.bilateralFilter(gray, 9, 75, 75)
 
         thresh = cv2.adaptiveThreshold(
-            image, 255,
+            gray, 255,
             cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
             cv2.THRESH_BINARY, 31, 10
         )
 
-        kernel = np.ones((2,2), np.uint8)
-        image = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel)
+        kernel = np.ones((2, 2), np.uint8)
+        clean = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel)
+        clean = cv2.morphologyEx(clean, cv2.MORPH_CLOSE, kernel)
+        return clean
 
-        image = cv2.GaussianBlur(image, (5, 5), 0)
-        _, image = cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
 
-        custom_config = r'--oem 3 --psm 6'
-        text = pytesseract.image_to_string(image, lang='eng', config=custom_config)
-        image = self._highlight_detected_result(image)
+    def _filter_and_highlight(self, image: np.ndarray, config: OCRConfig) -> tuple[list[str], np.ndarray]:
+        ocr_data = pytesseract.image_to_data(image, output_type=pytesseract.Output.DICT, config=config.cli_command)
+        output = cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
 
-        return (text, image)
-    
-
-    def _highlight_detected_result(self, image: np.ndarray) -> np.ndarray:
-        ocr_data = pytesseract.image_to_data(image, output_type=pytesseract.Output.DICT)
-
-        for i in range(len(ocr_data['text'])):
-            if int(ocr_data['conf'][i]) > 60:
+        confident_words = []
+        for i in range (len(ocr_data["text"])):
+            word = ocr_data['text'][i].strip()
+            conf = int(ocr_data['conf'][i])
+            
+            if conf > config.min_conf:
+                confident_words.append(word)
                 x, y, w, h = (ocr_data["left"][i], ocr_data['top'][i], ocr_data['width'][i], ocr_data['height'][i])
-                cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
+                cv2.rectangle(output, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
-        return image 
+        return confident_words, output
 
 
     @override
