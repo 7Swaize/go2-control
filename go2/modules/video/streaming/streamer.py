@@ -81,7 +81,7 @@ class WebRTCStreamer:
 
         @pc.on("connectionstatechange")
         async def _on_state():
-            logger.info(f"[WebRTC] {pc.connectionState}")
+            logger.debug(f"[WebRTC] {pc.connectionState}")
             if pc.connectionState in ("failed", "closed", "disconnected"):
                 await pc.close()
                 self._pcs.discard(pc)
