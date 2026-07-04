@@ -18,10 +18,10 @@ This folder contains examples for working with this Python SDK.
 
 ### What's Here
 
-- [Movement Examples](examples/modules/movement/) — Examples for working with the controller's movement capabilities
-- [Video Examples](examples/modules/video/) — Examples for working with the controller's video capabilities
-- [Terrain Generator Examples](examples/terrain_generator/) - Examples for working with the simulator's terrain generation capabilties
-
+- [Movement Examples](examples/modules/movement/movement.md) — Examples for working with the controller's movement capabilities
+- [Video Examples](examples/modules/video/video.md) — Examples for working with the controller's video capabilities
+- [OCR Examples](examples/modules/ocr/ocr.md) — Examples for working with the controller's OCR capabilties
+- [Terrain Generator Examples](examples/terrain_generator/terrain_generator.md) - Examples for working with the simulator's terrain generation capabilties
 
 
 ## Documentation
