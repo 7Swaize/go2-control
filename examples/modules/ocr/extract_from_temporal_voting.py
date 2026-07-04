@@ -50,6 +50,7 @@ def main(controller: Go2Controller, ) -> None:
             # in a sequence of frames, for it to be considered valid.
             config = OCRConfig(temporal_voting_threshold=FRAMES_PER_ANALYSIS)
             
+            # Use the temporal voting function instead, passing in our custom configuration
             seqs, frames = controller.ocr.extract_text_from_images_temporal_voting(batch, config=config)
 
             if seqs:
