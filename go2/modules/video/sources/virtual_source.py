@@ -56,6 +56,7 @@ class VirtualCameraSource(CameraSource):
             msg = sample.payload().contents
             h, w = msg.height, msg.width
 
+            # I am more aggressive with the copy here to immediately allow a DEC_REF and the data to be freed in shared memory.
             rgb = cv2.cvtColor(np.array(msg.rgb_data, copy=True, dtype=np.uint8 ).reshape((h, w, 3))[::-1], cv2.COLOR_RGB2BGR)
             depth = np.array(msg.depth_data, copy=True, dtype=np.uint16).reshape((h, w))[::-1]
 
@@ -63,8 +64,7 @@ class VirtualCameraSource(CameraSource):
 
     @override
     def _get_frames(self) -> FrameResult:
-        pair = self._latest_frames
-        if pair is None:
+        if (pair := self._latest_frames) is None:
             return FrameResult.pending()
 
         self._latest_frames = None
@@ -76,3 +76,5 @@ class VirtualCameraSource(CameraSource):
         if self._thread:
             self._thread.join()
             self._thread = None
+
+        self._latest_frames = None

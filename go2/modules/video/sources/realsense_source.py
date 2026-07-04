@@ -18,12 +18,10 @@ class RealSenseDepthCameraSource(CameraSource):
         self._height: int = 480
         self._fps: int = 30
 
+        self._latest_frames: Optional[tuple[np.ndarray, np.ndarray]] = None
         self._thread = None
-        self._lock = threading.Lock() # need lock because there are 2 frame buffers
         self._stop_event = threading.Event()
 
-        self._latest_rgb: Optional[np.ndarray] = None
-        self._latest_depth: Optional[np.ndarray] = None
         self._initialize_pipeline()
 
     def _initialize_pipeline(self) -> None:
@@ -52,29 +50,29 @@ class RealSenseDepthCameraSource(CameraSource):
             if not color_frame or not depth_frame:
                 continue
 
-            with self._lock:
-                self._latest_rgb = np.asanyarray(color_frame.get_data(), copy=True)
-                self._latest_depth = np.asanyarray(depth_frame.get_data(), copy=True)
+            # Here, we can be more 'lazy' when copying data, and only copy when we KNOW the frame will outlive (1000ms/fps).
+            # See ref: https://dev.realsenseai.com/docs/frame-management/
+            rgb = np.asanyarray(color_frame.get_data())
+            depth = np.asanyarray(depth_frame.get_data())
+            self._latest_frames = (rgb, depth)
 
         self._pipeline.stop()
 
 
     @override
     def _get_frames(self) -> FrameResult:
-        with self._lock:
-            if (ret_rgb := self._latest_rgb) is None or (ret_depth := self._latest_depth) is None:
-                return FrameResult.pending()
+        if (pair := self._latest_frames) is None:
+            return FrameResult.pending()
 
-            self._latest_rgb = None
-            self._latest_depth = None
-
-        return FrameResult.color_and_depth(color=ret_rgb, depth=ret_depth)
+        self._latest_frames = None
+        return FrameResult.color_and_depth(color=pair[0].copy(), depth=pair[1].copy())
         
 
     @override
     def _shutdown(self) -> None:
         self._stop_event.set()
-
         if self._thread:
             self._thread.join()
             self._thread = None
+
+        self._latest_frames = None

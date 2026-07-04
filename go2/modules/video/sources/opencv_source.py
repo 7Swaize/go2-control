@@ -15,7 +15,6 @@ class OpenCVCameraSource(CameraSource):
         self._camera_index = camera_index
 
         self._thread = None
-        self._lock = threading.Lock()
         self._stop_event = threading.Event()
         self._latest_rgb: Optional[np.ndarray] = None
         self._initialize_source()
@@ -36,17 +35,15 @@ class OpenCVCameraSource(CameraSource):
             if not ret:
                 continue
             
-            with self._lock:
-                self._latest_rgb = frame
+            self._latest_rgb = frame
             
         self._capture.release()
 
     @override
     def _get_frames(self) -> FrameResult:
-        with self._lock:
-            if (ret := self._latest_rgb) is None:
-                return FrameResult.pending()
-            self._latest_rgb = None
+        if (ret := self._latest_rgb) is None:
+            return FrameResult.pending()
+        self._latest_rgb = None
             
         return FrameResult.color_only(ret)
 
@@ -56,3 +53,5 @@ class OpenCVCameraSource(CameraSource):
         if self._thread:
             self._thread.join()
             self._thread = None
+
+        self._latest_rgb = None

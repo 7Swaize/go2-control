@@ -18,7 +18,6 @@ class NativeCameraSource(CameraSource):
         self._video_client.Init()
 
         self._thread = None
-        self._lock = threading.Lock()
         self._stop_event = threading.Event()
         self._latest_rgb: Optional[np.ndarray] = None
 
@@ -36,16 +35,14 @@ class NativeCameraSource(CameraSource):
             image_data = np.frombuffer(bytes(data), dtype=np.uint8)
             image = cv2.imdecode(image_data, cv2.IMREAD_COLOR)
 
-            with self._lock:
-                self._latest_rgb = image
+            self._latest_rgb = image
 
 
     @override
     def _get_frames(self) -> FrameResult:
-        with self._lock:
-            if (ret := self._latest_rgb) is None:
-                return FrameResult.pending()
-            self._latest_rgb = None
+        if (ret := self._latest_rgb) is None:
+            return FrameResult.pending()
+        self._latest_rgb = None
         
         return FrameResult.color_only(ret)
     
@@ -55,3 +52,5 @@ class NativeCameraSource(CameraSource):
         if self._thread:
             self._thread.join()
             self._thread = None
+        
+        self._latest_rgb = None
