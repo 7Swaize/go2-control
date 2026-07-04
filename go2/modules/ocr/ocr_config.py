@@ -14,4 +14,4 @@ class OCRConfig:
     min_conf: int = 70
 
     #: Minimum number of occurrences (votes) required across a sequence of frames for a word to be retained.
-    temporal_voting_threshold = 3
+    temporal_voting_threshold: int = 3
