@@ -1,8 +1,6 @@
 # Go2 Control
 
-A Python SDK for controlling the Unitree Go2 robot and accessing its functionality via attachable modules.
-
-Supports setup of the Mujoco simulator.
+A Python SDK for controlling the Unitree Go2 robot and Mujoco Simulator via attachable modules.
 
 For Ben Schepens.
 
