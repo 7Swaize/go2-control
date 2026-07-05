@@ -128,7 +128,8 @@ class Go2Controller:
     def add_module(self, module_type: ModuleType, **kwargs) -> None:
         """
         Add a module to the controller. Modules are initialized immediately upon addition.
-        Manual module initialization is discouraged and should not be attempted. 
+        Manual module initialization is discouraged and should not be attempted.
+        Duplicate module addition is prevented explicitly.
 
         Modules are identified using :class:`ModuleType` enums.
 
@@ -146,6 +147,10 @@ class Go2Controller:
         ValueError
             If the module type depends on native hardware support, but the controller is not set up to provide it.
         """
+        if module_type in self._modules:
+            logger.info(f"[Controller] Module type '{module_type.name}' is already loaded. Returning existing instance.")
+            return
+
         descriptor = ModuleRegistry.get_descriptor(module_type)
         if descriptor is None:
             raise ValueError(f"[Controller] Module type '{module_type.name}' is not registered")
