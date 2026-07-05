@@ -266,4 +266,4 @@ class VirtualHardware(HardwareInterface):
 
     @override
     def _shutdown(self) -> None:
-        self._initialized = False
+        pass
