@@ -1,10 +1,10 @@
-# Setup of go2-control system environment
+# Setup of Go2-Control System Environment
 
-<img width="800" height="450" alt="layers" src="https://github.com/user-attachments/assets/ca55d189-61ad-4161-a492-cc874f74ff88" />
+<img width="2000" height="700" alt="layers" src="https://github.com/user-attachments/assets/2b8c9bad-b888-4dce-b969-148f9e6cd648" />
 
 Note: The order of installation is important. It is not in the order of the layers themselves.
 
-# Create project folder
+# Create Project Folder
 Create a workspace directory where we will install all applicable dependencies. Below, we used `~/go2-workspace`.
 
 ```bash
@@ -13,7 +13,7 @@ mkdir -p $GO2_WS
 cd $GO2_WS
 ```
 
-# Install platform manual dependencies
+# Install Platform Manual Dependencies
 
 ## Anaconda Workspace Setup
 
