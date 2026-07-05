@@ -63,12 +63,36 @@ class VideoThreadWorker(threading.Thread):
         # A pointer swap is atomic via the GIL, so no thread can ever observe a torn struct
         # Additionally, this returns a strong reference, which calls Py_INCREF, incrementing its ref count.
         # When this worker thread reassigns 'self._latest_frame', it only rebinds the pointer.
-        # The underlying data (prior or reassign) is still prevented from being GC collected, due to the returned strong reference.
+        # The underlying data (prior to reassign) is still prevented from being GC collected, due to the returned strong reference.
         #
-        # If you are untrustworthy, use a lock.
+        # If you are untrustworthy of me, use a lock.
         return self._latest_frame
 
 
+
+"""
+Go2 robot program that autonomously scans the simulation for a sequence
+of ArUco markers (IDs 0 through NUM_MARKERS_TO_SCAN - 1) and physically aligns
+itself with each one in turn.
+
+Behavior:
+- Spins up a Go2Controller in VIRTUAL hardware mode with the video
+  (virtual camera) module attached.
+- Runs a background thread (VideoThreadWorker) that continuously pulls color
+  frames from the camera, detects ArUco markers in each frame, draws bounding
+  boxes and ID labels on a live preview window, and caches the latest raw
+  frame for the main thread to consume.
+- For each target marker ID, the main thread:
+    1. Rotates in place (SEARCH_ROTATE_STEP per iteration) until the target
+       marker is detected in the latest frame.
+    2. Once found, repeatedly nudges rotation (CORRECT_ALIGNMENT_STEP_AMOUNT)
+       toward the marker based on its horizontal pixel offset from center,
+       until that offset falls within H_OFFSET_THRESHOLD pixels.
+    3. Stops movement, sits down, stands back up, and moves on to the next
+       marker ID.
+- On completion (or shutdown), stops the video thread, closes the OpenCV
+  preview window, and calls safe_shutdown() on the controller.
+"""
 class MarkerScanProgram:
     CORRECT_ALIGNMENT_STEP_AMOUNT: float = 1.0
     H_OFFSET_THRESHOLD: float = 50.0
@@ -78,7 +102,6 @@ class MarkerScanProgram:
     def __init__(self) -> None:
         self._controller = Go2Controller(hardware_type=HardwareType.VIRTUAL)
         self._controller.register_cleanup_callback_pre_module_shutdown(self._shutdown_callback)
-        self._controller.add_module(ModuleType.AUDIO)
         self._controller.add_module(ModuleType.VIDEO, camera_source=CameraSourceFactory.create_virtual_camera())
 
         self._shutdown_event = threading.Event()
