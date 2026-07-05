@@ -314,7 +314,7 @@ class RespondToMarkerState(DogStateAbstract):
 class Main:
     def __init__(self):
         self.unitree_controller = Go2Controller(use_sdk=False)
-        self.unitree_controller.register_cleanup_callback(self.shutdown_callback)
+        self.unitree_controller.register_cleanup_callback_post_module_shutdown(self.shutdown_callback)
 
         self.unitree_controller.add_module(ModuleType.AUDIO)
         self.unitree_controller.add_module(ModuleType.VIDEO, camera_source=CameraSourceFactory.create_sdk_camera())

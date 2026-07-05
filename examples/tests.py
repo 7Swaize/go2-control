@@ -12,7 +12,7 @@ from go2.modules.video import CameraSourceFactory
 class Tests:
     def __init__(self):
         self.controller = Go2Controller(hardware_type=HardwareType.VIRTUAL)
-        self.controller.register_cleanup_callback(self.shutdown_callback)
+        self.controller.register_cleanup_callback_pre_module_shutdown(self.shutdown_callback)
 
         #self.controller.add_module(ModuleType.LIDAR)
         self.controller.add_module(ModuleType.AUDIO)

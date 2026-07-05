@@ -74,7 +74,8 @@ class Go2Controller:
         
         self._shutdown_event = threading.Event()
         self._shutdown_lock = threading.Lock()
-        self._cleanup_callbacks: List[Callable[[], None]] = []
+        self._cleanup_callbacks_pre_module_shutdown: List[Callable[[], None]] = []
+        self._cleanup_callbacks_post_module_shutdown: List[Callable[[], None]] = []
 
         self._install_signal_handlers()
 
@@ -297,18 +298,28 @@ class Go2Controller:
         return module
     
 
-    def register_cleanup_callback(self, callback: Callable[[], None]):
+    def register_cleanup_callback_pre_module_shutdown(self, callback: Callable[[], None]):
         """
-        Register a cleanup callback.
-
-        Callbacks are executed during safe shutdown after modules are stopped but before hardware is released.
+        Register a cleanup callback to be executed during safe shutdown before modules are stopped and before hardware is released.
 
         Parameters
         ----------
         callback : callable
             Zero-argument function to execute during shutdown.
         """
-        self._cleanup_callbacks.append(callback)
+        self._cleanup_callbacks_pre_module_shutdown.append(callback)
+
+
+    def register_cleanup_callback_post_module_shutdown(self, callback: Callable[[], None]):
+        """
+        Register a cleanup callback to be executed during safe shutdown after modules are stopped, but before hardware is released.
+
+        Parameters
+        ----------
+        callback : callable
+            Zero-argument function to execute during shutdown.
+        """
+        self._cleanup_callbacks_post_module_shutdown.append(callback)     
 
 
     def safe_shutdown(self):
@@ -341,13 +352,19 @@ class Go2Controller:
                 return
             self._shutdown_event.set()
 
+            for callback in self._cleanup_callbacks_pre_module_shutdown:
+                try:
+                    callback()
+                except Exception:
+                    logger.exception("[Controller] Cleanup callback failed")
+
             for module_type, module in self._modules.items():
                 try:
                     module._shutdown()
                 except Exception:
                     logger.exception(f"[Controller] Failed to shutdown {module_type.name}")
-            
-            for callback in self._cleanup_callbacks:
+
+            for callback in self._cleanup_callbacks_post_module_shutdown:
                 try:
                     callback()
                 except Exception:
