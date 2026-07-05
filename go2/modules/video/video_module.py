@@ -101,7 +101,7 @@ class VideoModule(DogModule):
         ----------
         frame : numpy.ndarray
             An image frame to stream (typically obtained from
-            :meth:`get_frame`).
+            :meth:`get_frames`).
 
         Raises
         ------
