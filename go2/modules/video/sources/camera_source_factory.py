@@ -69,7 +69,7 @@ class CameraSourceFactory:
 
         The returned ``FrameResult`` includes:
             - ``color``: BGR image as a NumPy ``uint8`` array
-            - ``depth``: aligned depth image as a NumPy ``uint16`` array (D345i depth values in millimeters)
+            - ``depth``: Z16 aligned depth image as a NumPy ``uint16`` array (D345i depth values in millimeters)
 
         Notes
         -----
@@ -88,7 +88,7 @@ class CameraSourceFactory:
 
         The returned ``FrameResult`` includes:
             - ``color``: BGR image as a NumPy ``uint8`` array
-            - ``depth``: depth image as a NumPy ``uint16`` array
+            - ``depth``: Depth image as a NumPy ``uint16`` array
 
         Notes
         -----
