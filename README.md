@@ -13,8 +13,6 @@ For installation instructions, see [here](docs/public/install/installation.md).
 
 ## Examples
 
-This folder contains examples for working with this Python SDK.
-
 - [Movement Examples](examples/modules/movement/movement.md) — Examples for working with the controller's movement capabilities
 - [Video Examples](examples/modules/video/video.md) — Examples for working with the controller's video capabilities
 - [OCR Examples](examples/modules/ocr/ocr.md) — Examples for working with the controller's OCR capabilties
