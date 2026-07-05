@@ -15,9 +15,11 @@
 │           └── dependencies
 ├── examples
 │   ├── aruko_markers
-│   └── modules
-│       ├── movement
-│       └── video
+│   ├── modules
+│   │   ├── movement
+│   │   ├── ocr
+│   │   └── video
+│   └── terrain_generator
 ├── go2
 │   ├── communication
 │   ├── core
@@ -67,7 +69,12 @@
 
 `docs/public/` - Formatted documentation for students regarding the SDK itself.
 
-`examples/` - SDK usage examples.
+`examples/` - SDK usage examples. \
+`examples/aruko_markers/` - Examples for detecting and reacting to Aruko markers. \
+`examples/modules/movement/` - Examples for working with the controller's movement capabilities. \
+`examples/modules/ocr/` - Examples for working with the controller's OCR capabilities. \
+`examples/modules/video/` - Examples for working with the controller's video capabilities. \
+`examples/terrain_generator/` - Examples for working with the simulator's terrain generation capabilities.
 
 `go2/` - Python package containing all SDK functionalities. \
 `go2/communication/` - CycloneDDS configurations. \
