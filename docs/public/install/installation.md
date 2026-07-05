@@ -69,7 +69,7 @@ git clone https://github.com/7Swaize/go2-control.git
 
 Install all the following dependencies with instructions listed below first. It is recommended to install dependencies in the following order.
 
-1. [Layer 3 - Pytesseract Engine](dependencies/pytesseract-engine.md)
+1. [Layer 3 - Tesseract Engine](dependencies/tesseract-engine.md)
 2. [Layer 3 - Unitree SDK](dependencies/unitree-sdk.md)
 3. [Layer 3 - Librealsense SDK](dependencies/librealsense-sdk.md)
 4. [Layer 3 - Iceoryx2](dependencies/iceoryx2.md)
