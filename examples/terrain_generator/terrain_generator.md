@@ -12,3 +12,4 @@ Therefore, the Terrain Generator module attempts to abstract that away. Users ca
 - [add_aruco_markers.py](add_aruco_markers.py) — Add Aruco markers to the scene.
     These can be picked up by the simulator camera and parsed by the user. 
 - [add_geometry.py](add_geometry.py) — Add primitive objects to the scene.
+- [add_textured_geometry.py](add_textured_geometry.py) — Add custom geometry to the scene using the Resource Manager.
