@@ -54,6 +54,9 @@ class LIDARModule(DogModule):
         self._launch_bridge()
         self._initialized = True
 
+    # Rationale:
+    # I dont want these handling deps to leak into the hardware abstraction.
+    # Since they are shared across both abstractions, we can just keep it here.
     def _launch_bridge(self) -> None:
         self._dispatcher = CallbackDispatcher()
         self._iox_receiver = IoxReceiver(self._dispatcher)
