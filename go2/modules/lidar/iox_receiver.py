@@ -1,6 +1,7 @@
 import ctypes
 import threading
 import iceoryx2 as iox2
+import numpy as np
 
 from typing_extensions import override
 from iceoryx_interfaces.qos import LidarQoS
@@ -12,8 +13,8 @@ from .callback_dispatcher import CallbackDispatcher
 class IoxReceiver(threading.Thread):
     def __init__(self, dispatcher: CallbackDispatcher) -> None:
         super().__init__(daemon=True)
-        self._dispatcher = dispatcher
-        self._stop_event = threading.Event()
+        self._dispatcher: CallbackDispatcher = dispatcher
+        self._stop_event: threading.Event = threading.Event()
         self._init_iox2()
 
     def _init_iox2(self) -> None:

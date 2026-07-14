@@ -1,13 +1,12 @@
-import os
-import sys
-import signal
-import shutil
-import subprocess
 import numpy as np
 from typing import Callable
 from typing_extensions import override
 
 from ...core.module import DogModule
+from ...hardware.hardware_type import HardwareType
+from ...hardware.hardware_interface_lidar import HardwareInterfaceLIDAR
+from ...hardware.native.native_hardware_lidar import NativeHardwareLIDAR
+from ...hardware.virtual.virtual_hardware_lidar import VirtualHardwareLIDAR
 from .callback_dispatcher import CallbackDispatcher
 from .iox_receiver import IoxReceiver
 
@@ -23,17 +22,17 @@ class LIDARModule(DogModule):
     Users should not access or construct this class directly.
     Rather, they should access it through the :class:`~core.controller.Go2Controller` instance.
 
-    Notes
-    -----
-    - This module launches ROS2 nodes.
-      It is **critical** that students **ALWAYS** call :meth:`Go2Controller.safe_shutdown` after normal (error free) script exit.
+    Important
+    ---------
+    - When executing on `HardwareType.Native' this module launches ROS2 nodes.
+      In such a case, it is **critical** that students **ALWAYS** call :meth:`Go2Controller.safe_shutdown` after normal (error free) script exit.
     """
 
     def __init__(self) -> None:
         super().__init__("LIDAR")
-        self._ros_proc = None
-        self._dispatcher = None
-        self._iox_receiver = None
+        self._hardware: HardwareInterfaceLIDAR = None
+        self._dispatcher: CallbackDispatcher = None
+        self._iox_receiver: IoxReceiver = None
 
     @override
     def _initialize(self) -> None:
@@ -46,30 +45,19 @@ class LIDARModule(DogModule):
         if self._initialized:
             return
 
-        self._launch_ros()
-        self._launch_bridge()
-
-        self._initialized = True
-
-    def _launch_ros(self) -> None:
-        kwargs = dict()
-        if sys.platform == "win32":
-            kwargs["creationflags"] = subprocess.CREATE_NEW_PROCESS_GROUP
+        if self._hardware_type == HardwareType.NATIVE:
+            self._hardware = NativeHardwareLIDAR()
         else:
-            # To detach child process: https://stackoverflow.com/questions/45911705/why-use-os-setsid-in-python
-            kwargs["start_new_session"] = True 
+            self._hardware = VirtualHardwareLIDAR()
 
-        self._ros_proc = subprocess.Popen(
-            ["ros2", "launch", "bringup", "lidar_processor.launch.py"],
-            **kwargs
-        )
+        self._hardware._initialize()
+        self._launch_bridge()
+        self._initialized = True
 
     def _launch_bridge(self) -> None:
         self._dispatcher = CallbackDispatcher()
         self._iox_receiver = IoxReceiver(self._dispatcher)
-
         self._iox_receiver.start()
-
 
     def register_decoded_pointcloud_callback(self, callback: Callable[[int, np.ndarray], None]) -> None:
         """
@@ -129,18 +117,9 @@ class LIDARModule(DogModule):
 
     @override
     def _shutdown(self) -> None:
-        if self._ros_proc and self._ros_proc.poll() is None:
-            try:
-                if sys.platform == "win32":
-                    self._ros_proc.send_signal(signal.CTRL_BREAK_EVENT)
-                else:
-                    os.killpg(os.getpgid(self._ros_proc.pid), signal.SIGINT)
-                self._ros_proc.wait(timeout=5)
-            except subprocess.TimeoutExpired:
-                self._ros_proc.terminate()
-                self._ros_proc.wait(timeout=5)
-        if shutil.which("ros2") is None:
-            return
+        if self._hardware:
+            self._hardware._shutdown()
+
         if self._iox_receiver:
             self._iox_receiver._shutdown()
             self._iox_receiver.join(timeout=2)
