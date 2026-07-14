@@ -4,4 +4,10 @@ from ..hardware_interface_lidar import HardwareInterfaceLIDAR
 
 
 class VirtualHardwareLIDAR(HardwareInterfaceLIDAR):
-    pass
+    @override
+    def _initialize(self):
+        pass
+
+    @override
+    def _shutdown(self):
+        pass
