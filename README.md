@@ -6,6 +6,8 @@ For Ben Schepens.
 
 ## Installation
 
+The wrapper targets **Ubuntu 22.04**. The MuJoCo simulator, however, is also compatible with **Ubuntu 24.04**. However, execution of this wrapper on the robot itself under **Ubuntu 24.04** is not guaranteed to work.
+
 For installation instructions, see [here](docs/public/install/installation.md).
 
 
