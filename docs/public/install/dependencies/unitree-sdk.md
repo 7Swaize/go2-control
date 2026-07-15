@@ -17,11 +17,11 @@ You may encounter the following error during `pip install`:
 
 > Could not locate cyclonedds. Try to set `CYCLONEDDS_HOME` or `CMAKE_PREFIX_PATH`.
 
-$\color{red}{\text{IMPORTANT NOTE:}}$
 
-If your installation succeeds **WITHOUT error**, then skip to the **Unitree SDK2 C++ - Installation** step below.
-
-If you **encounter the ERROR** above, continue with the steps below:
+> [!IMPORTANT]
+> If your installation succeeds **WITHOUT error**, then skip to the **Unitree SDK2 C++ - Installation** step below.
+>
+> If you **encounter the ERROR** above, continue with the steps below.
 
 As the name suggests, this means the compiler cannot find the core CycloneDDS library.
 
