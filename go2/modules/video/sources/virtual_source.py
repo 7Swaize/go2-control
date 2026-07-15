@@ -64,10 +64,10 @@ class VirtualCameraSource(CameraSource):
 
     @override
     def _get_frames(self) -> FrameResult:
-        if (pair := self._latest_frames) is None:
+        pair, self._latest_frames = self._latest_frames, None
+        if pair is None:
             return FrameResult.pending()
-
-        self._latest_frames = None
+        
         return FrameResult.color_and_depth(color=pair[0], depth=pair[1])
 
     @override

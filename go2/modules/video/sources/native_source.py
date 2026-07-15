@@ -40,9 +40,9 @@ class NativeCameraSource(CameraSource):
 
     @override
     def _get_frames(self) -> FrameResult:
-        if (ret := self._latest_rgb) is None:
+        ret, self._latest_rgb = self._latest_rgb, None
+        if ret is None:
             return FrameResult.pending()
-        self._latest_rgb = None
         
         return FrameResult.color_only(ret)
     
