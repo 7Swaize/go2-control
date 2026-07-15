@@ -1,3 +1,11 @@
+# Librealsense SDK Installation
+
+Choose **one** of the following installation methods based on your environment. You only need to complete the section that applies to your setup.
+
+1. **Native Linux (Debian/Ubuntu)** — For installation on a physical Linux machine.
+2. **Jetson Orin Nano (RSUSB Build)** — For installation on a Jetson Orin Nano, where the SDK must be built from source.
+3. **Virtual Machine** — For development inside a VM. Note that RealSense camera access is generally not supported in virtualized environments.
+
 # Librealsense SDK - Debian Build
 
 This is the general installation process for any native Linux machine. This is not intended for VMs.
