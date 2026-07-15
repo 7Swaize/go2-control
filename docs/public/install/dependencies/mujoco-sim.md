@@ -56,13 +56,6 @@ This installation must be done before installing the actual simulator.
 
 Set `CMAKE_PREFIX_PATH` to the installed **iceoryx2-cxx** location.
 
-**IMPORTANT NOTE:** You **MUST** replace the section in the command below *<containing_folder>* to the location in which you cloned the **iceoryx2** library.
-
-**Generic Instrucions**
-
-```bash
-export CMAKE_PREFIX_PATH=<containing_folder>/iceoryx2/target/ff/cc/install
-```
 **Instructions matching our setup**
 
 If you followed the setup instructions for the iceoryx2 library, run the following command using the directory where you cloned the iceoryx2 repository.
