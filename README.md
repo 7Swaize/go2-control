@@ -22,7 +22,7 @@ Below are sample files demonstrating how to progammatically interact with the vi
 - [Aruko Marker Examples](examples/aruko_markers//aruko_markers.md) — Examples for detecting and reacting to Aruko markers
 
 
-## Documentation
+## Go2-Control Documentation
 
 [API Documentation](https://go2-control.readthedocs.io/en/latest/)
 
