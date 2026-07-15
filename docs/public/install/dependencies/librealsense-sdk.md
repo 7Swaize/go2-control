@@ -1,3 +1,14 @@
+# Librealsense SDK - Debian Build
+
+This is the general installation process for any native Linux machine. This is not intended for VMs.
+
+Run the following commands.
+```bash
+sudo apt-get update
+sudo apt-get install librealsense2-utils librealsense2-dev
+```
+
+
 # Librealsense SDK - RSUSB Build - Jetson Orin Nano
  
 The Jetson Orin Nano is unique, so the source files must be manually built. This process takes approximately 30 minutes. CUDA GPU acceleration is optional — the RSUSB build is simpler and safer.
