@@ -84,7 +84,7 @@ cmake .. -DCMAKE_INSTALL_PREFIX=/opt/unitree_robotics
 sudo make install
 ```
 
-## Adanced Users ONLY ##
+## Advanced Users ONLY ##
 If you install the library in a location other than `/opt/unitree_robotics`, you will need to update the CMakeLists.txt when installing the Mujoco Simulator. 
 Specifically, in [this](https://github.com/7Swaize/unitree_mujoco/blob/main/simulate/CMakeLists.txt) file, edit the following line to point to the correct install location:
 
