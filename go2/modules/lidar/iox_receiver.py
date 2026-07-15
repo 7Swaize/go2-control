@@ -1,5 +1,6 @@
 import ctypes
 import threading
+import numpy as np
 import iceoryx2 as iox2
 import numpy as np
 
