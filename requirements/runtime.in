@@ -4,6 +4,9 @@ opencv-python
 open3d
 pyyaml
 
+# Depth Camera
+pyrealsense2
+
 # Text-to-speech / OCR
 pyttsx3
 pytesseract

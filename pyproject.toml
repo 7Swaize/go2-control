@@ -23,7 +23,7 @@ dynamic = ["dependencies"]
 # docs: https://packaging.python.org/en/latest/specifications/pyproject-toml/
 # dynamic read dependencies: https://stackoverflow.com/questions/73600082/how-to-reference-a-requirements-txt-in-the-pyproject-toml-of-a-setuptools-projec
 [tool.setuptools.dynamic]
-dependencies = { file = "requirements/runtime.txt" }
+dependencies = { file = "requirements/runtime.in" }
 
 
 [project.optional-dependencies]
