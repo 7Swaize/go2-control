@@ -84,11 +84,6 @@ Install all the following dependencies with instructions listed below first. It 
 
 ## Layer 2: Install the 'go2-control' Repository
 
-Run.
-```bash
-pip install pyrealsense2
-```
-
 We will  use PIP to build/install the Python wrapper library.
 
 ```bash
