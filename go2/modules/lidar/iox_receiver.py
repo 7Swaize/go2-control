@@ -56,12 +56,15 @@ class IoxReceiver(threading.Thread):
                 sample = self._decoded_sub.receive()
                 if sample is None:
                     break
+                
+                data_ptr = ctypes.cast(sample.payload().as_ptr(), ctypes.POINTER(ctypes.c_double))
 
                 self._dispatcher._emit_decoded(
                     sample.user_header().contents.stamp_ns,
-                    np.array(sample.payload(), copy=True, dtype=np.double).reshape(
+                    np.ctypeslib.as_array(
+                        data_ptr,
                         (sample.user_header().contents.rows, sample.user_header().contents.cols)
-                    )
+                    ).copy()
                 )
 
             while True:
@@ -69,11 +72,14 @@ class IoxReceiver(threading.Thread):
                 if sample is None:
                     break
                 
+                data_ptr = ctypes.cast(sample.payload().as_ptr(), ctypes.POINTER(ctypes.c_double))
+
                 self._dispatcher._emit_filtered(
                     sample.user_header().contents.stamp_ns,
-                    np.array(sample.payload(), copy=True, dtype=np.double).reshape(
+                    np.ctypeslib.as_array(
+                        data_ptr,
                         (sample.user_header().contents.rows, sample.user_header().contents.cols)
-                    )
+                    ).copy()
                 )
 
 

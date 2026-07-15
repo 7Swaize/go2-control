@@ -36,13 +36,13 @@ class ExactSynchronizer(Generic[TKey, TData]):
         self._evict_r()
 
     def _evict_l(self) -> None:
-        while len(self._order_l > self._max_size):
+        while len(self._order_l) > self._max_size:
             key = self._order_l.popleft()
             if key in self._buf_l:
                 del self._buf_l[key] 
 
     def _evict_r(self) -> None:
-        while len(self._order_r > self._max_size):
+        while len(self._order_r) > self._max_size:
             key = self._order_r.popleft()
             if key in self._buf_r:
                 del self._buf_r[key] 
