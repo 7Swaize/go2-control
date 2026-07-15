@@ -21,6 +21,10 @@ cd unitree_mujoco
 The cloned repository depends on MuJoCo but does not include the library itself.  
 You will need to install MuJoCo separately. Use release version **3.3.6**.
 
+For the GSMST School Linux Laptops use 
+* _mujoco-3.3.6-linux-x86_64.tar.gz_
+
+
 Navigate [here](https://github.com/google-deepmind/mujoco/releases/tag/3.3.6) and download the files for your system architecture.
 
 Through the Linux GUI or command line:
