@@ -49,6 +49,10 @@ Install Cargo.
 curl https://sh.rustup.rs -sSf | sh
 ```
 
+> [!NOTE]
+> Choose this option to continue:
+> 1) Proceed with standard installation (default - just press enter)
+
 Configure your current shell to use the `cargo` command. This is prompted to you at the end of the installation.
 Typically, we can do this by executing the following command.
 
