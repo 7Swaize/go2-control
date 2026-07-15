@@ -13,16 +13,26 @@ For installation instructions, see [here](docs/public/install/installation.md).
 
 ## Examples - How To Start Coding With The Simulator
 
-Below are sample files demonstrating how to progammatically interact with the virtual go2 robot in the mujoco environment.  Start with these to write your own programs.
+Below are sample files demonstrating how to progammatically interact with the virtual Go2 robot in the mujoco environment.  Start with these to write your own programs.
 
-**Core Module Examples**
+### Core Module Examples
 - [Movement Examples](examples/modules/movement/movement.md) — Examples for working with the controller's movement capabilities
 - [Video Examples](examples/modules/video/video.md) — Examples for working with the controller's video capabilities
 - [OCR Examples](examples/modules/ocr/ocr.md) — Examples for working with the controller's OCR capabilties
 
-**Advanced Examples**
+### Advanced Examples
 - [Aruko Marker Examples](examples/aruko_markers//aruko_markers.md) — Examples for detecting and reacting to Aruko markers
 - [Terrain Generator Examples](examples/terrain_generator/terrain_generator.md) — Examples for working with the simulator's terrain generation capabilties
+
+### Getting Started
+
+The example files are intended as reference implementations. When creating your own program, **copy the example file to a new location before modifying it** rather than editing the original example directly. This makes it easier to keep the examples unchanged and update them in the future.
+
+Run an example (or your copied version) from the using:
+
+```bash
+python3 path/to/file.py
+```
  
 ## Go2-Control Documentation
 
