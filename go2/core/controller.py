@@ -87,7 +87,7 @@ class Go2Controller:
 
         self._modules: Dict[ModuleType, DogModule] = {}
         self._register_default_modules()
-        # self._initialize_input_bindings()
+        self._initialize_input_bindings()
 
         logger.info(f"[Controller] Initialized in {'NATIVE' if hardware_type == HardwareType.NATIVE else 'SIMULATION'} mode\n")
 
