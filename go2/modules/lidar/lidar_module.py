@@ -15,7 +15,6 @@ class LIDARModule(DogModule):
     """
     ``LIDARModule`` provides a simple API for:
         - Recieving decoded `PointCloud2` structures as xyz-intensity numpy arrays
-        - Recieving filtered `PointCloud2` structures as xyz-intensity numpy arrays
 
     Users should interact **only** with this class and should not directly use other means of accessing lidar.
     
