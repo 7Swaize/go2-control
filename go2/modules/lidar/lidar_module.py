@@ -76,6 +76,13 @@ class LIDARModule(DogModule):
                 - **timestamp** (int): The source timestamp in nanoseconds.
                 - **points** (np.ndarray): A ``float64`` array of shape ``(N, 3)`` 
                   for [x, y, z] or ``(N, 4)`` if intensity is supported [x, y, z, intensity].
+
+        Important
+        ---------
+        During each cycle, all subscribers receive **views** of the same underlying data.
+        This is done for performance.
+        Modifying data through the returned view is unsafe, as it affects the shared data.
+        If you need to modify the data, create a **copy** first.
         """
         self._dispatcher._register_decoded(callback)
 
@@ -94,6 +101,13 @@ class LIDARModule(DogModule):
                 - **timestamp** (int): The source timestamp in nanoseconds.
                 - **points** (np.ndarray): A ``float64`` array of shape ``(N, 3)`` 
                   or ``(N, 4)`` containing the points that passed the outlier filter.
+
+        Important
+        ---------
+        During each cycle, all subscribers receive **views** of the same underlying data.
+        This is done for performance.
+        Modifying data through the returned view is unsafe, as it affects the shared data.
+        If you need to modify the data, create a **copy** first.
         """
         self._dispatcher._register_filtered(callback)
 
@@ -114,6 +128,13 @@ class LIDARModule(DogModule):
                   ``(N, 3)`` or ``(N, 4)``.
                 - **filtered_points** (np.ndarray): The SOR-filtered ``float64`` array of 
                   shape ``(N, 3)`` or ``(N, 4)``.
+
+        Important
+        ---------
+        During each cycle, all subscribers receive **views** of the same underlying data.
+        This is done for performance.
+        Modifying data through the returned view(s) is unsafe, as it affects the shared data.
+        If you need to modify the data, create a **copy** first.
         """
         self._dispatcher._register_synced(callback)
 
