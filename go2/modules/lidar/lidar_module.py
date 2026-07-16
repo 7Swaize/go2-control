@@ -86,58 +86,6 @@ class LIDARModule(DogModule):
         """
         self._dispatcher._register_decoded(callback)
 
-    def register_filtered_pointcloud_callback(self, callback: Callable[[int, np.ndarray], None]) -> None:
-        """
-        Register a callback to receive filtered PointCloud2 data.
-
-        This receives data after it has passed through a Statistical Outlier Removal (SOR) filter.
-        The filter calculates the mean distance to the nearest neighbors and trims points that fall outside a specific global 
-        percentage or standard deviation threshold.
-
-        Parameters
-        ----------
-        callback : Callable[[int, np.ndarray], None]
-            A function to be called with:
-                - **timestamp** (int): The source timestamp in nanoseconds.
-                - **points** (np.ndarray): A ``float64`` array of shape ``(N, 3)`` 
-                  or ``(N, 4)`` containing the points that passed the outlier filter.
-
-        Important
-        ---------
-        During each cycle, all subscribers receive **views** of the same underlying data.
-        This is done for performance.
-        Modifying data through the returned view is unsafe, as it affects the shared data.
-        If you need to modify the data, create a **copy** first.
-        """
-        self._dispatcher._register_filtered(callback)
-
-    def register_synced_pointcloud_callback(self, callback: Callable[[int, np.ndarray, np.ndarray], None]) -> None:
-        """
-        Register a callback to receive synchronized raw and SOR-filtered point clouds.
-
-        This is particularly useful for debugging or visualization, allowing a direct 
-        comparison between the raw sensor data and the data remaining after the 
-        outlier removal percentage is applied.
-
-        Parameters
-        ----------
-        callback : Callable[[int, np.ndarray, np.ndarray], None]
-            A function to be called with:
-                - **timestamp** (int): The common timestamp in nanoseconds.
-                - **decoded_points** (np.ndarray): The raw ``float64`` array of shape 
-                  ``(N, 3)`` or ``(N, 4)``.
-                - **filtered_points** (np.ndarray): The SOR-filtered ``float64`` array of 
-                  shape ``(N, 3)`` or ``(N, 4)``.
-
-        Important
-        ---------
-        During each cycle, all subscribers receive **views** of the same underlying data.
-        This is done for performance.
-        Modifying data through the returned view(s) is unsafe, as it affects the shared data.
-        If you need to modify the data, create a **copy** first.
-        """
-        self._dispatcher._register_synced(callback)
-
 
     @override
     def _shutdown(self) -> None:

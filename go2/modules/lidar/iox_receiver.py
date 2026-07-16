@@ -35,18 +35,7 @@ class IoxReceiver(threading.Thread):
                                     .history_size(LidarQoS.HISTORY_SIZE) \
                                     .open_or_create()
 
-        self._filtered_service = self._node.service_builder(iox2.ServiceName.new(LidarQoS.TOPIC_ROS_LIDAR_FILTERED)) \
-                                    .publish_subscribe(iox2.Slice[ctypes.c_double]) \
-                                    .user_header(LidarHeader_) \
-                                    .max_publishers(LidarQoS.MAX_PUBLISHERS) \
-                                    .max_subscribers(LidarQoS.MAX_SUBSCRIBERS) \
-                                    .subscriber_max_buffer_size(LidarQoS.SUBSCRIBER_MAX_BUFFER_SIZE) \
-                                    .subscriber_max_borrowed_samples(LidarQoS.SUBSCRIBER_MAX_BORROWED_SAMPLES) \
-                                    .history_size(LidarQoS.HISTORY_SIZE) \
-                                    .open_or_create()
-
         self._decoded_sub = self._decoded_service.subscriber_builder().create()
-        self._filtered_sub = self._filtered_service.subscriber_builder().create()
 
     @override
     def run(self):
@@ -61,21 +50,6 @@ class IoxReceiver(threading.Thread):
                 data_ptr = ctypes.cast(sample.payload().as_ptr(), ctypes.POINTER(ctypes.c_double))
 
                 self._dispatcher._emit_decoded(
-                    sample.user_header().contents.stamp_ns,
-                    np.ctypeslib.as_array(
-                        data_ptr,
-                        (sample.user_header().contents.rows, sample.user_header().contents.cols)
-                    ).copy()
-                )
-
-            while True:
-                sample = self._filtered_sub.receive()
-                if sample is None:
-                    break
-                
-                data_ptr = ctypes.cast(sample.payload().as_ptr(), ctypes.POINTER(ctypes.c_double))
-
-                self._dispatcher._emit_filtered(
                     sample.user_header().contents.stamp_ns,
                     np.ctypeslib.as_array(
                         data_ptr,
