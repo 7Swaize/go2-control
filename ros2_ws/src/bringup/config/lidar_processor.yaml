@@ -3,16 +3,3 @@ lidar_decoder:
     collection:
       optimize_collection: true
       skip_nans: true
-
-
-lidar_filter:
-  ros__parameters:
-    filter:
-      max_range: 20.0
-      min_range: 0.1
-      height_min: -2.0
-      height_max: 3.0
-      downsample_rate: 1
-      sor_radius: 0.5
-      sor_min_neighbors: 10
-      intensity_min: 0.0

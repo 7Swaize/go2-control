@@ -5,17 +5,25 @@ from dataclasses import dataclass
 
 import rclpy
 from rclpy.node import Node
+from rclpy.executors import ExternalShutdownException
 from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy
 from std_msgs.msg import Header
 from sensor_msgs.msg import PointCloud2, PointField
 from sensor_msgs_py import point_cloud2
-from go2_interfaces.msg import LidarDecoded
 
 from .lidar_bridge import LidarBridge
-from .lidar_message_utils import (
-    POINTFIELD_TO_INTERNAL_CTYPE,
-    create_lidar_decoded_message
-)
+
+
+POINTFIELD_TO_INTERNAL_CTYPE = {
+    PointField.INT8: fp.PointFieldType["INT8"],
+    PointField.UINT8: fp.PointFieldType["UINT8"],
+    PointField.INT16: fp.PointFieldType["INT16"],
+    PointField.UINT16: fp.PointFieldType["UINT16"],
+    PointField.INT32: fp.PointFieldType["INT32"],
+    PointField.UINT32: fp.PointFieldType["UINT32"],
+    PointField.FLOAT32: fp.PointFieldType["FLOAT32"],
+    PointField.FLOAT64: fp.PointFieldType["FLOAT64"]
+}
 
 
 @dataclass
@@ -51,7 +59,6 @@ class LidarDecoderNode(Node):
         self._bridge = LidarBridge()
 
         self.setup_subscriptions()
-        self.setup_publishers()
     
 
     def _declare_parameters(self) -> None:
@@ -74,14 +81,6 @@ class LidarDecoderNode(Node):
         )
 
 
-    def setup_publishers(self) -> None:
-        self._decoded_pointcloud_pub = self.create_publisher(
-            LidarDecoded,
-            "custom/decoded_cloud",
-            self._qos_profile
-        )
-
-
     def setup_subscriptions(self) -> None:
         self._cloud_subscription = self.create_subscription(
             PointCloud2,
@@ -89,6 +88,12 @@ class LidarDecoderNode(Node):
             self.lidar_callback_optimized if self._config.optimize_collection else self.lidar_callback_unoptimized,
             self._qos_profile
         )
+
+
+    def _get_layout(self, msg: PointCloud2) -> PointCloudLayout:
+        if self._pc_layout is None:
+            self._pc_layout = self._init_pointcloud_layout(msg)
+        return self._pc_layout
 
 
     def _init_pointcloud_layout(self, msg: PointCloud2) -> PointCloudLayout:
@@ -128,10 +133,9 @@ class LidarDecoderNode(Node):
 
     def lidar_callback_unoptimized(self, msg: PointCloud2) -> None:
         try:
-            if self._pc_layout is None:
-                self._pc_layout = self._init_pointcloud_layout(msg)
+            layout = self._get_layout(msg)
 
-            if self._pc_layout.has_intensity:
+            if layout.has_intensity:
                 data = point_cloud2.read_points_numpy(
                     msg,
                     field_names=["x", "y", "z", "intensity"],
@@ -148,45 +152,35 @@ class LidarDecoderNode(Node):
                 ).astype(np.float32)
                 intensity = None
 
-            self.publish_decoded_pointcloud(xyz, intensity)
+            self._send_to_bridge(xyz, intensity, msg.header)
 
         except Exception as e:
             self.get_logger().error(f"Error processing LiDAR data: {e}")
             
 
-    def lidar_callback_optimized(self, msg: PointCloud2) -> None:       
+    def lidar_callback_optimized(self, msg: PointCloud2) -> None:
         try:
-            if self._pc_layout is None:
-                self._pc_layout = self._init_pointcloud_layout(msg)
-
-            l = self._pc_layout
-
+            layout = self._get_layout(msg)
             xyz, intensity = fp.decode_xyz_intensity(
                 msg.data,
                 msg.point_step,
-                l.x_offset,
-                l.y_offset,
-                l.z_offset,
-                l.intensity_offset,
+                layout.x_offset,
+                layout.y_offset,
+                layout.z_offset,
+                layout.intensity_offset,
                 msg.is_bigendian,
-                l.xyz_internal_type,
-                l.intensity_internal_type,
+                layout.xyz_internal_type,
+                layout.intensity_internal_type,
                 self._config.skip_nans
             )
 
-            self.publish_decoded_pointcloud(xyz, intensity, msg.header)
-            self.send_to_bridge(xyz, intensity, msg.header)
+            self._send_to_bridge(xyz, intensity, msg.header)
 
         except Exception as e:
             self.get_logger().error(f"Error processing LiDAR data: {e}")
-
-
-    def publish_decoded_pointcloud(self, xyz: np.ndarray, intensity: Optional[np.ndarray], src_pc_header: Header) -> None:
-        msg = create_lidar_decoded_message(xyz, intensity, src_pc_header)
-        self._decoded_pointcloud_pub.publish(msg)
             
 
-    def send_to_bridge(self, xyz: np.ndarray, intensity: Optional[np.ndarray], src_pc_header: Header) -> None:
+    def _send_to_bridge(self, xyz: np.ndarray, intensity: Optional[np.ndarray], src_pc_header: Header) -> None:
         stamp_ns = src_pc_header.stamp.sec * 1_000_000_000 + src_pc_header.stamp.nanosec
         if intensity is None:
             points = xyz
@@ -196,3 +190,28 @@ class LidarDecoderNode(Node):
             points[:, 3] = intensity 
 
         self._bridge.send_decoded(stamp_ns, points)
+
+
+    def shutdown_ext(self) -> None:
+        self._bridge.shutdown()
+
+
+def main(args=None):
+    rclpy.init(args=args)
+    node = LidarDecoderNode()
+
+    try:
+        rclpy.spin(node)
+    except (KeyboardInterrupt, ExternalShutdownException):
+        pass
+    except Exception as e:
+        print(f"Error running lidar decoder: {e}")
+    finally:
+        node.shutdown_ext()
+        node.destroy_node()
+        if rclpy.ok():
+            rclpy.shutdown()
+
+
+if __name__ == "__main__":
+    main()

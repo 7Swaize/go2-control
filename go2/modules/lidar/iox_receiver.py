@@ -20,14 +20,14 @@ class IoxReceiver(threading.Thread):
         self._init_iox2()
 
     def _init_iox2(self) -> None:
-        iox2.set_log_level_from_env_or(iox2.LogLevel.Info)
+        iox2.set_log_level_from_env_or(iox2.LogLevel.Error)
         self._cycle_time = iox2.Duration.from_millis(1000 // self._publish_hz)
         self._node = iox2.NodeBuilder.new() \
                 .signal_handling_mode(iox2.SignalHandlingMode.Disabled) \
                 .create(iox2.ServiceType.Ipc)
         
         self._decoded_service = self._node.service_builder(iox2.ServiceName.new(LidarQoS.TOPIC_LIDAR_DECODED)) \
-                                    .publish_subscribe(ctypes.c_uint32, iox2.Slice[ctypes.c_double]) \
+                                    .request_response(ctypes.c_uint32, iox2.Slice[ctypes.c_double]) \
                                     .response_header(LidarHeader_) \
                                     .open_or_create()
 

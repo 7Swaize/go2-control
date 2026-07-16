@@ -10,7 +10,6 @@
   <depend>rclpy</depend>
   <depend>sensor_msgs</depend>
   <depend>sensor_msgs_py</depend>
-  <depend>go2_interfaces</depend>
   <depend>numpy</depend>
   <depend>iceoryx2</depend>
   <depend>iceoryx_interfaces</depend>

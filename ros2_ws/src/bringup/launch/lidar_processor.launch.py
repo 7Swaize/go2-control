@@ -10,7 +10,8 @@ def generate_launch_description():
     return LaunchDescription([
         Node(
             package='lidar_processor',
-            executable='combined_lidar_node',
+            executable='lidar_decoder_node',
+            name='lidar_decoder',
             parameters=[params_file],
             output='screen'
         )
