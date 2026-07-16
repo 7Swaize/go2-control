@@ -31,10 +31,7 @@ class IoxReceiver(threading.Thread):
                                     .response_header(LidarHeader_) \
                                     .open_or_create()
 
-        self._decoded_client = self._decoded_service.client_builder() \
-                                                    .initial_max_slice_len(LidarQoS.INITIAL_SLICE_LEN_HINT) \
-                                                    .allocation_strategy(iox2.AllocationStrategy.PowerOfTwo) \
-                                                    .create()
+        self._decoded_client = self._decoded_service.client_builder().create()
 
     @override
     def run(self) -> None:
