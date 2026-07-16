@@ -12,48 +12,51 @@ from .callback_dispatcher import CallbackDispatcher
 
 
 class IoxReceiver(threading.Thread):
-    def __init__(self, dispatcher: CallbackDispatcher) -> None:
+    def __init__(self, dispatcher: CallbackDispatcher, publish_hz: int) -> None:
         super().__init__(daemon=True)
+        self._publish_hz = publish_hz
         self._dispatcher: CallbackDispatcher = dispatcher
         self._stop_event: threading.Event = threading.Event()
         self._init_iox2()
 
     def _init_iox2(self) -> None:
         iox2.set_log_level_from_env_or(iox2.LogLevel.Info)
-        self._cycle_time = iox2.Duration.from_millis(50) # 20 Hz polling for ~11Hz Lidar: https://oss-global-cdn.unitree.com/static/52b72f707b304d229d4321eea223738f.pdf 
+        self._cycle_time = iox2.Duration.from_millis(1000 // self._publish_hz)
         self._node = iox2.NodeBuilder.new() \
                 .signal_handling_mode(iox2.SignalHandlingMode.Disabled) \
                 .create(iox2.ServiceType.Ipc)
         
-        self._decoded_service = self._node.service_builder(iox2.ServiceName.new(LidarQoS.TOPIC_ROS_LIDAR_DECODED)) \
-                                    .publish_subscribe(iox2.Slice[ctypes.c_double]) \
-                                    .user_header(LidarHeader_) \
-                                    .max_publishers(LidarQoS.MAX_PUBLISHERS) \
-                                    .max_subscribers(LidarQoS.MAX_SUBSCRIBERS) \
-                                    .subscriber_max_buffer_size(LidarQoS.SUBSCRIBER_MAX_BUFFER_SIZE) \
-                                    .subscriber_max_borrowed_samples(LidarQoS.SUBSCRIBER_MAX_BORROWED_SAMPLES) \
-                                    .history_size(LidarQoS.HISTORY_SIZE) \
+        self._decoded_service = self._node.service_builder(iox2.ServiceName.new(LidarQoS.TOPIC_LIDAR_DECODED)) \
+                                    .publish_subscribe(ctypes.c_uint32, iox2.Slice[ctypes.c_double]) \
+                                    .response_header(LidarHeader_) \
                                     .open_or_create()
 
-        self._decoded_sub = self._decoded_service.subscriber_builder().create()
+        self._decoded_client = self._decoded_service.client_builder() \
+                                                    .initial_max_slice_len(LidarQoS.INITIAL_SLICE_LEN_HINT) \
+                                                    .allocation_strategy(iox2.AllocationStrategy.PowerOfTwo) \
+                                                    .create()
 
     @override
-    def run(self):
+    def run(self) -> None:
+        sample = self._decoded_client.loan_uninit()
+        sample = sample.write_payload(ctypes.c_uint32(self._publish_hz))
+        pending_response = sample.send()
+
         while not self._stop_event.is_set():
             self._node.wait(self._cycle_time)
 
             while True:
-                sample = self._decoded_sub.receive()
-                if sample is None:
+                response = pending_response.receive()
+                if response is None:
                     break
-                
-                data_ptr = ctypes.cast(sample.payload().as_ptr(), ctypes.POINTER(ctypes.c_double))
+
+                data_ptr = ctypes.cast(response.payload().as_ptr(), ctypes.pointer(ctypes.c_double))
 
                 self._dispatcher._emit_decoded(
-                    sample.user_header().contents.stamp_ns,
+                    pending_response.user_header().contents.stamp_ns,
                     np.ctypeslib.as_array(
                         data_ptr,
-                        (sample.user_header().contents.rows, sample.user_header().contents.cols)
+                        (response.user_header().contents.rows, response.user_header().contents.cols)
                     ).copy()
                 )
 

@@ -50,7 +50,11 @@ class LIDARModule(DogModule):
         Initialize the lidar module. This is called internally,
         and should not be called directly by users.
 
-        This method starts ROS2 process and Iceoryx2 pub-sub nodes for lidar data transfer.
+        This method starts ROS2 process and Iceoryx2 request-response nodes for lidar data transfer.
+
+        Raises
+        ------
+            ValueError: If `_publish_hz` is not within the valid range of [5, 100].
         """
         if self._initialized:
             return
@@ -72,7 +76,7 @@ class LIDARModule(DogModule):
     # Since they are shared across both abstractions, we can just keep it here.
     def _launch_bridge(self) -> None:
         self._dispatcher = CallbackDispatcher()
-        self._iox_receiver = IoxReceiver(self._dispatcher)
+        self._iox_receiver = IoxReceiver(self._dispatcher, self._publish_hz)
         self._iox_receiver.start()
 
     def register_decoded_pointcloud_callback(self, callback: Callable[[int, np.ndarray], None]) -> None:
@@ -92,8 +96,7 @@ class LIDARModule(DogModule):
 
         Important
         ---------
-        During each cycle, all subscribers receive **views** of the same underlying data.
-        This is done for performance.
+        During each cycle, all subscribers receive **views** of the same underlying data. This is done for performance.
         Modifying data through the returned view is unsafe, as it affects the shared data.
         If you need to modify the data, create a **copy** first.
         """
