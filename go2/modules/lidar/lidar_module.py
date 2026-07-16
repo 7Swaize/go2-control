@@ -21,14 +21,25 @@ class LIDARModule(DogModule):
     Users should not access or construct this class directly.
     Rather, they should access it through the :class:`~core.controller.Go2Controller` instance.
 
+    Parameters
+    ----------
+    publish_hz : int
+        The publishing frequency (in Hz) of decoded point cloud frames. This dictates 
+        how many times per second the registered callback is triggered. A lower publishing rate 
+        results in a longer point accumulation time per frame, yielding a denser point cloud 
+        with greater field-of-view (FOV) coverage, but introduces higher delay between publishings.
+        (Although, the data transfer will always be an *O(1)* pointer-swap internally).
+        Must be in the range [5, 100]. Default is 10.
+
     Important
     ---------
-    - When executing on `HardwareType.Native' this module launches ROS2 nodes.
-      In such a case, it is **critical** that students **ALWAYS** call :meth:`Go2Controller.safe_shutdown` after normal (error free) script exit.
+    When executing on `HardwareType.Native` this module launches ROS2 nodes.
+    In such a case, it is **critical** that students **ALWAYS** call :meth:`Go2Controller.safe_shutdown` after normal (error free) script exit.
     """
 
-    def __init__(self) -> None:
+    def __init__(self, publish_hz: int = 10) -> None:
         super().__init__("LIDAR")
+        self._publish_hz: int = publish_hz
         self._hardware: HardwareInterfaceLIDAR = None
         self._dispatcher: CallbackDispatcher = None
         self._iox_receiver: IoxReceiver = None
@@ -43,6 +54,9 @@ class LIDARModule(DogModule):
         """
         if self._initialized:
             return
+
+        if self._publish_hz < 5 or self._publish_hz > 100:
+            raise ValueError(f"publish_hz must be in the range [5, 100]; got {self._publish_hz}")
 
         if self._hardware_type == HardwareType.NATIVE:
             self._hardware = NativeHardwareLIDAR()
