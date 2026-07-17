@@ -91,7 +91,7 @@ class LIDARModule(DogModule):
         callback : Callable[[int, np.ndarray], None]
             A function to be called with:
                 - **timestamp** (int): The source timestamp in nanoseconds.
-                - **points** (np.ndarray): A **Fortran-contiguous** ``float64`` array of shape ``(3, N)``
+                - **points** (np.ndarray): A **Fortran-contiguous** ``float32`` array of shape ``(3, N)``
                     for [x, y, z] or ``(4, N)`` if intensity is supported [x, y, z, intensity].
 
         Important

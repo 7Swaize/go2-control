@@ -18,7 +18,7 @@ class LidarBridge(metaclass=Singleton):
             .create(iox2.ServiceType.Ipc)
 
         self._decoded_service = self._node.service_builder(iox2.ServiceName.new(LidarQoS.TOPIC_LIDAR_DECODED)) \
-            .request_response(ctypes.c_uint32, iox2.Slice[ctypes.c_double]) \
+            .request_response(ctypes.c_uint32, iox2.Slice[ctypes.c_float]) \
             .response_header(LidarHeader_) \
             .open_or_create()
         
@@ -45,6 +45,8 @@ class LidarBridge(metaclass=Singleton):
             
 
     def send_decoded(self, stamp_ns: int, array: np.ndarray) -> None:
+        assert array.dtype == np.float32 and array.flags.f_contiguous, "Array must be float32 and F-contiguous"
+
         if not self._active_request or not self._active_request.is_connected:
             return
 
@@ -56,7 +58,7 @@ class LidarBridge(metaclass=Singleton):
         sample.user_header().contents.rows = rows
         sample.user_header().contents.cols = cols
 
-        # Theres safe interop between 'np.float64' and 'ctypes.c_double'
+        # Theres safe interop between 'np.float32' and 'ctypes.c_float'
         ctypes.memmove(sample.payload().payload_ptr, array.ctypes.data, array.nbytes)
 
         sample = sample.assume_init()

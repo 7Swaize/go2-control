@@ -27,7 +27,7 @@ class IoxReceiver(threading.Thread):
                 .create(iox2.ServiceType.Ipc)
         
         self._decoded_service = self._node.service_builder(iox2.ServiceName.new(LidarQoS.TOPIC_LIDAR_DECODED)) \
-                                    .request_response(ctypes.c_uint32, iox2.Slice[ctypes.c_double]) \
+                                    .request_response(ctypes.c_uint32, iox2.Slice[ctypes.c_float]) \
                                     .response_header(LidarHeader_) \
                                     .open_or_create()
 
@@ -47,17 +47,17 @@ class IoxReceiver(threading.Thread):
                 if response is None:
                     break
 
-                data_ptr = ctypes.cast(response.payload().as_ptr(), ctypes.POINTER(ctypes.c_double))
+                data_ptr = ctypes.cast(response.payload().as_ptr(), ctypes.POINTER(ctypes.c_float))
                 rows = response.user_header().contents.rows
                 cols = response.user_header().contents.cols
-                itemsize = np.dtype(np.float64).itemsize
+                itemsize = np.dtype(np.float32).itemsize
 
                 self._dispatcher._emit_decoded(
                     response.user_header().contents.stamp_ns,
                     np.ndarray(
                         shape=(rows, cols),
-                        dtype=np.float64,
-                        buffer=(ctypes.c_double * (rows * cols)).from_address(ctypes.addressof(data_ptr.contents)),
+                        dtype=np.float32,
+                        buffer=(ctypes.c_float * (rows * cols)).from_address(ctypes.addressof(data_ptr.contents)),
                         strides=(itemsize, rows * itemsize)
                     ).copy(order='F')
                 )

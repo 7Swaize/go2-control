@@ -68,12 +68,12 @@ static inline double read_point_field(const char* p, PointFieldType dtype, int s
 }
 
 static PyObject* build_empty_ret(bool has_intensity) {
-    PyObject* xyz = PyArray_SimpleNew(2, ((npy_intp[]){0, 3}), NPY_FLOAT64);
+    PyObject* xyz = PyArray_SimpleNew(2, ((npy_intp[]){0, 3}), NPY_FLOAT32);
     if (!xyz) return NULL;
 
     PyObject* intensity = Py_None;
     if (has_intensity) {
-        intensity = PyArray_SimpleNew(1, (npy_intp[]){0}, NPY_FLOAT64);
+        intensity = PyArray_SimpleNew(1, (npy_intp[]){0}, NPY_FLOAT32);
         if (!intensity) {
             Py_DECREF(xyz);
             return NULL;
@@ -122,13 +122,13 @@ __attribute__((unused)) PyObject* decode_xyz_intensity(PyObject* self, PyObject*
 
     // why we do this: https://docs.python.org/3/extending/extending.html#back-to-the-example
     // about ref counts: // https://docs.python.org/3/extending/extending.html#reference-counts
-    PyObject* xyz = PyArray_SimpleNew(2, ((npy_intp[]){n_points, 3}), NPY_FLOAT64);
-    PyObject* intensity = (oi >= 0) ? PyArray_SimpleNew(1, ((npy_intp[]){n_points}), NPY_FLOAT64) : Py_None;
+    PyObject* xyz = PyArray_SimpleNew(2, ((npy_intp[]){n_points, 3}), NPY_FLOAT32);
+    PyObject* intensity = (oi >= 0) ? PyArray_SimpleNew(1, ((npy_intp[]){n_points}), NPY_FLOAT32) : Py_None;
     if (intensity == Py_None) Py_INCREF(Py_None);
 
     
-    double* xyz_data = (double*)PyArray_DATA((PyArrayObject*)xyz);
-    double* i_data = (oi >= 0) ? (double*)PyArray_DATA((PyArrayObject*)intensity) : NULL;
+    float* xyz_data = (float*)PyArray_DATA((PyArrayObject*)xyz);
+    float* i_data = (oi >= 0) ? (float*)PyArray_DATA((PyArrayObject*)intensity) : NULL;
 
     Py_ssize_t count = 0; // num valid points
 
@@ -146,12 +146,12 @@ __attribute__((unused)) PyObject* decode_xyz_intensity(PyObject* self, PyObject*
             continue;
         }
 
-        xyz_data[count * 3 + 0] = x;
-        xyz_data[count * 3 + 1] = y;
-        xyz_data[count * 3 + 2] = z;
+        xyz_data[count * 3 + 0] = (float)x;
+        xyz_data[count * 3 + 1] = (float)y;
+        xyz_data[count * 3 + 2] = (float)z;
 
         if (i_data && oi >= 0) {
-            i_data[count] = inten_val;
+            i_data[count] = (float)inten_val;
         }
         
         count++;
