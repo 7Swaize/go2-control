@@ -10,7 +10,6 @@ class CallbackDispatcher:
         self._decoded_callbacks.append(cb)
 
     def _emit_decoded(self, stamp_ns: int, array: np.ndarray) -> None:
-        self._sync.add_left(stamp_ns, array)
-        
+        print(array.flags['F_CONTIGUOUS'])        
         for cb in self._decoded_callbacks:
             cb(stamp_ns, array)

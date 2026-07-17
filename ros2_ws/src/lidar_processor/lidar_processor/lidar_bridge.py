@@ -48,7 +48,6 @@ class LidarBridge(metaclass=Singleton):
         if not self._active_request or not self._active_request.is_connected:
             return
 
-        array = np.ascontiguousarray(array, dtype=np.float64)
         required_memory_size = array.size
         sample = self._decoded_server.loan_slice_uninit(required_memory_size)
 

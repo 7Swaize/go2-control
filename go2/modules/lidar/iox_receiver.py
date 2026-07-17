@@ -48,13 +48,18 @@ class IoxReceiver(threading.Thread):
                     break
 
                 data_ptr = ctypes.cast(response.payload().as_ptr(), ctypes.pointer(ctypes.c_double))
+                rows = response.user_header().contents.rows
+                cols = response.user_header().contents.cols
+                itemsize = np.dtype(np.float64).itemsize
 
                 self._dispatcher._emit_decoded(
                     pending_response.user_header().contents.stamp_ns,
-                    np.ctypeslib.as_array(
-                        data_ptr,
-                        (response.user_header().contents.rows, response.user_header().contents.cols)
-                    ).copy()
+                    np.ndarray(
+                        shape=(rows, cols),
+                        dtype=np.float64,
+                        buffer=(ctypes.c_double * (rows * cols)).from_address(ctypes.addressof(data_ptr.contents)),
+                        strides=(itemsize, rows * itemsize)
+                    ).copy(order='F')
                 )
 
 

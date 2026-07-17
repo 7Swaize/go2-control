@@ -182,12 +182,13 @@ class LidarDecoderNode(Node):
 
     def _send_to_bridge(self, xyz: np.ndarray, intensity: Optional[np.ndarray], src_pc_header: Header) -> None:
         stamp_ns = src_pc_header.stamp.sec * 1_000_000_000 + src_pc_header.stamp.nanosec
+
         if intensity is None:
-            points = xyz
+            points = np.asfortranarray(xyz.T)
         else:
-            points = np.empty((xyz.shape[0], 4), dtype=xyz.dtype)
-            points[:, :3] = xyz
-            points[:, 3] = intensity 
+            points = np.empty((4, xyz.shape[0]), dtype=xyz.dtype, order="F")
+            points[:3, :] = xyz.T
+            points[3, :] = intensity
 
         self._bridge.send_decoded(stamp_ns, points)
 
