@@ -23,7 +23,7 @@ class LidarBridge(metaclass=Singleton):
             .open_or_create()
         
         self._decoded_server = self._decoded_service.server_builder() \
-            .initial_max_slice_len(LidarQoS.INITIAL_SLICE_LEN_HINT) \
+            .initial_max_slice_len(LidarQoS.RESPONSE_INITIAL_SLICE_LEN_HINT) \
             .allocation_strategy(iox2.AllocationStrategy.PowerOfTwo) \
             .create()
         

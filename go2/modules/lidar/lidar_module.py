@@ -91,14 +91,22 @@ class LIDARModule(DogModule):
         callback : Callable[[int, np.ndarray], None]
             A function to be called with:
                 - **timestamp** (int): The source timestamp in nanoseconds.
-                - **points** (np.ndarray): A ``float64`` array of shape ``(3, N)`` 
-                  for [x, y, z] or ``(4, N)`` if intensity is supported [x, y, z, intensity].
+                - **points** (np.ndarray): A **Fortran-contiguous** ``float64`` array of shape ``(3, N)``
+                    for [x, y, z] or ``(4, N)`` if intensity is supported [x, y, z, intensity].
 
         Important
         ---------
-        During each cycle, all subscribers receive **views** of the same underlying data. This is done for performance.
-        Modifying data through the returned view is unsafe, as it affects the shared data.
-        If you need to modify the data, create a **copy** first.
+        - **Shared Views:** 
+            During each cycle, all subscribers receive **views** of 
+            the same underlying data. This is done for performance. Modifying data 
+            through the returned view is unsafe, as it affects the shared data. If 
+            you need to modify the data, create a **copy** first.
+        - **Cache Locality & Iteration:**
+            Because the array is Fortran-contiguous, the 
+            data is laid out column-by-column in memory (e.g., x0, y0, z0, x1, y1, z1...). 
+            This means all coordinates (plus intensity) for a single point are tightly packed together. 
+            Therefore, column-major iteration should be greatly prefered over row-major iteration to maximize cache efficiency.
+            If you *need* a C-contiguous array (row-major) you can use use `numpy.ascontiguousarray(array)`.
         """
         self._dispatcher._register_decoded(callback)
 

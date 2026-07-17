@@ -47,13 +47,13 @@ class IoxReceiver(threading.Thread):
                 if response is None:
                     break
 
-                data_ptr = ctypes.cast(response.payload().as_ptr(), ctypes.pointer(ctypes.c_double))
+                data_ptr = ctypes.cast(response.payload().as_ptr(), ctypes.POINTER(ctypes.c_double))
                 rows = response.user_header().contents.rows
                 cols = response.user_header().contents.cols
                 itemsize = np.dtype(np.float64).itemsize
 
                 self._dispatcher._emit_decoded(
-                    pending_response.user_header().contents.stamp_ns,
+                    response.user_header().contents.stamp_ns,
                     np.ndarray(
                         shape=(rows, cols),
                         dtype=np.float64,
