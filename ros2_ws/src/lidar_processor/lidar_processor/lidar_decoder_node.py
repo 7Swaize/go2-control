@@ -1,7 +1,7 @@
 import numpy as np
-import fast_pointcloud as fp
 from typing import Optional
 from dataclasses import dataclass
+import fast_pointcloud as fp
 
 import rclpy
 from rclpy.node import Node

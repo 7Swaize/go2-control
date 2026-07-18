@@ -50,19 +50,16 @@ class LidarBridge(metaclass=Singleton):
         if not self._active_request or not self._active_request.is_connected:
             return
 
-        required_memory_size = array.size
-        sample = self._decoded_server.loan_slice_uninit(required_memory_size)
-
+        response = self._active_request.loan_slice_uninit(array.size)
         rows, cols = array.shape
-        sample.user_header().contents.stamp_ns = stamp_ns
-        sample.user_header().contents.rows = rows
-        sample.user_header().contents.cols = cols
+        response.user_header().contents.stamp_ns = stamp_ns
+        response.user_header().contents.rows = rows
+        response.user_header().contents.cols = cols
+        
+        ctypes.memmove(response.payload().as_ptr(), array.ctypes.data, array.nbytes)
 
-        # Theres safe interop between 'np.float32' and 'ctypes.c_float'
-        ctypes.memmove(sample.payload().payload_ptr, array.ctypes.data, array.nbytes)
-
-        sample = sample.assume_init()
-        sample.send()        
+        response = response.assume_init()
+        response.send()
 
 
     def shutdown(self) -> None:
