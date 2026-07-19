@@ -4,7 +4,7 @@ package_name = 'lidar_processor'
 
 setup(
     name=package_name,
-    version='1.0.0',
+    version='1.1.0',
     packages=find_packages(exclude=['test']),
     data_files=[
         ('share/ament_index/resource_index/packages',
@@ -23,7 +23,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'combined_lidar_node = lidar_processor.multi_node_launcher:main'
+            'lidar_decoder_node = lidar_processor.lidar_decoder_node:main'
         ],
     },
 )

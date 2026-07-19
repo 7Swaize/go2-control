@@ -1,13 +1,12 @@
-import os
-import sys
-import signal
-import shutil
-import subprocess
 import numpy as np
 from typing import Callable
 from typing_extensions import override
 
 from ...core.module import DogModule
+from ...hardware.hardware_type import HardwareType
+from ...hardware.hardware_interface_lidar import HardwareInterfaceLIDAR
+from ...hardware.native.native_hardware_lidar import NativeHardwareLIDAR
+from ...hardware.virtual.virtual_hardware_lidar import VirtualHardwareLIDAR
 from .callback_dispatcher import CallbackDispatcher
 from .iox_receiver import IoxReceiver
 
@@ -15,132 +14,102 @@ from .iox_receiver import IoxReceiver
 class LIDARModule(DogModule):
     """
     ``LIDARModule`` provides a simple API for:
-        - Recieving decoded `PointCloud2` structures as xyz-intensity numpy arrays
-        - Recieving filtered `PointCloud2` structures as xyz-intensity numpy arrays
-
-    Users should interact **only** with this class and should not directly use other means of accessing lidar.
+        - Receiving decoded ``PointCloud2`` structures as xyz-(optionally intensity) numpy arrays
     
     Users should not access or construct this class directly.
     Rather, they should access it through the :class:`~core.controller.Go2Controller` instance.
 
-    Notes
-    -----
-    - This module launches ROS2 nodes.
-      It is **critical** that students **ALWAYS** call :meth:`Go2Controller.safe_shutdown` after normal (error free) script exit.
+    Parameters
+    ----------
+    publish_hz : int
+        The publishing frequency (in Hz) of decoded point cloud frames. This dictates 
+        how many times per second the registered callback is triggered. A lower publishing rate 
+        results in a longer point accumulation time per frame, yielding a denser point cloud 
+        with greater field-of-view (FOV) coverage, but introduces higher delay between publishings.
+        (Although, the data transfer will always be an *O(1)* pointer-swap internally).
+        Must be in the range [5, 100]. Default is 10.
+        
+        - When running in ``HardwareType.Native`` mode, ``publish_hz`` does **not** control 
+          the actual publish rate of the physical LIDAR sensor. You must configure that rate 
+          manually via the LIDAR's own driver/firmware settings. In this mode, ``publish_hz`` 
+          only governs how frequently this wrapper internally polls for new data over IPC 
+          from the ROS2 publisher node to this receiver. 
+        - When running in ``HardwareType.Virtual`` mode, ``publish_hz`` **does** matter, since 
+          we are mocking the real LIDAR and fully control when it publishes data.
+
+    Important
+    ---------
+    When executing on ``HardwareType.Native`` this module launches ROS2 nodes.
+    In such a case, it is **critical** that students **ALWAYS** call :meth:`Go2Controller.safe_shutdown` after normal (error free) script exit.
     """
 
-    def __init__(self) -> None:
+    def __init__(self, publish_hz: int = 10) -> None:
         super().__init__("LIDAR")
-        self._ros_proc = None
-        self._dispatcher = None
-        self._iox_receiver = None
+        self._publish_hz: int = publish_hz
+        self._hardware: HardwareInterfaceLIDAR = None
+        self._dispatcher: CallbackDispatcher = None
+        self._iox_receiver: IoxReceiver = None
 
     @override
     def _initialize(self) -> None:
-        """
-        Initialize the lidar module. This is called internally,
-        and should not be called directly by users.
-
-        This method starts ROS2 process and Iceoryx2 pub-sub nodes for lidar data transfer.
-        """
         if self._initialized:
             return
 
-        self._launch_ros()
-        self._launch_bridge()
+        if self._publish_hz < 5 or self._publish_hz > 100:
+            raise ValueError(f"publish_hz must be in the range [5, 100]; got {self._publish_hz}")
 
+        if self._hardware_type == HardwareType.NATIVE:
+            self._hardware = NativeHardwareLIDAR()
+        else:
+            self._hardware = VirtualHardwareLIDAR()
+
+        self._hardware._initialize()
+        self._launch_bridge()
         self._initialized = True
 
-    def _launch_ros(self) -> None:
-        kwargs = dict()
-        if sys.platform == "win32":
-            kwargs["creationflags"] = subprocess.CREATE_NEW_PROCESS_GROUP
-        else:
-            # To detach child process: https://stackoverflow.com/questions/45911705/why-use-os-setsid-in-python
-            kwargs["start_new_session"] = True 
-
-        self._ros_proc = subprocess.Popen(
-            ["ros2", "launch", "bringup", "lidar_processor.launch.py"],
-            **kwargs
-        )
-
+    # Rationale:
+    # I dont want these handling deps to leak into the hardware abstraction.
+    # Since they are shared across both abstractions, we can just keep it here.
     def _launch_bridge(self) -> None:
         self._dispatcher = CallbackDispatcher()
-        self._iox_receiver = IoxReceiver(self._dispatcher)
-
+        self._iox_receiver = IoxReceiver(self._dispatcher, self._publish_hz)
         self._iox_receiver.start()
-
 
     def register_decoded_pointcloud_callback(self, callback: Callable[[int, np.ndarray], None]) -> None:
         """
         Register a callback to receive decoded PointCloud2 data.
-
-        The callback is triggered whenever a new raw point cloud sample is received
-        via Iceoryx2 and successfully reshaped.
+        The callback is triggered whenever a new raw point cloud sample is received via Iceoryx2.
 
         Parameters
         ----------
         callback : Callable[[int, np.ndarray], None]
             A function to be called with:
                 - **timestamp** (int): The source timestamp in nanoseconds.
-                - **points** (np.ndarray): A ``float64`` array of shape ``(N, 3)`` 
-                  for [x, y, z] or ``(N, 4)`` if intensity is supported [x, y, z, intensity].
+                - **points** (np.ndarray): A **Fortran-contiguous** ``float32`` array of shape ``(3, N)``
+                    for [x, y, z] or ``(4, N)`` if intensity is supported [x, y, z, intensity].
+
+        Important
+        ---------
+        - **Shared Views:** 
+            During each cycle, all subscribers receive **views** of 
+            the same underlying data. This is done for performance. Modifying data 
+            through the returned view is unsafe, as it affects the shared data. If 
+            you need to modify the data, create a **copy** first.
+        - **Cache Locality & Iteration:**
+            Because the array is Fortran-contiguous, the 
+            data is laid out column-by-column in memory (e.g., x0, y0, z0, x1, y1, z1...). 
+            This means all coordinates (plus intensity) for a single point are tightly packed together. 
+            Therefore, column-major iteration should be greatly prefered over row-major iteration to maximize cache efficiency.
+            If you *need* a C-contiguous array (row-major) you can use use ``numpy.ascontiguousarray(array)``.
         """
         self._dispatcher._register_decoded(callback)
-
-    def register_filtered_pointcloud_callback(self, callback: Callable[[int, np.ndarray], None]) -> None:
-        """
-        Register a callback to receive filtered PointCloud2 data.
-
-        This receives data after it has passed through a Statistical Outlier Removal (SOR) filter.
-        The filter calculates the mean distance to the nearest neighbors and trims points that fall outside a specific global 
-        percentage or standard deviation threshold.
-
-        Parameters
-        ----------
-        callback : Callable[[int, np.ndarray], None]
-            A function to be called with:
-                - **timestamp** (int): The source timestamp in nanoseconds.
-                - **points** (np.ndarray): A ``float64`` array of shape ``(N, 3)`` 
-                  or ``(N, 4)`` containing the points that passed the outlier filter.
-        """
-        self._dispatcher._register_filtered(callback)
-
-    def register_synced_pointcloud_callback(self, callback: Callable[[int, np.ndarray, np.ndarray], None]) -> None:
-        """
-        Register a callback to receive synchronized raw and SOR-filtered point clouds.
-
-        This is particularly useful for debugging or visualization, allowing a direct 
-        comparison between the raw sensor data and the data remaining after the 
-        outlier removal percentage is applied.
-
-        Parameters
-        ----------
-        callback : Callable[[int, np.ndarray, np.ndarray], None]
-            A function to be called with:
-                - **timestamp** (int): The common timestamp in nanoseconds.
-                - **decoded_points** (np.ndarray): The raw ``float64`` array of shape 
-                  ``(N, 3)`` or ``(N, 4)``.
-                - **filtered_points** (np.ndarray): The SOR-filtered ``float64`` array of 
-                  shape ``(N, 3)`` or ``(N, 4)``.
-        """
-        self._dispatcher._register_synced(callback)
 
 
     @override
     def _shutdown(self) -> None:
-        if self._ros_proc and self._ros_proc.poll() is None:
-            try:
-                if sys.platform == "win32":
-                    self._ros_proc.send_signal(signal.CTRL_BREAK_EVENT)
-                else:
-                    os.killpg(os.getpgid(self._ros_proc.pid), signal.SIGINT)
-                self._ros_proc.wait(timeout=5)
-            except subprocess.TimeoutExpired:
-                self._ros_proc.terminate()
-                self._ros_proc.wait(timeout=5)
-        if shutil.which("ros2") is None:
-            return
+        if self._hardware:
+            self._hardware._shutdown()
+
         if self._iox_receiver:
             self._iox_receiver._shutdown()
             self._iox_receiver.join(timeout=2)

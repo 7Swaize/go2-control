@@ -48,7 +48,7 @@ def decode_xyz_intensity(
     Returns
     -------
     Tuple[numpy.ndarray, Optional[numpy.ndarray]]
-        xyz : ndarray of shape (n_points, 3), dtype float64
+        xyz : ndarray of shape (n_points, 3), dtype float32
         intensity : ndarray of shape (n_points,) or None
     """
     ...

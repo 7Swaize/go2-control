@@ -2,7 +2,7 @@ from typing import Tuple
 from typing_extensions import override
 
 from ...core.module import DogModule
-from ...hardware.hardware_interface import HardwareInterface
+from ...hardware.hardware_interface_movement import HardwareInterfaceMovement
 
 
 class MovementModule(DogModule):
@@ -17,11 +17,11 @@ class MovementModule(DogModule):
 
     Parameters
     ----------
-    hardware : HardwareInterface
-        The underlying hardware interface that communicates with the robot.
+    hardware : HardwareInterfaceMovement
+        The underlying movement hardware interface that communicates with the robot.
     """
 
-    def __init__(self, hardware: HardwareInterface) -> None:
+    def __init__(self, hardware: HardwareInterfaceMovement) -> None:
         """
         Create the MovementModule. 
 

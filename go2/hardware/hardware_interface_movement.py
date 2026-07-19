@@ -1,13 +1,10 @@
-import sys
-import time
-
 from abc import ABC, abstractmethod
 from typing import Tuple
 
 
-class HardwareInterface(ABC):
+class HardwareInterfaceMovement(ABC):
     """
-    Abstract interface for dog hardware control.
+    Abstract interface for movement-related robot hardware control.
 
     This interface defines the minimum set of motion and posture commands required by the system.
 
@@ -20,7 +17,7 @@ class HardwareInterface(ABC):
     @abstractmethod
     def _initialize(self) -> None:
         """
-        Initialize the hardware interface. This is handled automatically and shouldn't be called by users.
+        Initialize the movement hardware interface. This is handled automatically and shouldn't be called by users.
         Hardware initialization is linked to the core controller's initialization. The hardware is guaranteed to be 
         initialized before any other system provided by this package.
 
@@ -31,7 +28,7 @@ class HardwareInterface(ABC):
     @abstractmethod
     def _shutdown(self) -> None:
         """
-        Cleanly shut down the hardware interface. This should not be called by users.
+        Cleanly shut down the movement hardware interface. This should not be called by users.
         """
         pass
     
@@ -211,4 +208,3 @@ class HardwareInterface(ABC):
     @abstractmethod
     def _switch_avoid_mode(self) -> None:
         pass
-

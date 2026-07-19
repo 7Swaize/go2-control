@@ -13,9 +13,9 @@ from ..modules.ocr import OCRModule
 from ..modules.video import VideoModule
 from ..modules.lidar import LIDARModule
 from ..hardware.hardware_type import HardwareType
-from ..hardware.hardware_interface import HardwareInterface
-from ..hardware.native.native_hardware import NativeHardware
-from ..hardware.virtual.virtual_hardware import VirtualHardware
+from ..hardware.hardware_interface_movement import HardwareInterfaceMovement
+from ..hardware.native.native_hardware_movement import NativeHardwareMovement
+from ..hardware.virtual.virtual_hardware_movement import VirtualHardwareMovement
 from ..logging import get_logger
 
 logger = get_logger(__name__)
@@ -79,8 +79,8 @@ class Go2Controller:
 
         self._install_signal_handlers()
 
-        self._hardware: HardwareInterface = (
-            NativeHardware() if hardware_type == HardwareType.NATIVE else VirtualHardware()
+        self._hardware: HardwareInterfaceMovement = (
+            NativeHardwareMovement() if hardware_type == HardwareType.NATIVE else VirtualHardwareMovement()
         )
         self._hardware._initialize()
         

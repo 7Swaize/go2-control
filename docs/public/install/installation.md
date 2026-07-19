@@ -50,9 +50,7 @@ curl https://sh.rustup.rs -sSf | sh
 ```
 
 > [!NOTE]
-> Choose this option to continue:
-> 
-> _Proceed with standard installation (default - just press enter)_
+> Choose the option that states "Proceed with standard installation (default - just press enter)."
 
 Configure your current shell to use the `cargo` command. This is prompted to you at the end of the installation.
 Typically, we can do this by executing the following command.
@@ -68,6 +66,7 @@ In this step, we will clone the go2-control wrapper code. However, we will build
 ```bash
 cd $GO2_WS
 git clone https://github.com/7Swaize/go2-control.git
+git switch v1.0.0
 ```
 
 ## Layer 3 and 4: Dependency Installation

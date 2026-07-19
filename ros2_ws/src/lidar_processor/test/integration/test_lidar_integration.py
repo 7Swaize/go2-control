@@ -1,6 +1,5 @@
 import os
 
-import pytest
 from launch import LaunchDescription
 import launch_testing.actions
 from launch_ros.actions import Node
@@ -19,25 +18,12 @@ def generate_test_description():
         output='screen'
     )
 
-    filter_node = Node(
-        package='lidar_processor',
-        executable='lidar_filter_node',
-        name='lidar_filter',
-        parameters=[params_file],
-        additional_env={'PYTHONUNBUFFERED': '1'},
-        output='screen'
-    )
-
     return LaunchDescription([
         decoder_node,
-        filter_node,
         launch_testing.actions.ReadyToTest(),
     ]), {
-        'lidar_decoder': decoder_node,
-        'lidar_filter': filter_node
+        'lidar_decoder': decoder_node
     }
-
-
 
 
 '''
