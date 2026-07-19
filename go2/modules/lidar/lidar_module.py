@@ -14,9 +14,7 @@ from .iox_receiver import IoxReceiver
 class LIDARModule(DogModule):
     """
     ``LIDARModule`` provides a simple API for:
-        - Recieving decoded `PointCloud2` structures as xyz-intensity numpy arrays
-
-    Users should interact **only** with this class and should not directly use other means of accessing lidar.
+        - Receiving decoded `PointCloud2` structures as xyz-(optionally intensity) numpy arrays
     
     Users should not access or construct this class directly.
     Rather, they should access it through the :class:`~core.controller.Go2Controller` instance.
