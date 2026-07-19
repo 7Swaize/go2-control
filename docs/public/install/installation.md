@@ -66,7 +66,7 @@ In this step, we will clone the go2-control wrapper code. However, we will build
 ```bash
 cd $GO2_WS
 git clone https://github.com/7Swaize/go2-control.git
-git switch v1.0.0
+git switch v1.1.0
 ```
 
 ## Layer 3 and 4: Dependency Installation

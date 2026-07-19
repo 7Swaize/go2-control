@@ -13,7 +13,7 @@ sudo apt install libglfw3-dev mesa-utils
 ```bash
 cd $GO2_WS
 git clone https://github.com/7Swaize/unitree_mujoco.git
-git switch v1.0.0
+git switch v1.1.0
 cd unitree_mujoco
 ```
 
