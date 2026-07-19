@@ -6,7 +6,7 @@ Users are *recommended* to interact with :class:`~modules.lidar.lidar_module.LID
 `PointCloud2` data is needed.
 
 If the provided modules do not sufficiently meet your needs, you can bypass them and use an alternative approach.
-You can also submit a feature request on the main [GitHub](https://github.com/7Swaize/go2-control/tree/v1.1.0) page,
+You can also submit a feature request on the main `GitHub <https://github.com/7Swaize/go2-control/tree/v1.1.0>`_ page,
 and it will be considered for future updates.
 
 
