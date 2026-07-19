@@ -14,7 +14,7 @@ from .iox_receiver import IoxReceiver
 class LIDARModule(DogModule):
     """
     ``LIDARModule`` provides a simple API for:
-        - Receiving decoded `PointCloud2` structures as xyz-(optionally intensity) numpy arrays
+        - Receiving decoded ``PointCloud2`` structures as xyz-(optionally intensity) numpy arrays
     
     Users should not access or construct this class directly.
     Rather, they should access it through the :class:`~core.controller.Go2Controller` instance.
@@ -31,7 +31,7 @@ class LIDARModule(DogModule):
 
     Important
     ---------
-    When executing on `HardwareType.Native` this module launches ROS2 nodes.
+    When executing on ``HardwareType.Native`` this module launches ROS2 nodes.
     In such a case, it is **critical** that students **ALWAYS** call :meth:`Go2Controller.safe_shutdown` after normal (error free) script exit.
     """
 
@@ -44,16 +44,6 @@ class LIDARModule(DogModule):
 
     @override
     def _initialize(self) -> None:
-        """
-        Initialize the lidar module. This is called internally,
-        and should not be called directly by users.
-
-        This method starts ROS2 process and Iceoryx2 request-response nodes for lidar data transfer.
-
-        Raises
-        ------
-            ValueError: If `_publish_hz` is not within the valid range of [5, 100].
-        """
         if self._initialized:
             return
 
@@ -80,9 +70,7 @@ class LIDARModule(DogModule):
     def register_decoded_pointcloud_callback(self, callback: Callable[[int, np.ndarray], None]) -> None:
         """
         Register a callback to receive decoded PointCloud2 data.
-
-        The callback is triggered whenever a new raw point cloud sample is received
-        via Iceoryx2 and successfully reshaped.
+        The callback is triggered whenever a new raw point cloud sample is received via Iceoryx2.
 
         Parameters
         ----------
@@ -104,7 +92,7 @@ class LIDARModule(DogModule):
             data is laid out column-by-column in memory (e.g., x0, y0, z0, x1, y1, z1...). 
             This means all coordinates (plus intensity) for a single point are tightly packed together. 
             Therefore, column-major iteration should be greatly prefered over row-major iteration to maximize cache efficiency.
-            If you *need* a C-contiguous array (row-major) you can use use `numpy.ascontiguousarray(array)`.
+            If you *need* a C-contiguous array (row-major) you can use use ``numpy.ascontiguousarray(array)``.
         """
         self._dispatcher._register_decoded(callback)
 
