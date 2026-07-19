@@ -28,6 +28,14 @@ class LIDARModule(DogModule):
         with greater field-of-view (FOV) coverage, but introduces higher delay between publishings.
         (Although, the data transfer will always be an *O(1)* pointer-swap internally).
         Must be in the range [5, 100]. Default is 10.
+        
+        - When running in ``HardwareType.Native`` mode, ``publish_hz`` does **not** control 
+          the actual publish rate of the physical LIDAR sensor. You must configure that rate 
+          manually via the LIDAR's own driver/firmware settings. In this mode, ``publish_hz`` 
+          only governs how frequently this wrapper internally polls for new data over IPC 
+          from the ROS2 publisher node to this receiver. 
+        - When running in ``HardwareType.Virtual`` mode, ``publish_hz`` **does** matter, since 
+          we are mocking the real LIDAR and fully control when it publishes data.
 
     Important
     ---------
