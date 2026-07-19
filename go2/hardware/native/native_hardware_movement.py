@@ -5,12 +5,12 @@ from typing_extensions import override
 from unitree_sdk2py.core.channel import ChannelFactoryInitialize
 from unitree_sdk2py.go2.sport.sport_client import SportClient
 
-from ..hardware_interface import HardwareInterface
+from ..hardware_interface_movement import HardwareInterfaceMovement
 
 
-class NativeHardware(HardwareInterface):
+class NativeHardwareMovement(HardwareInterfaceMovement):
     """
-    Hardware interface to execute on the Unitree GO2 itself.
+    Movement hardware interface to execute on the Unitree GO2 itself.
 
     This implementation communicates with the real robot using ``unitree_sdk2py``. 
     It can only used for native execution on the robot.
@@ -246,5 +246,3 @@ class NativeHardware(HardwareInterface):
     def _switch_avoid_mode(self) -> None:
         if self._sport_client:
             self._sport_client.SwitchAvoidMode()
-        
-    

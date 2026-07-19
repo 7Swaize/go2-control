@@ -4,6 +4,7 @@ import numpy as np
 import iceoryx2 as iox2
 from typing import Optional
 from typing_extensions import override
+
 from iceoryx_interfaces.camera_data import FrameData_
 from iceoryx_interfaces.qos import CameraQoS
 

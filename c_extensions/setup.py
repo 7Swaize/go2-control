@@ -27,7 +27,8 @@ if os.environ.get("DEBUG") == "1":
 else:
     extra_compile_args += [
         "-Ofast",
-        "-fopenmp-simd"
+        "-fopenmp-simd",
+        "-flto"
     ]
 
 

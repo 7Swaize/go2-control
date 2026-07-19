@@ -10,12 +10,12 @@ from iceoryx_interfaces.sport_cmds import (
     CommandResponse_
 )
 
-from ..hardware_interface import HardwareInterface
+from ..hardware_interface_movement import HardwareInterfaceMovement
 
 
-class VirtualHardware(HardwareInterface):
+class VirtualHardwareMovement(HardwareInterfaceMovement):
     """
-    Virtual hardware backend for development and testing.
+    Virtual movement hardware backend for development and testing.
      
     This implementation mimics robot functionality using the Unitree provided Mujoco simulator.
     The simulator is launched via seperate process during initialization of the hardware.

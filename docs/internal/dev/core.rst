@@ -18,25 +18,49 @@ Base Module
 Hardware Control
 ----------------
 
-Hardware Interface
-~~~~~~~~~~~~~~~~~~
-.. automodule:: go2.hardware.hardware_interface
+Movement Hardware Interface
+---------------------------
+.. automodule:: go2.hardware.hardware_interface_movement
    :members:
    :private-members:
    :show-inheritance:
 
 
-Native Hardware
-~~~~~~~~~~~~~~~
-.. automodule:: go2.hardware.native.native_hardware
+Native Movement Hardware
+------------------------
+.. automodule:: go2.hardware.native.native_hardware_movement
    :members:
    :private-members:
    :show-inheritance:
 
 
-Virtual Hardware
-~~~~~~~~~~~~~~~~
-.. automodule:: go2.hardware.virtual.virtual_hardware
+Virtual Movement Hardware
+-------------------------
+.. automodule:: go2.hardware.virtual.virtual_hardware_movement
+   :members:
+   :private-members:
+   :show-inheritance:
+
+
+LIDAR Hardware Interface
+------------------------
+.. automodule:: go2.hardware.hardware_interface_lidar
+   :members:
+   :private-members:
+   :show-inheritance:
+
+
+Native LIDAR Hardware
+---------------------
+.. automodule:: go2.hardware.native.native_hardware_lidar
+   :members:
+   :private-members:
+   :show-inheritance:
+
+
+Virtual LIDAR Hardware
+----------------------
+.. automodule:: go2.hardware.virtual.virtual_hardware_lidar
    :members:
    :private-members:
    :show-inheritance:
