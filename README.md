@@ -34,7 +34,7 @@ Run an example (or your copied version) from the using:
 python3 path/to/file.py
 ```
 
-When running an example inside the simulator, launch the simulator inside another terminal. Make sure you are inside the conda enviroment in which you installed the `go2sim` package.
+When running an example inside the simulator, launch the simulator inside another terminal. Make sure you are inside the conda enviroment in which you installed the `go2sim` package. It is recommended to launch the simulator **before** running any example scripts.
 
 To start the simulator, run the following command.
 ```bash
